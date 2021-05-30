@@ -44,7 +44,7 @@ Breakpoint 1, 0x08048054 in ?? ()
 
 #### exp.tiny_easy.c
 
-{% gist cubarco/03fb090852a3303f58db pwnable-rookiss-tiny-easy.c %}
+{{< gist "cubarco/03fb090852a3303f58db" pwnable-rookiss-tiny-easy.c >}}
 
 ### 2. vDSO[^2]
 
@@ -54,7 +54,7 @@ Breakpoint 1, 0x08048054 in ?? ()
 
 #### exp.tiny_easy.py
 
-{% gist cubarco/03fb090852a3303f58db pwnable-rookiss-tiny-easy.py %}
+{{< gist "cubarco/03fb090852a3303f58db" pwnable-rookiss-tiny-easy.py >}}
 
 ## tiny
 
@@ -90,7 +90,7 @@ GOTCHA!!! 这里将栈指针增加了 0x3c, 然后`pop %ebx`顺便满足了 exec
 #### exp.tiny.sh
 这个 exp 的核心是 C (其实就是一句`execle()`的事情), 用 shell 写只是为了方便，可以把`ulimit -s unlimited`这些命令放在一起(调试过程中还用到了其他命令，最后删的只剩 ulimit...)，而且用一个脚本解题本身是一件很酷的事情XD.
 
-{% gist cubarco/d379e31c9487c8ee07f2 pwnable-hackerssecret-tiny.sh %}
+{{< gist "cubarco/d379e31c9487c8ee07f2" pwnable-hackerssecret-tiny.sh >}}
 
 [^1]: [Causes of executable stack markings](https://wiki.gentoo.org/wiki/Hardened/GNU_stack_quickstart#Causes_of_executable_stack_markings)
 [^2]: [vDSO](https://en.wikipedia.org/wiki/VDSO)

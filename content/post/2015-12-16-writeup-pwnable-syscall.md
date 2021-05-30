@@ -69,17 +69,17 @@ $ cat /proc/kallsyms | grep 'prepare_creds\|commit_creds'
 
 我参考 @acama 的版本[^3]写了一个( @acama 的版本`prepare_creds()`之后直接就`commit_creds()`, 这估计只在老版本可以).`prepare_creds()`返回的结构体定义可以看参考[^4].
 
-{% gist cubarco/f582d787f04eca93f8eb cred.s %}
+{{< gist "cubarco/f582d787f04eca93f8eb" cred.s >}}
 
 这个生成的指令是不能用原先的 223 号系统调用直接写进内存的，所以我准备了一个真正的`write-anything-anywhere`的跳板:
 
-{% gist cubarco/f582d787f04eca93f8eb waa.s %}
+{{< gist "cubarco/f582d787f04eca93f8eb" waa.s >}}
 
 先把 waa 写进内存，然后把 cred 写进内存。至于写到哪里，我随手写了两个地址: 0x83f5cafe, 0x83f6beee.
 
 ## exp.c
 
-{% gist cubarco/f582d787f04eca93f8eb 1-pwnable-rookiss-syscall.c %}
+{{< gist "cubarco/f582d787f04eca93f8eb" 1-pwnable-rookiss-syscall.c >}}
 
 [^1]: [What is the relationship between root and kernel?](http://unix.stackexchange.com/questions/121715/what-is-the-relationship-between-root-and-kernel)
 [^2]: [Syscall Hijacking: Simple Rootkit (kernel 2.6.x)](https://memset.wordpress.com/2010/12/28/syscall-hijacking-simple-rootkit-kernel-2-6-x/)

@@ -87,7 +87,7 @@ You choise - 3
 dump脚本：
 
 
-{% gist cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa strings-dump.py %}
+{{< gist "cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa" strings-dump.py >}}
 
 ### 漏洞（gets溢出）
 
@@ -175,7 +175,7 @@ Start      End        Offset     Perm Path
 
 利用脚本：
 
-{% gist cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa strings-exp.py %}
+{{< gist "cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa" strings-exp.py >}}
 
 ## Mobile Bank
 
@@ -358,4 +358,4 @@ int debug_info()
 
 exp.py:
 
-{% gist cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa bank-exp.py %}
+{{< gist "cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa" bank-exp.py >}}

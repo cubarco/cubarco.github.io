@@ -70,4 +70,4 @@ call ebx  ; spawn(%x, %x, %d)
 
 可以用 redos 中的 level1 本地调试。
 
-{% gist cubarco/b4aee1ac22f1b3039d30 %}
+{{< gist "cubarco/b4aee1ac22f1b3039d30" >}}

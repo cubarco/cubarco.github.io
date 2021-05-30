@@ -131,7 +131,7 @@ struct s0* construct_tree(signed char* rdi) {
 
 我在比赛中用的 leak 一次只能 leak 一个字符，赛后重写改进了一下，能 leak 4 个字符，稍微加快一点。
 
-{% gist cubarco/a3ce8d93cb4860500090 %}
+{{< gist "cubarco/a3ce8d93cb4860500090" >}}
 
 一开始我准备用`"%31$s"`直接 printf, 但是会报`*** invalid %N$ use detected ***`. 这是由于 Glibc 的 FORTIFY_SOURCE, 可以绕过，具体方法看[这篇文章][1]。
 

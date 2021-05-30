@@ -32,8 +32,9 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     #highlightjsLang = ["r", "yaml"]
     #highlightjsTheme = "github"
 
-    MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
-    MathJaxVersion = "2.7.5"
+    disable_mathjax = true
+    #MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
+    #MathJaxVersion = "2.7.5"
 
     # path to the favicon, under "static"
     favicon = "favicon.ico"
@@ -50,4 +51,4 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     unsafe = true  # Enable user to embed HTML snippets in Markdown content.
   [markup.highlight]
     lineNos = true
-    #style = "github"
+    style = "github"

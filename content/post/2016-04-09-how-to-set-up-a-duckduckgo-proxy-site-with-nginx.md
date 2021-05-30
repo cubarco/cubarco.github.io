@@ -15,7 +15,7 @@ slug: how-to-set-up-a-duckduckgo-proxy-site-with-nginx
 
 nginx 的配置文件如下。`domain.com` 改成具体的域名，`/path/to/`要改成 duck.domain.com 的证书路径。`/etc/letsencrypt/live/images.duck.domain.com/`是 Let's encrypt 生成证书的默认目录，稍后会提到。
 
-{% gist cubarco/08e99fbf316a435b7935727810e40458 %}
+{{< gist "cubarco/08e99fbf316a435b7935727810e40458" >}}
 
 ## Cloudflare
 

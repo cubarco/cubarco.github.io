@@ -75,4 +75,4 @@ main() 函数返回地址在 offset 为 156 的位置。然后借由程序返回
 
 exp 如下:
 
-{% gist cubarco/ee054809d1643602b844 %}
+{{< gist "cubarco/ee054809d1643602b844" >}}
