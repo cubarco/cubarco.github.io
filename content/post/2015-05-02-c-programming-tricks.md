@@ -4,6 +4,7 @@ tags:
   - C
   - GCC
 date: 2015-05-02
+slug: c-programming-tricks
 ---
 
 这个 Note 用来记录各处收集的 C 编程 tricks. 看到有意思的就会摘一下，来源各异。

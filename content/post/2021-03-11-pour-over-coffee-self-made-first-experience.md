@@ -2,6 +2,7 @@
 title: '手冲咖啡初体验'
 tags: [Coffee]
 date: 2021-03-11
+slug: pour-over-coffee-self-made-first-experience
 ---
 
 

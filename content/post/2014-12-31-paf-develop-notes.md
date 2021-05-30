@@ -5,6 +5,7 @@ tags:
   - Linux
   - Pipe
 date: 2014-12-31
+slug: "paf-develop-notes"
 ---
 
 [Paf (Pipe as file)](https://github.com/cubarco/paf "Pipe as File Github Homepage") 并不是什么大项目，只是一时兴起为满足自己奇怪需求而开发的小工具。具体的介绍都摆在 Github 上了，这里就不赘述了。只是对开发过程中遇到的一些问题和技巧做一下总结。

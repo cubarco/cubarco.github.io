@@ -1,6 +1,7 @@
 ---
 title: "How do you read source code?"
 date: 2014-12-19
+slug: "repost-how-do-you-read-source-code"
 ---
 
 > Originally posted [here](http://himmele.blogspot.com/2012/01/how-do-you-read-source-code.html)

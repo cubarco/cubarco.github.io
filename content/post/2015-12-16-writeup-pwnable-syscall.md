@@ -2,6 +2,7 @@
 title: 'Writeup-Pwnable: syscall'
 tags: [Hack, CTF, Writeup, Exploitation, ARM]
 date: 2015-12-16
+slug: "writeup-pwnable-syscall"
 ---
 
 ```c

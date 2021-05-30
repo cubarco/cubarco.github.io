@@ -1,6 +1,7 @@
 ---
 title: "do {…} while (0) — What is it good for?"
 date: 2014-12-17
+slug: "c-do-while-in-macros"
 ---
 
 > Originally posted in [stackoverflow][stackoverflow]

@@ -5,6 +5,7 @@ tags:
   - VPN
   - Linux
 date: 2015-01-09
+slug: "vpn-udp-libev-development-notes"
 ---
 
 最近又在看 UNIX 网络编程那本书，写了个 vpn 练手，代码和简单的介绍在 [Github](https://github.com/cubarco/network-programming-exp/tree/master/vpn-udp-libev "cubarco/network-programming-exp/vpn-udp-libev") 上<s>(好像效率还不错的样子)</s>。这里照例做一下总结，便于以后查阅。

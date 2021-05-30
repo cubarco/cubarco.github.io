@@ -2,6 +2,7 @@
 title: 'Writeup-Training: Warchall - 7 Tropical Fruits'
 tags: [Hack, Python, Writeup]
 date: 2014-05-14
+slug: "wechall-tropic-writeup"
 ---
 <p style="color: #000000;">
   Challenge URL：<a style="color: #294666;" href="http://www.wechall.net/challenge/warchall/tropical/7/index.php">Training: Warchall &#8211; 7 Tropical Fruits</a>

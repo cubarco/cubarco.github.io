@@ -2,6 +2,7 @@
 title: 'Writeup: ZCTF'
 tags: [Hack, CTF, Writeup, Exploitation, PWN]
 date: 2016-01-24
+slug: writeup-zctf
 ---
 
 > 2016 年第一篇 blog!

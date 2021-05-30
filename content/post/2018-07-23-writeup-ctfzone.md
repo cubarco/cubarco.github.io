@@ -2,6 +2,7 @@
 title: 'Writeup: CTFZone 2018 Quals'
 tags: [Hack, CTF, Writeup, Exploitation, PWN]
 date: 2018-07-23
+slug: writeup-ctfzone
 ---
 
 两道PWN题, 一个easypwn_strings, 一个Mobile Bank.

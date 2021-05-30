@@ -5,6 +5,7 @@ tags:
     - Python
     - Github
 date: 2015-01-15
+slug: "post-github-commits-to-social-platforms"
 ---
 
 之前看到了 @fqj1994 juju 的这篇 blog: [用 Google App Script 實現博客更新時自動在社交網絡上發狀態分享](https://blog.fqj.me/posts/2013/08/google-app-script-share-blog-updates-with-social-network), 也感觉自己的 blog 根本没人访问，需要一个类似的东西。因为我的 blog 是用的 jekyll, 挂在 [Github](https://github.com/cubarco/cubarco.github.io) 上的，Github 又提供了一个叫 Webhook 的东西，就准备自己实现一种更加<s>优雅</s>的方式。

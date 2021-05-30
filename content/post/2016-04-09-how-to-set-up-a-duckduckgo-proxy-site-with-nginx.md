@@ -6,6 +6,7 @@ tags:
   - DuckDuckGo
   - Proxy
 date: 2016-04-09
+slug: how-to-set-up-a-duckduckgo-proxy-site-with-nginx
 ---
 
 最近感觉手机的网络环境经常变，在寝室 v6， 出门 v4，有的时候会懒得开代理。所以就用 cloudflare+nginx 搞了个简单的 [DuckDuckGo](https://duckduckgo.com) 代理站，方便随时掏出手机搜索。没有选择代理 Google 有几点原因，一个是 vps 连 Google 经常让输验证码，再就是 DuckDuckGo 不带 cookie 的搜索结果貌似比 Google 优(?)。

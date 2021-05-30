@@ -1,6 +1,7 @@
 ---
 title: 对 btrfs 的吐槽
 date: 2015-01-02
+slug: "btrfs-sucks"
 tags:
   - Linux
   - FileSystem

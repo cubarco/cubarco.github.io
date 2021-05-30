@@ -1,6 +1,7 @@
 ---
 title: 通过DNS隧道绕过portal认证
 date: 2014-02-11
+slug: "通过dns隧道绕过portal认证"
 tags:
   - Amazing
   - Android

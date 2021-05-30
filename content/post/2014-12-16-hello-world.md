@@ -1,6 +1,7 @@
 ---
 title: "Hello World"
 date: 2014-12-16
+slug: "hello-world"
 ---
 
 之前挂 wordpress 的 vps 快到期了，有 do 免费用都不想续费了。一直觉得 wordpress 很臃肿，刚好趁这次机会把 blog 换成 [jekyll][jekyll]。

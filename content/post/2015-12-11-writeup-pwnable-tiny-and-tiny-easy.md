@@ -2,6 +2,7 @@
 title: 'Writeup-Pwnable: tiny & tiny_easy'
 tags: [Hack, CTF, Writeup, Exploitation, ROP]
 date: 2015-12-11
+slug: writeup-pwnable-tiny-and-tiny-easy
 ---
 
 ## tiny_easy

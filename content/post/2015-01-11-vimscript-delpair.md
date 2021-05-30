@@ -1,6 +1,7 @@
 ---
 title: Vim 删除成对的字符
 date: 2015-01-11
+slug: vimscript-delpair
 tags:
   - Linux
   - Vim

@@ -2,6 +2,7 @@
 title: 'Writeup-Seccon CTF: FSB:TreeWalker'
 tags: [Hack, CTF, Writeup, Exploitation, FSB]
 date: 2015-12-07
+slug: seccon-ctf-writeup-fsb-treewalker
 ---
 
 ## printf()

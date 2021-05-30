@@ -2,6 +2,7 @@
 title: 'Writeup-9447 CTF: calcpop'
 date: 2015-11-30
 tags: [Hack, CTF, Writeup, Exploitation]
+slug: 9477-calcpop-writeup
 ---
 
 先看反汇编代码：
