@@ -1,0 +1,15 @@
+# hugo
+public/*
+resources/*
+
+Thumbs.db
+.DS_Store
+
+
+node_modules
+
+
+.bundle
+/vendor
+
+.vercel
