@@ -4,7 +4,7 @@ exp-rop.py {% gist cubarco/23b04edc7e79b1c71547 pwnable-hackerssecret-unexploita
 SROP 结果 flag 里提到 SROP 的解法，我就又写了个 SROP. 简单的 SROP 介绍可以看这篇文章2。
 exp-srop.py {% gist cubarco/23b04edc7e79b1c71547 pwnable-hackerssecret-unexploitable-srop.py %}
 一步一步学ROP之linux_x64篇&amp;#160;&amp;#x21a9;&amp;#xfe0e;
-Sigreturn Oriented Programming (SROP) Attack攻击原理&amp;#160;&amp;#x21a9;&amp;#xfe0e;</description></item><item><title>Writeup-Pwnable: tiny &amp; tiny_easy</title><link>/2015/12/writeup-pwnable-tiny-tiny_easy/</link><pubDate>Fri, 11 Dec 2015 00:00:00 +0000</pubDate><guid>/2015/12/writeup-pwnable-tiny-tiny_easy/</guid><description>tiny_easy 1. Brute force 这题的 bin 拿到之后开 gdb 看了一下 mapping, 发现 stack 是可执行的(如果 ELF 没有 GNU_STACK 这个 header, 则默认 stack 可执行1)。所以思路很明显了。
+Sigreturn Oriented Programming (SROP) Attack攻击原理&amp;#160;&amp;#x21a9;&amp;#xfe0e;</description></item><item><title>Writeup-Pwnable: tiny &amp; tiny_easy</title><link>/2015/12/writeup-pwnable-tiny-and-tiny-easy/</link><pubDate>Fri, 11 Dec 2015 00:00:00 +0000</pubDate><guid>/2015/12/writeup-pwnable-tiny-and-tiny-easy/</guid><description>tiny_easy 1. Brute force 这题的 bin 拿到之后开 gdb 看了一下 mapping, 发现 stack 是可执行的(如果 ELF 没有 GNU_STACK 这个 header, 则默认 stack 可执行1)。所以思路很明显了。
 看一下反汇编:
 1 2 3 4 8048054: 58 pop %eax 8048055: 5a pop %edx 8048056: 8b12 mov (%edx),%edx 8048058: ffd2 call *%edx 然后用 gdb 断在 entry point, 观察一下栈:
 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 $ gdb tiny_easy (gdb) b *0x8048054 Breakpoint 1 at 0x8048054 (gdb) r Starting program: /home/tiny_easy/tiny_easy Breakpoint 1, 0x08048054 in ?</description></item></channel></rss>
