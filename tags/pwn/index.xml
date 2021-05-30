@@ -8,16 +8,17 @@ You choise - 1 Use str good choise 123 Result: 3 第二个选项显示未实现�
 You choise - 3 Use str int good choise Set string: 1234567 Set number: 3 Delete 3 ending symbols Result: 1234 思路 既然是无ELF文件的盲pwn，那只能摸着石头过河。做题时有以下几个尝试：</description></item><item><title>Writeup: ZCTF</title><link>/2016/01/writeup-zctf/</link><pubDate>Sun, 24 Jan 2016 00:00:00 +0000</pubDate><guid>/2016/01/writeup-zctf/</guid><description>2016 年第一篇 blog!
 这次只做出两道 pwn, 好忧伤&amp;hellip;
 guess 在最近的 32c3ctf 中出现过一道类似的 readme1. 就是把argv[1]改成目的字符串位置，可以在 libc 打出错误信息的时候，被当作文件名打印出来。
-{% gist cubarco/cbbd4ab5462c2f0f287b %}
+Gist: cubarco/cbbd4ab5462c2f0f287b
 note1 这题的 note 是以链表形式储存的，堆溢出（edit 存在溢出漏洞）之后可以覆盖地址更改链表结构。我的 exp 思路就是先把一个 note 指向setvbuf()的 got, 然后用 show 把地址 leak 出来，这样可以 offset 到system(). 然后再将另一个 note 地址改到strcmp()的 got, 通过 edit 把内容改成system()的地址。最后调用strcmp(), title 填/bin/sh就可以了。
-{% gist cubarco/30a44a61252f448964c4 %}
+Gist: cubarco/30a44a61252f448964c4
 note2 这题在赛时没找到漏洞，赛后看了 FlappyPig 的 Writeup2, 只是简单的 fastbin, 感觉好可惜&amp;hellip; 360 安全播报给的代码没缩进根本不能看，自己重新写了个。
-{% gist cubarco/9752fbbe78a071b04b37 %}
+Gist: cubarco/9752fbbe78a071b04b37
 note3 这题同样是没有在赛时做出来，但是与 note2 相反，这题我是找到了两个可以利用的漏洞的(一个是 integer overflow, 另一个是可以增加第八个 note), 但是不知道如何利用。我在比赛的时候一直想着怎么 fastbin, 因为我觉得 unlink 这么古老的 exp 肯定已经不能用了&amp;hellip; 没想到这题的环境刚好适合 unlink, 有点可惜。赛后看了 FlappyPig 的 Writeup2, 自己重新写了个 exp, 也算是复习一下 unlink.</description></item><item><title>Writeup: 32c3ctf</title><link>/2015/12/writeup-32c3ctf/</link><pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate><guid>/2015/12/writeup-32c3ctf/</guid><description>forth forth 直接能跑system1。
 1 S&amp;#34; sh&amp;#34; system gurke pickle 在 unpickle 的时候会执行对象的 __reduce__ 方法2。用 eval 把 __main__.flag.flag 打进 stderr 就行了。
-{% gist cubarco/e46eb03e1cd06046d130 %}
+Gist: cubarco/e46eb03e1cd06046d130
 teufel 这题的 bin 不大，里面的 gadgets 很少，但是给了 libc. 思路就是先 leak 出保存在栈中的 rbp, 然后 offset 到 system。
 这个 offset 要先在本机确定后三位(16 进制), 然后跑个脚本，用 0x1000 的步长去爆破服务器上的 offset. 我的办法是先找__stack_chk_fail, 原因是这个函数不需要参数就能输出。
-offset.py {% gist cubarco/569fd814a29d8ef988e1 32c3ctf-teufel-offset.py %}
-exp.py {% gist cubarco/569fd814a29d8ef988e1 32c3ctf-teufel-exp.py %}
-吐槽 readme 的 flag 居然是文件名&amp;hellip; 不过LIBC_FATAL_STDERR_这个环境变量确实是以前没见过的。</description></item></channel></rss>
+offset.py Gist: cubarco/569fd814a29d8ef988e1
+exp.py Gist: cubarco/569fd814a29d8ef988e1
+吐槽 readme 的 flag 居然是文件名&amp;hellip; 不过LIBC_FATAL_STDERR_这个环境变量确实是以前没见过的。
+update 2016-01-24: 关于 readme 这道题，之前以为 flag 是文件名，做 ZCTF 的 guess 时3，回来看才发现原来是把argv[1]改掉了，蛮有意思。</description></item></channel></rss>

@@ -1,9 +1,9 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup-Seccon CTF: FSB:TreeWalker - /home/cubl</title><meta property="og:title" content="Writeup-Seccon CTF: FSB:TreeWalker - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/fonts.css media=all><link rel=stylesheet href=/css/main.css media=all><script src=/js/source-code-pro.js></script></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup-Seccon CTF: FSB:TreeWalker</h1><span class=article-date>2015-12-07</span>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup-Seccon CTF: FSB:TreeWalker - /home/cubl</title><meta property="og:title" content="Writeup-Seccon CTF: FSB:TreeWalker - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/main.min.9ae39f94818f4da457a6d1bcb86758258559067c36817f968ab59ae3c5c39b4bb6b793e3de3d4cc608ab8e1e4d178f67f70ad266ed0fadfae98939fab0d30b92.css integrity="sha512-muOflIGPTaRXptG8uGdYJYVZBnw2gX+WirWa48XDm0u2t5Pj3j1Mxgirjh5NF49n9wrSZu0PrfrpiTn6sNMLkg==" media=all></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup-Seccon CTF: FSB:TreeWalker</h1><span class=article-date>2015-12-07</span>
 <a class=article-tag href=/tags/hack>Hack</a>
 <a class=article-tag href=/tags/ctf>CTF</a>
 <a class=article-tag href=/tags/writeup>Writeup</a>
 <a class=article-tag href=/tags/exploitation>Exploitation</a>
-<a class=article-tag href=/tags/fsb>FSB</a><div class=article-content><h2 id=printf>printf()</h2><p>因为这题直接把 FSB 写在题名里，我一拿到题就直接跑去找能利用 FSB 的点了。</p><p>利用点在这里：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+<a class=article-tag href=/tags/fsb>FSB</a><div class=article-content><h2 id=printf>printf()</h2><p>因为这题直接把 FSB 写在题名里，我一拿到题就直接跑去找能利用 FSB 的点了。</p><p>利用点在这里：</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -27,7 +27,7 @@
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain>400881:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain>400881:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
 400888:	4c 8b 05 f9 09 20 00 	mov    0x2009f9(%rip),%r8        # 601288 &lt;stdin@@GLIBC_2.2.5&gt;
 40088f:	48 8d 7c 24 50       	lea    0x50(%rsp),%rdi
 400894:	ba 01 00 00 00       	mov    $0x1,%edx
@@ -51,7 +51,7 @@
 4008ec:	77 10                	ja     4008fe &lt;main+0x11e&gt;
 4008ee:	48 85 c9             	test   %rcx,%rcx
 4008f1:	75 95                	jne    400888 &lt;main+0xa8&gt;
-</code></pre></td></tr></table></div></div><p>在 0x4008ba 会有 printf 输出缓冲区，其内容来自用户输入，此处可以构造 format string 来 leak 内存或者是其他非法操作(利用%n)。</p><p>这一部分的具体输入规则是，先输入<code>'\x00\x10\x00\x00'</code>，然后输入 0x1000 个字符(format string)… 两步循环。</p><h2 id=wheres-the-flag>Where&rsquo;s the flag?</h2><p>一开始找到 FSB，我想可能很简单，直接打印栈中的 flag 就好了。但是有这样一段代码把 flag 给覆盖了：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</code></pre></td></tr></table></div></div><p>在 0x4008ba 会有 printf 输出缓冲区，其内容来自用户输入，此处可以构造 format string 来 leak 内存或者是其他非法操作(利用%n)。</p><p>这一部分的具体输入规则是，先输入<code>'\x00\x10\x00\x00'</code>，然后输入 0x1000 个字符(format string)… 两步循环。</p><h2 id=wheres-the-flag>Where&rsquo;s the flag?</h2><p>一开始找到 FSB，我想可能很简单，直接打印栈中的 flag 就好了。但是有这样一段代码把 flag 给覆盖了：</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -61,7 +61,7 @@
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain>40084d:	48 b8 cc cc cc cc cc 	movabs $0xcccccccccccccccc,%rax
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain>40084d:	48 b8 cc cc cc cc cc 	movabs $0xcccccccccccccccc,%rax
 400854:	cc cc cc
 400857:	48 89 44 24 10       	mov    %rax,0x10(%rsp)
 40085c:	48 89 44 24 18       	mov    %rax,0x18(%rsp)
@@ -71,7 +71,7 @@
 400870:	48 89 44 24 38       	mov    %rax,0x38(%rsp)
 400875:	48 89 44 24 40       	mov    %rax,0x40(%rsp)
 40087a:	48 89 44 24 48       	mov    %rax,0x48(%rsp)
-</code></pre></td></tr></table></div></div><p>还是老老实实看 construct_tree() 吧。</p><h2 id=construct_tree>construct_tree()</h2><p>IDA decompile 的 C 代码:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</code></pre></td></tr></table></div></div><p>还是老老实实看 construct_tree() 吧。</p><h2 id=construct_tree>construct_tree()</h2><p>IDA decompile 的 C 代码:</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -131,64 +131,64 @@
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">58
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">59
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">60
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>struct</span> s0 {
-    <span style=color:#66d9ef>signed</span> <span style=color:#66d9ef>char</span> f0;
-    <span style=color:#66d9ef>signed</span> <span style=color:#66d9ef>char</span>[<span style=color:#ae81ff>7</span>] pad8;
-    <span style=color:#66d9ef>struct</span> s0<span style=color:#f92672>*</span> f8;
-    <span style=color:#66d9ef>struct</span> s0<span style=color:#f92672>*</span> f16;
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#000;font-weight:700>struct</span> s0 {
+    <span style=color:#458;font-weight:700>signed</span> <span style=color:#458;font-weight:700>char</span> f0;
+    <span style=color:#458;font-weight:700>signed</span> <span style=color:#458;font-weight:700>char</span>[<span style=color:#099>7</span>] pad8;
+    <span style=color:#000;font-weight:700>struct</span> s0<span style=color:#000;font-weight:700>*</span> f8;
+    <span style=color:#000;font-weight:700>struct</span> s0<span style=color:#000;font-weight:700>*</span> f16;
 };
 
-<span style=color:#75715e>/* .calloc */</span>
-<span style=color:#66d9ef>struct</span> s0<span style=color:#f92672>*</span> <span style=color:#a6e22e>calloc</span>(int64_t rdi, int64_t rsi);
+<span style=color:#998;font-style:italic>/* .calloc */</span>
+<span style=color:#000;font-weight:700>struct</span> s0<span style=color:#000;font-weight:700>*</span> <span style=color:#900;font-weight:700>calloc</span>(int64_t rdi, int64_t rsi);
 
-<span style=color:#75715e>/* .strlen */</span>
-uint64_t <span style=color:#a6e22e>strlen</span>(<span style=color:#66d9ef>signed</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> rdi, int64_t rsi);
+<span style=color:#998;font-style:italic>/* .strlen */</span>
+uint64_t <span style=color:#900;font-weight:700>strlen</span>(<span style=color:#458;font-weight:700>signed</span> <span style=color:#458;font-weight:700>char</span><span style=color:#000;font-weight:700>*</span> rdi, int64_t rsi);
 
-<span style=color:#66d9ef>struct</span> s0<span style=color:#f92672>*</span> <span style=color:#a6e22e>construct_tree</span>(<span style=color:#66d9ef>signed</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> rdi) {
-    <span style=color:#66d9ef>signed</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> r14_2;
+<span style=color:#000;font-weight:700>struct</span> s0<span style=color:#000;font-weight:700>*</span> <span style=color:#900;font-weight:700>construct_tree</span>(<span style=color:#458;font-weight:700>signed</span> <span style=color:#458;font-weight:700>char</span><span style=color:#000;font-weight:700>*</span> rdi) {
+    <span style=color:#458;font-weight:700>signed</span> <span style=color:#458;font-weight:700>char</span><span style=color:#000;font-weight:700>*</span> r14_2;
     uint64_t r13_3;
-    <span style=color:#66d9ef>struct</span> s0<span style=color:#f92672>*</span> rax4;
-    <span style=color:#66d9ef>struct</span> s0<span style=color:#f92672>*</span> r15_5;
-    <span style=color:#66d9ef>struct</span> s0<span style=color:#f92672>*</span> rbp6;
+    <span style=color:#000;font-weight:700>struct</span> s0<span style=color:#000;font-weight:700>*</span> rax4;
+    <span style=color:#000;font-weight:700>struct</span> s0<span style=color:#000;font-weight:700>*</span> r15_5;
+    <span style=color:#000;font-weight:700>struct</span> s0<span style=color:#000;font-weight:700>*</span> rbp6;
     uint64_t rax7;
     uint32_t r12d8;
     int32_t ebx9;
-    <span style=color:#66d9ef>struct</span> s0<span style=color:#f92672>*</span> rax10;
+    <span style=color:#000;font-weight:700>struct</span> s0<span style=color:#000;font-weight:700>*</span> rax10;
     uint64_t rax11;
 
-    r14_2 <span style=color:#f92672>=</span> rdi;
-    <span style=color:#f92672>*</span>(int32_t<span style=color:#f92672>*</span>)<span style=color:#f92672>&amp;</span>r13_3 <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
-    <span style=color:#f92672>*</span>((int32_t<span style=color:#f92672>*</span>)<span style=color:#f92672>&amp;</span>r13_3 <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>) <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;
-    rax4 <span style=color:#f92672>=</span> calloc(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>24</span>);
-    r15_5 <span style=color:#f92672>=</span> rax4;
-    rbp6 <span style=color:#f92672>=</span> rax4;
-    rax7 <span style=color:#f92672>=</span> strlen(r14_2, <span style=color:#ae81ff>24</span>);
-    <span style=color:#66d9ef>if</span> (<span style=color:#ae81ff>0</span> <span style=color:#f92672>&lt;</span> rax7) {
-        <span style=color:#66d9ef>do</span> {
-            r12d8 <span style=color:#f92672>=</span> (uint32_t)(<span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>char</span>)<span style=color:#f92672>*</span>r14_2;
-            ebx9 <span style=color:#f92672>=</span> <span style=color:#ae81ff>7</span>;
-            <span style=color:#66d9ef>while</span> (<span style=color:#ae81ff>1</span>) {
-                rbp6<span style=color:#f92672>-&gt;</span>f0 <span style=color:#f92672>=</span> <span style=color:#ae81ff>73</span>;
-                rax10 <span style=color:#f92672>=</span> calloc(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>24</span>);
-                <span style=color:#66d9ef>if</span> ((int1_t)(r12d8 <span style=color:#f92672>&gt;&gt;</span> ebx9)) {
-                    <span style=color:#f92672>--</span>ebx9;
-                    rbp6<span style=color:#f92672>-&gt;</span>f8 <span style=color:#f92672>=</span> rax10;
-                    rbp6 <span style=color:#f92672>=</span> rax10;
-                    <span style=color:#66d9ef>if</span> (ebx9 <span style=color:#f92672>==</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
-                        <span style=color:#66d9ef>break</span>;
-                } <span style=color:#66d9ef>else</span> {
-                    <span style=color:#f92672>--</span>ebx9;
-                    rbp6<span style=color:#f92672>-&gt;</span>f16 <span style=color:#f92672>=</span> rax10;
-                    rbp6 <span style=color:#f92672>=</span> rax10;
-                    <span style=color:#66d9ef>if</span> (ebx9 <span style=color:#f92672>==</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
-                        <span style=color:#66d9ef>break</span>;
+    r14_2 <span style=color:#000;font-weight:700>=</span> rdi;
+    <span style=color:#000;font-weight:700>*</span>(int32_t<span style=color:#000;font-weight:700>*</span>)<span style=color:#000;font-weight:700>&amp;</span>r13_3 <span style=color:#000;font-weight:700>=</span> <span style=color:#099>0</span>;
+    <span style=color:#000;font-weight:700>*</span>((int32_t<span style=color:#000;font-weight:700>*</span>)<span style=color:#000;font-weight:700>&amp;</span>r13_3 <span style=color:#000;font-weight:700>+</span> <span style=color:#099>1</span>) <span style=color:#000;font-weight:700>=</span> <span style=color:#099>0</span>;
+    rax4 <span style=color:#000;font-weight:700>=</span> calloc(<span style=color:#099>1</span>, <span style=color:#099>24</span>);
+    r15_5 <span style=color:#000;font-weight:700>=</span> rax4;
+    rbp6 <span style=color:#000;font-weight:700>=</span> rax4;
+    rax7 <span style=color:#000;font-weight:700>=</span> strlen(r14_2, <span style=color:#099>24</span>);
+    <span style=color:#000;font-weight:700>if</span> (<span style=color:#099>0</span> <span style=color:#000;font-weight:700>&lt;</span> rax7) {
+        <span style=color:#000;font-weight:700>do</span> {
+            r12d8 <span style=color:#000;font-weight:700>=</span> (uint32_t)(<span style=color:#458;font-weight:700>unsigned</span> <span style=color:#458;font-weight:700>char</span>)<span style=color:#000;font-weight:700>*</span>r14_2;
+            ebx9 <span style=color:#000;font-weight:700>=</span> <span style=color:#099>7</span>;
+            <span style=color:#000;font-weight:700>while</span> (<span style=color:#099>1</span>) {
+                rbp6<span style=color:#000;font-weight:700>-&gt;</span>f0 <span style=color:#000;font-weight:700>=</span> <span style=color:#099>73</span>;
+                rax10 <span style=color:#000;font-weight:700>=</span> calloc(<span style=color:#099>1</span>, <span style=color:#099>24</span>);
+                <span style=color:#000;font-weight:700>if</span> ((int1_t)(r12d8 <span style=color:#000;font-weight:700>&gt;&gt;</span> ebx9)) {
+                    <span style=color:#000;font-weight:700>--</span>ebx9;
+                    rbp6<span style=color:#000;font-weight:700>-&gt;</span>f8 <span style=color:#000;font-weight:700>=</span> rax10;
+                    rbp6 <span style=color:#000;font-weight:700>=</span> rax10;
+                    <span style=color:#000;font-weight:700>if</span> (ebx9 <span style=color:#000;font-weight:700>==</span> <span style=color:#000;font-weight:700>-</span><span style=color:#099>1</span>)
+                        <span style=color:#000;font-weight:700>break</span>;
+                } <span style=color:#000;font-weight:700>else</span> {
+                    <span style=color:#000;font-weight:700>--</span>ebx9;
+                    rbp6<span style=color:#000;font-weight:700>-&gt;</span>f16 <span style=color:#000;font-weight:700>=</span> rax10;
+                    rbp6 <span style=color:#000;font-weight:700>=</span> rax10;
+                    <span style=color:#000;font-weight:700>if</span> (ebx9 <span style=color:#000;font-weight:700>==</span> <span style=color:#000;font-weight:700>-</span><span style=color:#099>1</span>)
+                        <span style=color:#000;font-weight:700>break</span>;
                 }
             }
-            <span style=color:#f92672>++</span>r13_3;
-            rax11 <span style=color:#f92672>=</span> strlen(r14_2, <span style=color:#ae81ff>24</span>);
-        } <span style=color:#66d9ef>while</span> (r13_3 <span style=color:#f92672>&lt;</span> rax11);
+            <span style=color:#000;font-weight:700>++</span>r13_3;
+            rax11 <span style=color:#000;font-weight:700>=</span> strlen(r14_2, <span style=color:#099>24</span>);
+        } <span style=color:#000;font-weight:700>while</span> (r13_3 <span style=color:#000;font-weight:700>&lt;</span> rax11);
     }
-    rbp6<span style=color:#f92672>-&gt;</span>f0 <span style=color:#f92672>=</span> <span style=color:#ae81ff>76</span>;
-    <span style=color:#66d9ef>return</span> r15_5;
+    rbp6<span style=color:#000;font-weight:700>-&gt;</span>f0 <span style=color:#000;font-weight:700>=</span> <span style=color:#099>76</span>;
+    <span style=color:#000;font-weight:700>return</span> r15_5;
 }
-</code></pre></td></tr></table></div></div><p>这段代码很简单，就是依据 flag 中各个字符每个 bit 的值构造一个二叉树。然后这个树的根的的地址会在 main 函数中打印出来。</p><h2 id=exppy>exp.py</h2><p>我在比赛中用的 leak 一次只能 leak 一个字符，赛后重写改进了一下，能 leak 4 个字符，稍微加快一点。</p><p>{% gist cubarco/a3ce8d93cb4860500090 %}</p><p>一开始我准备用<code>"%31$s"</code>直接 printf, 但是会报<code>*** invalid %N$ use detected ***</code>. 这是由于 Glibc 的 FORTIFY_SOURCE, 可以绕过，具体方法看<a href=http://phrack.org/issues/67/9.html>这篇文章</a>。</p><h2 id=the-end>The end?</h2><p>其实 FSB 最严重的问题是用类似<code>%N$n</code>的 format string 能够实现将任意值写入指定 offset 的栈中。但是 Glibc 的 FORTIFY_SOURCE 解决(?)了这个问题。但是<a href=http://phrack.org/issues/67/9.html>这篇文章</a>好像还是有办法绕过<del>虽然我还没成功</del>。</p><h2 id=update-2015-12-13>Update 2015-12-13</h2><p>phrack 上的那篇<a href=http://phrack.org/issues/67/9.html>文章</a>是 2010 年的，之后在 2012 年，glibc 打了一个 <a href=http://repo.or.cz/glibc.git/commit/7c1f4834d398163d1ac8101e35e9c36fc3176e6e>patch</a>, 用<code>width_arg</code>盖掉<code>stdout->_flags2</code>上<code>_IO_FLAGS2_FORTIFY</code>标志位的办法已经行不通了。</p><h2 id=references>References</h2><ol><li><a href=http://phrack.org/issues/67/9.html>A Eulogy for Format Strings</a></li><li><a href=http://repo.or.cz/glibc.git/commit/7c1f4834d398163d1ac8101e35e9c36fc3176e6e>glibc.git / commit / 7c1f4834d398163d1ac8101e35e9c36fc3176e6e</a></li></ol></div></article><script src=https://utteranc.es/client.js repo=cubarco/cubarco.github.io issue-term=pathname theme=boxy-light crossorigin=anonymous async></script></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos target=_blank>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li><li><a>© 2014 - 2015</a></li></ul></footer></div><script src=/js/math-code.js></script><script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>
+</code></pre></td></tr></table></div></div><p>这段代码很简单，就是依据 flag 中各个字符每个 bit 的值构造一个二叉树。然后这个树的根的的地址会在 main 函数中打印出来。</p><h2 id=exppy>exp.py</h2><p>我在比赛中用的 leak 一次只能 leak 一个字符，赛后重写改进了一下，能 leak 4 个字符，稍微加快一点。</p><div class=gist data-gist=cubarco/a3ce8d93cb4860500090><p>Gist: <a href=https://gist.github.com/cubarco/a3ce8d93cb4860500090>cubarco/a3ce8d93cb4860500090</a></p></div><p>一开始我准备用<code>"%31$s"</code>直接 printf, 但是会报<code>*** invalid %N$ use detected ***</code>. 这是由于 Glibc 的 FORTIFY_SOURCE, 可以绕过，具体方法看<a href=http://phrack.org/issues/67/9.html>这篇文章</a>。</p><h2 id=the-end>The end?</h2><p>其实 FSB 最严重的问题是用类似<code>%N$n</code>的 format string 能够实现将任意值写入指定 offset 的栈中。但是 Glibc 的 FORTIFY_SOURCE 解决(?)了这个问题。但是<a href=http://phrack.org/issues/67/9.html>这篇文章</a>好像还是有办法绕过<del>虽然我还没成功</del>。</p><h2 id=update-2015-12-13>Update 2015-12-13</h2><p>phrack 上的那篇<a href=http://phrack.org/issues/67/9.html>文章</a>是 2010 年的，之后在 2012 年，glibc 打了一个 <a href=http://repo.or.cz/glibc.git/commit/7c1f4834d398163d1ac8101e35e9c36fc3176e6e>patch</a>, 用<code>width_arg</code>盖掉<code>stdout->_flags2</code>上<code>_IO_FLAGS2_FORTIFY</code>标志位的办法已经行不通了。</p><h2 id=references>References</h2><ol><li><a href=http://phrack.org/issues/67/9.html>A Eulogy for Format Strings</a></li><li><a href=http://repo.or.cz/glibc.git/commit/7c1f4834d398163d1ac8101e35e9c36fc3176e6e>glibc.git / commit / 7c1f4834d398163d1ac8101e35e9c36fc3176e6e</a></li></ol></div></article><script src=https://utteranc.es/client.js repo=cubarco/cubarco.github.io issue-term=pathname theme=boxy-light crossorigin=anonymous async></script></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos target=_blank>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li><li><a>© 2014 - 2015</a></li></ul></footer></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js async></script><script src=/js/main.min.c0265b880e16484a6541ce80355a1ae627d6edcece7e9f5e5a47848c6776dae31c76328b55a8531b625aaf4315dcec7fdf695e3d044d3c19b918e21490e323e5.js integrity="sha512-wCZbiA4WSEplQc6ANVoa5ifW7c7Ofp9eWkeEjGd22uMcdjKLVahTG2Jar0MV3Ox/32lePQRNPBm5GOIUkOMj5Q==" async></script></body></html>
