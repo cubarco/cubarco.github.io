@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Note on /home/cubl</title><link>/tags/note/</link><description>Recent content in Note on /home/cubl</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 22 Mar 2014 00:00:00 +0000</lastBuildDate><atom:link href="/tags/note/index.xml" rel="self" type="application/rss+xml"/><item><title>KDE窗口撕裂的解决办法</title><link>/2014/03/22/kde%E7%AA%97%E5%8F%A3%E6%92%95%E8%A3%82%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link><pubDate>Sat, 22 Mar 2014 00:00:00 +0000</pubDate><guid>/2014/03/22/kde%E7%AA%97%E5%8F%A3%E6%92%95%E8%A3%82%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid><description>问题 从去年装archliux+kde开始就一直被kde窗口拖动时的残影和撕裂感折磨，之前观摩前辈 @撸神 的kde的时候发现了这个问题，他说这是kde的bug，所以这个问题就一直放着，直到昨天帮 @古真 装arch才开始注意。
+最初以为是垂直同步没有开启，结果archwiki上提到intel集显是默认开启垂直同步的。尝试了一下，不论是开启还是关闭垂直同步实际上对这个问题都没有任何帮助。
+解决办法 今天翻遍了archwiki，在Intel Graphics页面发现了解决办法，其中SNA是默认的模式。
+播放视频时屏幕撕裂 若使用 SNA，将下列内容添加到 /etc/X11/xorg.conf.d/20-intel.conf 的 Device 段可杜绝屏幕撕裂问题。
+Option &amp;ldquo;TearFree&amp;rdquo; &amp;ldquo;true&amp;rdquo;
+如果20-intel.conf不存在可以创建一个。最简单的示例如下：
+1 2 3 4 5 Section &amp;#34;Device&amp;#34; Identifier &amp;#34;Intel Graphics&amp;#34; Driver &amp;#34;intel&amp;#34; Option &amp;#34;TearFree&amp;#34; &amp;#34;true&amp;#34; EndSection 参考 1: Intel Graphics(Archwiki)</description></item></channel></rss>

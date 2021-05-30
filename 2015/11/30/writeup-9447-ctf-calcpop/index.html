@@ -1,0 +1,117 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup-9447 CTF: calcpop - /home/cubl</title><meta property="og:title" content="Writeup-9447 CTF: calcpop - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/fonts.css media=all><link rel=stylesheet href=/css/main.css media=all><script src=/js/source-code-pro.js></script></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup-9447 CTF: calcpop</h1><span class=article-date>2015-11-30</span>
+<a class=article-tag href=/tags/hack>Hack</a>
+<a class=article-tag href=/tags/ctf>CTF</a>
+<a class=article-tag href=/tags/writeup>Writeup</a>
+<a class=article-tag href=/tags/exploitation>Exploitation</a><div class=article-content><p>先看反汇编代码：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain>...
+8048460:	55                   	push   %ebp
+8048461:	89 e5                	mov    %esp,%ebp
+8048463:	57                   	push   %edi
+8048464:	56                   	push   %esi
+8048465:	be 00 01 00 00       	mov    $0x100,%esi
+804846a:	53                   	push   %ebx
+804846b:	83 e4 f0             	and    $0xfffffff0,%esp
+804846e:	81 ec 90 00 00 00    	sub    $0x90,%esp
+8048474:	a1 60 a0 04 08       	mov    0x804a060,%eax
+8048479:	c7 44 24 0c 00 00 00 	movl   $0x0,0xc(%esp)
+8048480:	00
+8048481:	8d 5c 24 10          	lea    0x10(%esp),%ebx
+8048485:	c7 44 24 08 02 00 00 	movl   $0x2,0x8(%esp)
+804848c:	00
+804848d:	89 df                	mov    %ebx,%edi
+804848f:	c7 44 24 04 00 00 00 	movl   $0x0,0x4(%esp)
+8048496:	00
+8048497:	89 04 24             	mov    %eax,(%esp)
+804849a:	e8 a1 ff ff ff       	call   8048440 &lt;setvbuf@plt&gt;
+804849f:	c7 04 24 10 88 04 08 	movl   $0x8048810,(%esp)
+80484a6:	e8 55 ff ff ff       	call   8048400 &lt;puts@plt&gt;
+80484ab:	eb 29                	jmp    80484d6 &lt;main+0x76&gt;
+80484ad:	8d 76 00             	lea    0x0(%esi),%esi
+80484b0:	a1 40 a0 04 08       	mov    0x804a040,%eax
+80484b5:	89 04 24             	mov    %eax,(%esp)
+80484b8:	e8 33 ff ff ff       	call   80483f0 &lt;_IO_getc@plt&gt;
+80484bd:	85 c0                	test   %eax,%eax
+80484bf:	0f 88 e3 00 00 00    	js     80485a8 &lt;main+0x148&gt;
+80484c5:	88 07                	mov    %al,(%edi)
+80484c7:	83 ee 01             	sub    $0x1,%esi
+80484ca:	83 c7 01             	add    $0x1,%edi
+80484cd:	83 f8 0a             	cmp    $0xa,%eax
+80484d0:	0f 84 ca 00 00 00    	je     80485a0 &lt;main+0x140&gt;
+80484d6:	83 fe 01             	cmp    $0x1,%esi
+80484d9:	77 d5                	ja     80484b0 &lt;main+0x50&gt;
+80484db:	85 f6                	test   %esi,%esi
+80484dd:	0f 85 bd 00 00 00    	jne    80485a0 &lt;main+0x140&gt;
+...
+</code></pre></td></tr></table></div></div><p>这段代码是 main() 函数起始的位置，可以看到这里的工作是将终端输入的数据循环读入栈中。其中 esi 寄存器是循环计数器，初始值是 0x100, 而在栈中划分的空间只有 0x90 字节, 这里存在栈溢出。</p><p>用 <code>pattern.py 256</code> 生成 pattern, 开 gdb 调试 calcpop.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain>$ gdb calcpop
+Reading symbols from calcpop...done.
+(gdb) r
+Starting program: /home/cubelin/is/ctf/9447/pwn/calcpop/calcpop
+Welcome to calc.exe
+Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3Ag4Ag5Ag6Ag7Ag8Ag9Ah0Ah1Ah2Ah3Ah4Ah5Ah6Ah7Ah8Ah9Ai0Ai1Ai2Ai3Ai4A
+Missing a space; your input was 0xffffd390
+Missing a space; your input was 0xffffd390
+exit
+Exiting...
+
+Program received signal SIGSEGV, Segmentation fault.
+0x41326641 in ?? ()
+(gdb) quit
+
+$ pattern.py 0x41326641
+Pattern 0x41326641 first occurrence at position 156 in pattern.
+</code></pre></td></tr></table></div></div><p>main() 函数返回地址在 offset 为 156 的位置。然后借由程序返回的栈地址，可以直接执行栈中的 shellcode.</p><p>exp 如下:</p><p>{% gist cubarco/ee054809d1643602b844 %}</p></div></article></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li></ul></footer></div><script>hljs.configure({languages:[]}),hljs.initHighlightingOnLoad()</script><script src=/js/math-code.js></script><script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

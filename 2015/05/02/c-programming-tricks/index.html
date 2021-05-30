@@ -1,0 +1,81 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>C Programming Tricks - /home/cubl</title><meta property="og:title" content="C Programming Tricks - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/fonts.css media=all><link rel=stylesheet href=/css/main.css media=all><script src=/js/source-code-pro.js></script></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>C Programming Tricks</h1><span class=article-date>2015-05-02</span>
+<a class=article-tag href=/tags/c>C</a>
+<a class=article-tag href=/tags/gcc>GCC</a><div class=article-content><p>这个 Note 用来记录各处收集的 C 编程 tricks. 看到有意思的就会摘一下，来源各异。</p><h2 id=anonymous-arrays>Anonymous arrays</h2><p>C99 offers some really cool stuff using anonymous arrays:</p><h3 id=removing-pointless-variables>Removing pointless variables</h3><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> yes<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>;
+setsockopt(yourSocket, SOL_SOCKET, SO_REUSEADDR, <span style=color:#f92672>&amp;</span>yes, <span style=color:#66d9ef>sizeof</span>(<span style=color:#66d9ef>int</span>));
+<span style=color:#75715e>/* becomes: */</span>
+setsockopt(yourSocket, SOL_SOCKET, SO_REUSEADDR, (<span style=color:#66d9ef>int</span>[]){<span style=color:#ae81ff>1</span>}, <span style=color:#66d9ef>sizeof</span>(<span style=color:#66d9ef>int</span>));
+</code></pre></td></tr></table></div></div><h3 id=passing-a-variable-amount-of-arguments>Passing a Variable Amount of Arguments</h3><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>Void <span style=color:#a6e22e>func</span>(type<span style=color:#f92672>*</span> values) {
+    <span style=color:#66d9ef>while</span>(<span style=color:#f92672>*</span>values) {
+        x <span style=color:#f92672>=</span> <span style=color:#f92672>*</span>values<span style=color:#f92672>++</span>;
+        <span style=color:#75715e>/* do whatever with x */</span>
+    }
+}
+
+func((type[]){val1,val2,val3,val4,<span style=color:#ae81ff>0</span>});
+</code></pre></td></tr></table></div></div><h3 id=static-linked-lists>Static linked lists</h3><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>struct</span> llist { <span style=color:#66d9ef>int</span> a; <span style=color:#66d9ef>struct</span> llist<span style=color:#f92672>*</span> next;};
+    <span style=color:#75715e>#define cons(x,y) (struct llist[]){ {x,y} }
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>struct</span> llist <span style=color:#f92672>*</span>list<span style=color:#f92672>=</span>cons(<span style=color:#ae81ff>1</span>, cons(<span style=color:#ae81ff>2</span>, cons(<span style=color:#ae81ff>3</span>, cons(<span style=color:#ae81ff>4</span>, NULL))));
+    <span style=color:#66d9ef>struct</span> llist <span style=color:#f92672>*</span>p <span style=color:#f92672>=</span> list;
+    <span style=color:#66d9ef>while</span>(p <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span>) {
+      printf(<span style=color:#e6db74>&#34;%d</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, p<span style=color:#f92672>-&gt;</span>a);
+      p <span style=color:#f92672>=</span> p<span style=color:#f92672>-&gt;</span>next;
+    }
+}
+</code></pre></td></tr></table></div></div><h2 id=include-data-file-as-header-inside-array-initializer>Include data file as header inside array initializer</h2><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>double</span> normals[][] <span style=color:#f92672>=</span> {
+  <span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;normals.txt&#34;</span><span style=color:#75715e>
+</span><span style=color:#75715e></span>};
+</code></pre></td></tr></table></div></div><h2 id=using-__file__-and-__line__-for-debugging>Using <code>__FILE__</code> and <code>__LINE__</code> for debugging</h2><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>#define WHERE fprintf(stderr,&#34;[LOG]%s:%d\n&#34;,__FILE__,__LINE__);
+</span></code></pre></td></tr></table></div></div><h2 id=dynamically-sized-objectmodified>Dynamically sized object(modified)</h2><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">9
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>struct</span> X {
+    <span style=color:#66d9ef>int</span> len;
+    <span style=color:#66d9ef>char</span> str[];
+};
+
+<span style=color:#66d9ef>int</span> n <span style=color:#f92672>=</span> strlen(<span style=color:#e6db74>&#34;hello world&#34;</span>) <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>;
+<span style=color:#66d9ef>struct</span> X <span style=color:#f92672>*</span>string <span style=color:#f92672>=</span> malloc(offsetof(<span style=color:#66d9ef>struct</span> X, str) <span style=color:#f92672>+</span> n);
+strcpy(string<span style=color:#f92672>-&gt;</span>str, <span style=color:#e6db74>&#34;hello world&#34;</span>);
+string<span style=color:#f92672>-&gt;</span>len <span style=color:#f92672>=</span> n;
+</code></pre></td></tr></table></div></div><p><code>offsetof()</code> 本身也是一个比较有趣的宏定义(?)。</p><h2 id=an-example-of-offsetof>An example of <code>offsetof()</code></h2><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>#define offsetof(st, m) ((size_t)(&amp;((st *)0)-&gt;m))
+</span></code></pre></td></tr></table></div></div><p>This works by casting a null pointer into a pointer to structure st, and then obtaining the address of member m within said structure. While this implementation works correctly in many compilers, it has undefined behavior according to the C standard,[2] since it involves a dereference of a null pointer (although, one might argue that no dereferencing takes place, because the whole expression is calculated at compile time). It also tends to produce confusing compiler diagnostics if one of the arguments is misspelled.</p><h2 id=blank-in-a-scanf-format>Blank in a <code>scanf()</code> format</h2><p>In a <code>scanf()</code> format, a blank, tab or newline means &lsquo;skip white space if there is any to skip&rsquo;. It does not directly &lsquo;clear the input buffer&rsquo;, but it does eat any white space which looks similar to clearing the input buffer (but is quite distinct from that). If you&rsquo;re on Windows, using <code>fflush(stdin)</code> clears the input buffer (of white space and non-white space characters); on Unix and according to the C standard, <code>fflush(stdin)</code> is undefined behaviour.</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>while</span>((c <span style=color:#f92672>=</span> getchar()) <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;\n&#39;</span>);
+<span style=color:#75715e>/* becomes: */</span>
+scanf(<span style=color:#e6db74>&#34; %c&#34;</span>, <span style=color:#f92672>&amp;</span>c);
+</code></pre></td></tr></table></div></div><h2 id=reference>Reference</h2><ol><li><a href=http://stackoverflow.com/questions/599365/what-is-your-favorite-c-programming-trick>What is your favorite C programming trick? - StackOverflow</a></li><li><a href=https://en.wikipedia.org/wiki/Offsetof>offsetof() - Wikipedia</a></li><li><a href=http://stackoverflow.com/questions/18491390/difference-between-scanfc-c-and-scanf-c-c>Difference between scanf("%c", &c) and scanf(" %c", &c) - StackOverflow</a></li></ol></div></article></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li></ul></footer></div><script>hljs.configure({languages:[]}),hljs.initHighlightingOnLoad()</script><script src=/js/math-code.js></script><script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

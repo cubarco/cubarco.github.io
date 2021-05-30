@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Android on /home/cubl</title><link>/tags/android/</link><description>Recent content in Android on /home/cubl</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Tue, 11 Feb 2014 00:00:00 +0000</lastBuildDate><atom:link href="/tags/android/index.xml" rel="self" type="application/rss+xml"/><item><title>通过DNS隧道绕过portal认证</title><link>/2014/02/11/%E9%80%9A%E8%BF%87dns%E9%9A%A7%E9%81%93%E7%BB%95%E8%BF%87portal%E8%AE%A4%E8%AF%81/</link><pubDate>Tue, 11 Feb 2014 00:00:00 +0000</pubDate><guid>/2014/02/11/%E9%80%9A%E8%BF%87dns%E9%9A%A7%E9%81%93%E7%BB%95%E8%BF%87portal%E8%AE%A4%E8%AF%81/</guid><description>&lt;blockquote>
+&lt;p>        Portal在英语中是入口的意思。Portal认证通常也称为Web认证，一般将Portal认证网站称为门户网站。未认证用户上网时，设备强制用户登录到特定站点，用户可以免费访问其中的服务。当用户需要使用互联网中的其它信息时，必须在门户网站进行认证，只有认证通过后才可以使用互联网资源。用户可以主动访问已知的Portal认证网站，输入用户名和密码进行认证，这种开始Portal认证的方式称作主动认证。反之，如果用户试图通过HTTP访问其他外网，将被强制访问Portal认证网站，从而开始Portal认证过程，这种方式称作强制认证。&lt;/p>
+&lt;/blockquote>
+&lt;p>比如说：华某科校园网(无线端), Chinanet, CMCC, China-Unicom&lt;/p>
+&lt;p>（华某科校园网升级后，DNS隧道被一定程度限用，处于半残状态。基本无法使用。）&lt;/p>
+&lt;p>portal认证不同于pppoe，它已经通过DHCP对Client分发IP，但是在完成认证前会强制重定向url到protal认证界面，只有登录后才能顺利的访问网络。不过portal认证&lt;span style="text-decoration: underline;">&lt;em>并没有阻止DNS查询&lt;/em>&lt;/span>的请求，通过一定手段可以绕过portal认证，直接访问internet。我们需要的软件就是iodine&lt;/p>
+&lt;blockquote>
+&lt;p>iodine lets you tunnel IPv4 data through a DNS server. This can be usable in different situations where internet access is firewalled, but DNS queries are allowed.&lt;/p>
+&lt;p style="text-align: right;">
+&lt;/blockquote></description></item></channel></rss>

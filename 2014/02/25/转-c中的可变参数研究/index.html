@@ -1,0 +1,205 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>[转] C中的可变参数研究 - /home/cubl</title><meta property="og:title" content="[转] C中的可变参数研究 - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/fonts.css media=all><link rel=stylesheet href=/css/main.css media=all><script src=/js/source-code-pro.js></script></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>[转] C中的可变参数研究</h1><span class=article-date>2014-02-25</span>
+<a class=article-tag href=/tags/c>C</a><div class=article-content><p><em><del>初学C，感觉可变参数挺好玩的，转载一发做个mark。本想注明来源，发现来源也是转载的，找不到根源，就不贴链接了。</del></em></p><h3 id=一-何谓可变参数>一. 何谓可变参数</h3><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>printf</span>(<span style=color:#66d9ef>const</span> <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> format, ...);
+</code></pre></td></tr></table></div></div><p>这是使用过C语言的人所再熟悉不过的printf函数原型，它的参数中就有固定参数format和可变参数（用”…”表示）.   而我们又可以用各种方式来调用printf,如:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>printf(<span style=color:#e6db74>&#34;%d&#34;</span>,value);
+printf(<span style=color:#e6db74>&#34;%s&#34;</span>,str);
+printf(<span style=color:#e6db74>&#34;the number is %d,string is: %s&#34;</span>, value, str);
+</code></pre></td></tr></table></div></div><h3 id=二-实现原理>二. 实现原理</h3><p>C语言用宏来处理这些可变参数。这些宏看起来很复杂，其实原理挺简单，就是根据参数入栈的特点从最靠近第一个可变参数的固定参数开始，依次获取每个可变参数的地址。下面我们来分析这些宏。在VC中的stdarg.h头文件中，针对不同平台有不同的宏定义，我们选取X86平台下的宏定义：</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>typedef</span> <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>va_list;
+<span style=color:#75715e>/*把va_list被定义成char*，这是因为在我们目前所用的PC机上，字符指针类型可以用来存储内存单元地址。而在有的机器上va_list是被定义成void*的*/</span>
+<span style=color:#75715e>#define _INTSIZEOF(n) ((sizeof(n) + sizeof(int) - 1) &amp; ~(sizeof(int) - 1))
+</span><span style=color:#75715e></span><span style=color:#75715e>/*_INTSIZEOF(n)宏是为了考虑那些内存地址需要对齐的系统，从宏的名字来应该是跟sizeof(int)对齐。一般的sizeof(int)=4，也就是参数在内存中的地址都为4的倍数。比如，如果sizeof(n)在1－4之间，那么_INTSIZEOF(n)＝4；如果sizeof(n)在5－8之间，那么_INTSIZEOF(n)=8。*/</span>
+<span style=color:#75715e>#define va_start(ap,v)(ap = (va_list)&amp;v + _INTSIZEOF(v))
+</span><span style=color:#75715e></span><span style=color:#75715e>/*va_start的定义为 &amp;v+_INTSIZEOF(v), 这里&amp;v是最后一个固定参数的起始地址，再加上其实际占用大小后，就得到了第一个可变参数的起始内存地址。所以我们运行va_start(ap, v)以后,ap指向第一个可变参数在的内存地址*/</span>
+<span style=color:#75715e>#define va_arg(ap,t) (*(t*)((ap += _INTSIZEOF(t)) - _INTSIZEOF(t)))
+</span><span style=color:#75715e></span><span style=color:#75715e>/*这个宏做了两个事情，
+</span><span style=color:#75715e>①用用户输入的类型名对参数地址进行强制类型转换，得到用户所需要的值
+</span><span style=color:#75715e>②计算出本参数的实际大小，将指针调到本参数的结尾，也就是下一个参数的首地址，以便后续处理。*/</span>
+<span style=color:#75715e>#define va_end(ap) (ap = (va_list)0)
+</span><span style=color:#75715e></span><span style=color:#75715e>/*x86平台定义为ap=(char*)0;使ap不再指向堆栈,而是跟NULL一样.有些直接定义为((void*)0),这样编译器不会为va_end产生代码,例如gcc在linux的x86平台就是这样定义的.在这里大家要注意一个问题:由于参数的地址用于va_start宏,所以参数不能声明为寄存器变量或作为函数或数组类型.*/</span>
+</code></pre></td></tr></table></div></div><p>以下再用图来表示<del>(这什么破图)</del>:</p><p>在VC等绝大多数C编译器中，默认情况下，参数进栈的顺序是由右向左的，因此，参数进栈以后的内存模型如下图所示：最后一个固定参数的地址位于第一个可变参数之下，并且是连续存储的。</p><pre>
+|——————————————————————————|  
+|最后一个可变参数   |   ->高内存地址处  
+|——————————————————————————|  
+&#8230;&#8230;&#8230;&#8230;&#8230;&#8230;.  
+|——————————————————————————|  
+|第N个可变参数   |   ->va\_arg(arg\_ptr,int)后arg_ptr所指的地方,  
+|   |   即第N个可变参数的地址。  
+|———————————————   |  
+………………………….  
+|——————————————————————————|  
+|第一个可变参数   |   ->va\_start(arg\_ptr,start)后arg_ptr所指的地方  
+|   |   即第一个可变参数的地址  
+|———————————————   |  
+|————————————————————————   ——|  
+|   |  
+|最后一个固定参数   |   ->   start的起始地址  
+|——————————————   —|   &#8230;&#8230;&#8230;&#8230;&#8230;..  
+|——————————————————————————   |  
+|   |  
+|———————————————   |->   低内存地址处
+</pre><h3 id=三-printf研究>三. printf研究</h3><p>下面是一个简单的printf函数的实现。<del>（作者简直是幽默，所谓printf函数的实现里面居然用到了printf函数。。。）</del></p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">48
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;stdio.h&#34;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&#34;stdlib.h&#34;</span><span style=color:#75715e>
+</span><span style=color:#75715e></span><span style=color:#66d9ef>void</span> <span style=color:#a6e22e>myprintf</span>(<span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> fmt, ...) <span style=color:#75715e>//一个简单的类似于printf的实现,参数必须都是int类型
+</span><span style=color:#75715e></span>{
+<span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> pArg<span style=color:#f92672>=</span>NULL;   <span style=color:#75715e>//等价于原来的va_list
+</span><span style=color:#75715e></span><span style=color:#66d9ef>char</span> c;
+
+pArg <span style=color:#f92672>=</span> (<span style=color:#66d9ef>char</span><span style=color:#f92672>*</span>)<span style=color:#f92672>&amp;</span>fmt;   <span style=color:#75715e>//注意不要写成p = fmt, 因为这里要对参数取址，而不是取值
+</span><span style=color:#75715e></span>pArg <span style=color:#f92672>+=</span> <span style=color:#66d9ef>sizeof</span>(fmt);   <span style=color:#75715e>//等价于原来的va_start
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>do</span>
+{
+c <span style=color:#f92672>=*</span>fmt;
+<span style=color:#66d9ef>if</span> (c <span style=color:#f92672>!=</span> <span style=color:#e6db74>&#39;%&#39;</span>)
+{
+putchar(c);   <span style=color:#75715e>//照原样输出字符
+</span><span style=color:#75715e></span>}
+<span style=color:#66d9ef>else</span>
+{
+<span style=color:#75715e>//按格式字符输出数据
+</span><span style=color:#75715e></span><span style=color:#66d9ef>switch</span>(<span style=color:#f92672>*++</span>fmt)
+{
+<span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#39;d&#39;</span><span style=color:#f92672>:</span>
+printf(<span style=color:#e6db74>&#34;%d&#34;</span>, <span style=color:#f92672>*</span>((<span style=color:#66d9ef>int</span><span style=color:#f92672>*</span>)pArg));
+<span style=color:#66d9ef>break</span>;
+<span style=color:#66d9ef>case</span> <span style=color:#e6db74>&#39;x&#39;</span><span style=color:#f92672>:</span>
+printf(<span style=color:#e6db74>&#34;%#x&#34;</span>, <span style=color:#f92672>*</span>((<span style=color:#66d9ef>int</span><span style=color:#f92672>*</span>)pArg));
+<span style=color:#66d9ef>break</span>;
+<span style=color:#66d9ef>default</span><span style=color:#f92672>:</span>
+<span style=color:#66d9ef>break</span>;
+}
+pArg <span style=color:#f92672>+=</span> <span style=color:#66d9ef>sizeof</span>(<span style=color:#66d9ef>int</span>);   <span style=color:#75715e>//等价于原来的va_arg
+</span><span style=color:#75715e></span>}
+<span style=color:#f92672>++</span>fmt;
+}<span style=color:#66d9ef>while</span>(<span style=color:#f92672>*</span>fmt <span style=color:#f92672>!=</span> <span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>/</span><span style=color:#ae81ff>0</span><span style=color:#960050;background-color:#1e0010>&#39;</span>);
+pArg <span style=color:#f92672>=</span> NULL;   <span style=color:#75715e>//等价于va_end
+</span><span style=color:#75715e></span><span style=color:#66d9ef>return</span>;
+}
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>int</span> argc, <span style=color:#66d9ef>char</span><span style=color:#f92672>*</span> argv[])
+{
+<span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> <span style=color:#ae81ff>1234</span>;
+<span style=color:#66d9ef>int</span> j <span style=color:#f92672>=</span> <span style=color:#ae81ff>5678</span>;
+
+myprintf(<span style=color:#e6db74>&#34;the first test:i=%d&#34;</span>,i,j);
+myprintf(<span style=color:#e6db74>&#34;the secend test:i=%d; %x;j=%d;&#34;</span>,i,<span style=color:#ae81ff>0xabcd</span>,j);
+system(<span style=color:#e6db74>&#34;pause&#34;</span>);
+<span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+}
+</code></pre></td></tr></table></div></div><p>在intel+win2k+vc6的机器执行结果如下：</p><pre><code>the first test:i=1234
+the secend test:i=1234; 0xabcd;j=5678;
+</code></pre><h3 id=四-应用>四. 应用</h3><p>求最大值<del>(原文代码有问题，重写了一个)</del>:</p><div class=highlight><div style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
+</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;stdio.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e>#include</span> <span style=color:#75715e>&lt;stdarg.h&gt;</span><span style=color:#75715e>
+</span><span style=color:#75715e></span>
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>max</span>(<span style=color:#66d9ef>int</span> n, ...);
+
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>()
+{
+        printf(<span style=color:#e6db74>&#34;%d&#34;</span>, max(<span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>));
+        <span style=color:#66d9ef>return</span> <span style=color:#ae81ff>0</span>;
+}
+
+<span style=color:#66d9ef>int</span> <span style=color:#a6e22e>max</span>(<span style=color:#66d9ef>int</span> n, ...)    <span style=color:#75715e>// n记录可变参数的数量
+</span><span style=color:#75715e></span>{  
+        va_list ap;
+        va_start(ap, n);    <span style=color:#75715e>// 将ap指向n的后一个参数
+</span><span style=color:#75715e></span>
+        <span style=color:#66d9ef>int</span> i, tmp, max_num<span style=color:#f92672>=</span>va_arg(ap, <span style=color:#66d9ef>int</span>);
+        <span style=color:#66d9ef>for</span>(i<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>; i<span style=color:#f92672>&lt;</span>n; i<span style=color:#f92672>++</span>)   <span style=color:#75715e>// 计算最大值
+</span><span style=color:#75715e></span>        {   
+                <span style=color:#66d9ef>if</span>(max_num <span style=color:#f92672>&lt;</span> (tmp<span style=color:#f92672>=</span>va_arg(ap, <span style=color:#66d9ef>int</span>))) 
+                        max_num <span style=color:#f92672>=</span> tmp;
+        }
+
+        va_end(ap);    <span style=color:#75715e>// 清除ap
+</span><span style=color:#75715e></span>        <span style=color:#66d9ef>return</span> max_num;
+}
+</code></pre></td></tr></table></div></div></div></article></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li></ul></footer></div><script>hljs.configure({languages:[]}),hljs.initHighlightingOnLoad()</script><script src=/js/math-code.js></script><script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script></body></html>

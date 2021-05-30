@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>MISC on /home/cubl</title><link>/tags/misc/</link><description>Recent content in MISC on /home/cubl</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 30 Dec 2015 00:00:00 +0000</lastBuildDate><atom:link href="/tags/misc/index.xml" rel="self" type="application/rss+xml"/><item><title>Writeup: 32c3ctf</title><link>/2015/12/30/writeup-32c3ctf/</link><pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate><guid>/2015/12/30/writeup-32c3ctf/</guid><description>forth forth 直接能跑system1。
+1 S&amp;#34; sh&amp;#34; system gurke pickle 在 unpickle 的时候会执行对象的 __reduce__ 方法2。用 eval 把 __main__.flag.flag 打进 stderr 就行了。
+{% gist cubarco/e46eb03e1cd06046d130 %}
+teufel 这题的 bin 不大，里面的 gadgets 很少，但是给了 libc. 思路就是先 leak 出保存在栈中的 rbp, 然后 offset 到 system。
+这个 offset 要先在本机确定后三位(16 进制), 然后跑个脚本，用 0x1000 的步长去爆破服务器上的 offset. 我的办法是先找__stack_chk_fail, 原因是这个函数不需要参数就能输出。
+offset.py {% gist cubarco/569fd814a29d8ef988e1 32c3ctf-teufel-offset.py %}
+exp.py {% gist cubarco/569fd814a29d8ef988e1 32c3ctf-teufel-exp.py %}
+吐槽 readme 的 flag 居然是文件名&amp;hellip; 不过LIBC_FATAL_STDERR_这个环境变量确实是以前没见过的。</description></item></channel></rss>
