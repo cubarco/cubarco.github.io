@@ -18,10 +18,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" async></script>
     {{ $jsgistasync := resources.Get "js/gist-async.min.js" }}
-    {{ $jssourcecodepro := resources.Get "js/source-code-pro.js" }}
     {{ $jsprism := resources.Get "js/prism.js" }}
     {{ $jsmain := resources.Get "js/main.js" }}
-    {{ $fullscript := slice $jsgistasync $jssourcecodepro $jsprism $jsmain | resources.Concat "/js/main.js" | minify | fingerprint "sha512" }}
+    {{ $fullscript := slice $jsgistasync $jsprism $jsmain | resources.Concat "/js/main.js" | minify | fingerprint "sha512" }}
     <script src="{{ $fullscript.RelPermalink }}" integrity="{{ $fullscript.Data.Integrity }}" async></script>
 
     {{ template "_internal/google_analytics.html" . }}
