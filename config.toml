@@ -7,6 +7,7 @@ disqusShortname = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
 pygmentsUseClasses = true
 pygmentsCodefencesGuessSyntax = true
+enableRobotsTXT = false
 
 [permalinks]
     post = "/:year/:month/:slug/"
