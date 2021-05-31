@@ -5,11 +5,10 @@ resources/*
 Thumbs.db
 .DS_Store
 
-
 node_modules
-
 
 .bundle
 /vendor
+/dist
 
 .vercel
