@@ -15,10 +15,12 @@
 {{ end }}
 
 {{ if eq .RelPermalink "/" }}
-<meta property="description" content="{{ .Site.Params.description }}">
+<meta name="description" content="{{ .Site.Params.description }}">
 {{ else }}
   {{ if .Description }}
-  <meta property="description" content="{{ .Description }}">
+  <meta name="description" content="{{ .Description }}">
+  {{ else }}
+  <meta name="description" content="{{ .Site.Params.description }}">
   {{ end }}
 {{ end }}
 
