@@ -2,10 +2,11 @@ baseurl = "/"
 languageCode = "zh-cn"
 title = "/home/cubl"
 theme = "hugo-lithium"
-#theme = "cactus"
 googleAnalytics = ""
 disqusShortname = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+pygmentsUseClasses = true
+pygmentsCodefencesGuessSyntax = true
 
 [permalinks]
     post = "/:year/:month/:slug/"
@@ -45,10 +46,10 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\
     height = 50
     alt = "Logo"
 
-[markup]
-  defaultMarkdownHandler = "goldmark"
-  [markup.goldmark.renderer]
-    unsafe = true  # Enable user to embed HTML snippets in Markdown content.
-  [markup.highlight]
-    lineNos = true
-    style = "github"
+#[markup]
+#  defaultMarkdownHandler = "goldmark"
+#  [markup.goldmark.renderer]
+#    unsafe = true  # Enable user to embed HTML snippets in Markdown content.
+#  #[markup.highlight]
+    #lineNos = true
+    #style = "github"

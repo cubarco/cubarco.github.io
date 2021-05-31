@@ -1,18 +1,18 @@
 /* PrismJS 1.23.0
-https://prismjs.com/download.html#themes=prism-twilight&languages=markup+css+clike+javascript+bash+c+cpp+cmake+diff+docker+elixir+git+go+java+json+latex+lisp+makefile+nginx+objectivec+prolog+python+regex+ruby+rust+scheme+sql+swift+typescript+wasm+yaml&plugins=autolinker+show-language+command-line+toolbar+treeview */
+https://prismjs.com/download.html#themes=prism-coy&languages=markup+css+clike+javascript+bash+c+cpp+docker+nasm+nginx+python+vim */
 /**
- * prism.js Twilight theme
- * Based (more or less) on the Twilight theme originally of Textmate fame.
- * @author Remy Bach
+ * prism.js Coy theme for JavaScript, CoffeeScript, CSS and HTML
+ * Based on https://github.com/tshedor/workshop-wp-theme (Example: http://workshop.kansan.com/category/sessions/basics or http://workshop.timshedor.com/category/sessions/basics);
+ * @author Tim  Shedor
  */
+
 code[class*="language-"],
 pre[class*="language-"] {
-	color: white;
+	color: black;
 	background: none;
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-	font-size: 0.95em;
+	font-size: 1em;
 	text-align: left;
-	text-shadow: 0 -.1em .2em black;
 	white-space: pre;
 	word-spacing: normal;
 	word-break: normal;
@@ -29,105 +29,145 @@ pre[class*="language-"] {
 	hyphens: none;
 }
 
-pre[class*="language-"],
-:not(pre) > code[class*="language-"] {
-	background: hsl(0, 0%, 8%); /* #141414 */
-}
-
 /* Code blocks */
 pre[class*="language-"] {
+	position: relative;
 	margin: .5em 0;
+	overflow: visible;
+	padding: 0;
+}
+pre[class*="language-"]>code {
+	position: relative;
+	border-left: 10px solid #358ccb;
+	box-shadow: -1px 0px 0px 0px #358ccb, 0px 0px 0px 1px #dfdfdf;
+	background-color: #fdfdfd;
+	background-image: linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+	background-size: 3em 3em;
+	background-origin: content-box;
+	background-attachment: local;
+}
+
+code[class*="language-"] {
+	max-height: inherit;
+	height: inherit;
+	padding: 0 1em;
+	display: block;
 	overflow: auto;
-	padding: 1em;
 }
 
-pre[class*="language-"]::-moz-selection {
-	/* Firefox */
-	background: hsl(200, 4%, 16%); /* #282A2B */
-}
-
-pre[class*="language-"]::selection {
-	/* Safari */
-	background: hsl(200, 4%, 16%); /* #282A2B */
-}
-
-/* Text Selection colour */
-pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,
-code[class*="language-"]::-moz-selection, code[class*="language-"] ::-moz-selection {
-	text-shadow: none;
-	background: hsla(0, 0%, 93%, 0.15); /* #EDEDED */
-}
-
-pre[class*="language-"]::selection, pre[class*="language-"] ::selection,
-code[class*="language-"]::selection, code[class*="language-"] ::selection {
-	text-shadow: none;
-	background: hsla(0, 0%, 93%, 0.15); /* #EDEDED */
+/* Margin bottom to accommodate shadow */
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background-color: #fdfdfd;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom: 1em;
 }
 
 /* Inline code */
 :not(pre) > code[class*="language-"] {
-	border-radius: .3em;
-	border: .13em solid hsl(0, 0%, 33%); /* #545454 */
-	box-shadow: 1px 1px .3em -.1em black inset;
-	padding: .15em .2em .05em;
+	position: relative;
+	padding: .2em;
+	border-radius: 0.3em;
+	color: #c92c2c;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	display: inline;
 	white-space: normal;
 }
 
+pre[class*="language-"]:before,
+pre[class*="language-"]:after {
+	content: '';
+	z-index: -2;
+	display: block;
+	position: absolute;
+	bottom: 0.75em;
+	left: 0.18em;
+	width: 40%;
+	height: 20%;
+	max-height: 13em;
+	box-shadow: 0px 13px 8px #979797;
+	-webkit-transform: rotate(-2deg);
+	-moz-transform: rotate(-2deg);
+	-ms-transform: rotate(-2deg);
+	-o-transform: rotate(-2deg);
+	transform: rotate(-2deg);
+}
+
+pre[class*="language-"]:after {
+	right: 0.75em;
+	left: auto;
+	-webkit-transform: rotate(2deg);
+	-moz-transform: rotate(2deg);
+	-ms-transform: rotate(2deg);
+	-o-transform: rotate(2deg);
+	transform: rotate(2deg);
+}
+
 .token.comment,
+.token.block-comment,
 .token.prolog,
 .token.doctype,
 .token.cdata {
-	color: hsl(0, 0%, 47%); /* #777777 */
+	color: #7D8B99;
 }
 
 .token.punctuation {
-	opacity: .7;
+	color: #5F6364;
 }
 
-.token.namespace {
-	opacity: .7;
-}
-
+.token.property,
 .token.tag,
 .token.boolean,
 .token.number,
-.token.deleted {
-	color: hsl(14, 58%, 55%); /* #CF6A4C */
-}
-
-.token.keyword,
-.token.property,
-.token.selector,
+.token.function-name,
 .token.constant,
 .token.symbol,
-.token.builtin {
-	color: hsl(53, 89%, 79%); /* #F9EE98 */
+.token.deleted {
+	color: #c92c2c;
 }
 
+.token.selector,
 .token.attr-name,
-.token.attr-value,
 .token.string,
 .token.char,
+.token.function,
+.token.builtin,
+.token.inserted {
+	color: #2f9c0a;
+}
+
 .token.operator,
 .token.entity,
 .token.url,
-.language-css .token.string,
-.style .token.string,
-.token.variable,
-.token.inserted {
-	color: hsl(76, 21%, 52%); /* #8F9D6A */
+.token.variable {
+	color: #a67f59;
+	background: rgba(255, 255, 255, 0.5);
 }
 
-.token.atrule {
-	color: hsl(218, 22%, 55%); /* #7587A6 */
+.token.atrule,
+.token.attr-value,
+.token.keyword,
+.token.class-name {
+	color: #1990b8;
 }
 
 .token.regex,
 .token.important {
-	color: hsl(42, 75%, 65%); /* #E9C062 */
+	color: #e90;
 }
 
-.token.important,
+.language-css .token.string,
+.style .token.string {
+	color: #a67f59;
+	background: rgba(255, 255, 255, 0.5);
+}
+
+.token.important {
+	font-weight: normal;
+}
+
 .token.bold {
 	font-weight: bold;
 }
@@ -139,331 +179,43 @@ code[class*="language-"]::selection, code[class*="language-"] ::selection {
 	cursor: help;
 }
 
-pre[data-line] {
-	padding: 1em 0 1em 3em;
-	position: relative;
+.token.namespace {
+	opacity: .7;
 }
 
-/* Markup */
-.language-markup .token.tag,
-.language-markup .token.attr-name,
-.language-markup .token.punctuation {
-	color: hsl(33, 33%, 52%); /* #AC885B */
+@media screen and (max-width: 767px) {
+	pre[class*="language-"]:before,
+	pre[class*="language-"]:after {
+		bottom: 14px;
+		box-shadow: none;
+	}
+
 }
 
-/* Make the tokens sit above the line highlight so the colours don't look faded. */
-.token {
-	position: relative;
-	z-index: 1;
+/* Plugin styles: Line Numbers */
+pre[class*="language-"].line-numbers.line-numbers {
+	padding-left: 0;
 }
 
-.line-highlight {
-	background: hsla(0, 0%, 33%, 0.25); /* #545454 */
-	background: linear-gradient(to right, hsla(0, 0%, 33%, .1) 70%, hsla(0, 0%, 33%, 0)); /* #545454 */
-	border-bottom: 1px dashed hsl(0, 0%, 33%); /* #545454 */
-	border-top: 1px dashed hsl(0, 0%, 33%); /* #545454 */
+pre[class*="language-"].line-numbers.line-numbers code {
+	padding-left: 3.8em;
+}
+
+pre[class*="language-"].line-numbers.line-numbers .line-numbers-rows {
 	left: 0;
-	line-height: inherit;
-	margin-top: 0.75em; /* Same as .prism’s padding-top */
-	padding: inherit 0;
-	pointer-events: none;
-	position: absolute;
-	right: 0;
-	white-space: pre;
-	z-index: 0;
 }
 
-.line-highlight:before,
-.line-highlight[data-end]:after {
-	background-color: hsl(215, 15%, 59%); /* #8794A6 */
-	border-radius: 999px;
-	box-shadow: 0 1px white;
-	color: hsl(24, 20%, 95%); /* #F5F2F0 */
-	content: attr(data-start);
-	font: bold 65%/1.5 sans-serif;
-	left: .6em;
-	min-width: 1em;
-	padding: 0 .5em;
-	position: absolute;
-	text-align: center;
-	text-shadow: none;
-	top: .4em;
-	vertical-align: .3em;
+/* Plugin styles: Line Highlight */
+pre[class*="language-"][data-line] {
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-left: 0;
 }
-
-.line-highlight[data-end]:after {
-	bottom: .4em;
-	content: attr(data-end);
-	top: auto;
-}
-
-.token a {
-	color: inherit;
-}
-div.code-toolbar {
+pre[data-line] code {
 	position: relative;
+	padding-left: 4em;
+}
+pre .line-highlight {
+	margin-top: 0;
 }
 
-div.code-toolbar > .toolbar {
-	position: absolute;
-	top: .3em;
-	right: .2em;
-	transition: opacity 0.3s ease-in-out;
-	opacity: 0;
-}
-
-div.code-toolbar:hover > .toolbar {
-	opacity: 1;
-}
-
-/* Separate line b/c rules are thrown out if selector is invalid.
-   IE11 and old Edge versions don't support :focus-within. */
-div.code-toolbar:focus-within > .toolbar {
-	opacity: 1;
-}
-
-div.code-toolbar > .toolbar .toolbar-item {
-	display: inline-block;
-}
-
-div.code-toolbar > .toolbar a {
-	cursor: pointer;
-}
-
-div.code-toolbar > .toolbar button {
-	background: none;
-	border: 0;
-	color: inherit;
-	font: inherit;
-	line-height: normal;
-	overflow: visible;
-	padding: 0;
-	-webkit-user-select: none; /* for button */
-	-moz-user-select: none;
-	-ms-user-select: none;
-}
-
-div.code-toolbar > .toolbar a,
-div.code-toolbar > .toolbar button,
-div.code-toolbar > .toolbar span {
-	color: #bbb;
-	font-size: .8em;
-	padding: 0 .5em;
-	background: #f5f2f0;
-	background: rgba(224, 224, 224, 0.2);
-	box-shadow: 0 2px 0 0 rgba(0,0,0,0.2);
-	border-radius: .5em;
-}
-
-div.code-toolbar > .toolbar a:hover,
-div.code-toolbar > .toolbar a:focus,
-div.code-toolbar > .toolbar button:hover,
-div.code-toolbar > .toolbar button:focus,
-div.code-toolbar > .toolbar span:hover,
-div.code-toolbar > .toolbar span:focus {
-	color: inherit;
-	text-decoration: none;
-}
-
-.command-line-prompt {
-	border-right: 1px solid #999;
-	display: block;
-	float: left;
-	font-size: 100%;
-	letter-spacing: -1px;
-	margin-right: 1em;
-	pointer-events: none;
-
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-.command-line-prompt > span:before {
-	color: #999;
-	content: ' ';
-	display: block;
-	padding-right: 0.8em;
-}
-
-.command-line-prompt > span[data-user]:before {
-	content: "[" attr(data-user) "@" attr(data-host) "] $";
-}
-
-.command-line-prompt > span[data-user="root"]:before {
-	content: "[" attr(data-user) "@" attr(data-host) "] #";
-}
-
-.command-line-prompt > span[data-prompt]:before {
-	content: attr(data-prompt);
-}
-
-.token.treeview-part .entry-line {
-	position: relative;
-	text-indent: -99em;
-	display: inline-block;
-	vertical-align: top;
-	width: 1.2em;
-}
-.token.treeview-part .entry-line:before,
-.token.treeview-part .line-h:after {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 50%;
-	width: 50%;
-	height: 100%;
-}
-.token.treeview-part .line-h:before,
-.token.treeview-part .line-v:before {
-	border-left: 1px solid #ccc;
-}
-.token.treeview-part .line-v-last:before {
-	height: 50%;
-	border-left: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
-}
-.token.treeview-part .line-h:after {
-	height: 50%;
-	border-bottom: 1px solid #ccc;
-}
-.token.treeview-part .entry-name {
-	position: relative;
-	display: inline-block;
-	vertical-align: top;
-}
-.token.treeview-part .entry-name.dotfile {
-	opacity: 0.5;
-}
-
-/* @GENERATED-FONT */
-@font-face {
-	font-family: "PrismTreeview";
-	/**
-	 * This font is generated from the .svg files in the `icons` folder. See the `treeviewIconFont` function in
-	 * `gulpfile.js/index.js` for more information.
-	 *
-	 * Use the following escape sequences to refer to a specific icon:
-	 *
-	 * - \ea01 file
-	 * - \ea02 folder
-	 * - \ea03 image
-	 * - \ea04 audio
-	 * - \ea05 video
-	 * - \ea06 text
-	 * - \ea07 code
-	 * - \ea08 archive
-	 * - \ea09 pdf
-	 * - \ea0a excel
-	 * - \ea0b powerpoint
-	 * - \ea0c word
-	 */
-	src: url("data:application/font-woff;base64,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")
-		format("woff");
-}
-
-.token.treeview-part .entry-name:before {
-	content: "\ea01";
-	font-family: "PrismTreeview";
-	font-size: inherit;
-	font-style: normal;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	width: 2.5ex;
-	display: inline-block;
-}
-
-.token.treeview-part .entry-name.dir:before {
-	content: "\ea02";
-}
-.token.treeview-part .entry-name.ext-bmp:before,
-.token.treeview-part .entry-name.ext-eps:before,
-.token.treeview-part .entry-name.ext-gif:before,
-.token.treeview-part .entry-name.ext-jpe:before,
-.token.treeview-part .entry-name.ext-jpg:before,
-.token.treeview-part .entry-name.ext-jpeg:before,
-.token.treeview-part .entry-name.ext-png:before,
-.token.treeview-part .entry-name.ext-svg:before,
-.token.treeview-part .entry-name.ext-tiff:before {
-	content: "\ea03";
-}
-.token.treeview-part .entry-name.ext-cfg:before,
-.token.treeview-part .entry-name.ext-conf:before,
-.token.treeview-part .entry-name.ext-config:before,
-.token.treeview-part .entry-name.ext-csv:before,
-.token.treeview-part .entry-name.ext-ini:before,
-.token.treeview-part .entry-name.ext-log:before,
-.token.treeview-part .entry-name.ext-md:before,
-.token.treeview-part .entry-name.ext-nfo:before,
-.token.treeview-part .entry-name.ext-txt:before {
-	content: "\ea06";
-}
-.token.treeview-part .entry-name.ext-asp:before,
-.token.treeview-part .entry-name.ext-aspx:before,
-.token.treeview-part .entry-name.ext-c:before,
-.token.treeview-part .entry-name.ext-cc:before,
-.token.treeview-part .entry-name.ext-cpp:before,
-.token.treeview-part .entry-name.ext-cs:before,
-.token.treeview-part .entry-name.ext-css:before,
-.token.treeview-part .entry-name.ext-h:before,
-.token.treeview-part .entry-name.ext-hh:before,
-.token.treeview-part .entry-name.ext-htm:before,
-.token.treeview-part .entry-name.ext-html:before,
-.token.treeview-part .entry-name.ext-jav:before,
-.token.treeview-part .entry-name.ext-java:before,
-.token.treeview-part .entry-name.ext-js:before,
-.token.treeview-part .entry-name.ext-php:before,
-.token.treeview-part .entry-name.ext-rb:before,
-.token.treeview-part .entry-name.ext-xml:before {
-	content: "\ea07";
-}
-.token.treeview-part .entry-name.ext-7z:before,
-.token.treeview-part .entry-name.ext-bz:before,
-.token.treeview-part .entry-name.ext-bz2:before,
-.token.treeview-part .entry-name.ext-gz:before,
-.token.treeview-part .entry-name.ext-rar:before,
-.token.treeview-part .entry-name.ext-tar:before,
-.token.treeview-part .entry-name.ext-tgz:before,
-.token.treeview-part .entry-name.ext-zip:before {
-	content: "\ea08";
-}
-.token.treeview-part .entry-name.ext-aac:before,
-.token.treeview-part .entry-name.ext-au:before,
-.token.treeview-part .entry-name.ext-cda:before,
-.token.treeview-part .entry-name.ext-flac:before,
-.token.treeview-part .entry-name.ext-mp3:before,
-.token.treeview-part .entry-name.ext-oga:before,
-.token.treeview-part .entry-name.ext-ogg:before,
-.token.treeview-part .entry-name.ext-wav:before,
-.token.treeview-part .entry-name.ext-wma:before {
-	content: "\ea04";
-}
-.token.treeview-part .entry-name.ext-avi:before,
-.token.treeview-part .entry-name.ext-flv:before,
-.token.treeview-part .entry-name.ext-mkv:before,
-.token.treeview-part .entry-name.ext-mov:before,
-.token.treeview-part .entry-name.ext-mp4:before,
-.token.treeview-part .entry-name.ext-mpeg:before,
-.token.treeview-part .entry-name.ext-mpg:before,
-.token.treeview-part .entry-name.ext-ogv:before,
-.token.treeview-part .entry-name.ext-webm:before {
-	content: "\ea05";
-}
-.token.treeview-part .entry-name.ext-pdf:before {
-	content: "\ea09";
-}
-.token.treeview-part .entry-name.ext-xls:before,
-.token.treeview-part .entry-name.ext-xlsx:before {
-	content: "\ea0a";
-}
-.token.treeview-part .entry-name.ext-doc:before,
-.token.treeview-part .entry-name.ext-docm:before,
-.token.treeview-part .entry-name.ext-docx:before {
-	content: "\ea0c";
-}
-.token.treeview-part .entry-name.ext-pps:before,
-.token.treeview-part .entry-name.ext-ppt:before,
-.token.treeview-part .entry-name.ext-pptx:before {
-	content: "\ea0b";
-}

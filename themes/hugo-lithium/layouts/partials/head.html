@@ -30,8 +30,9 @@
 <link href="{{ .RelPermalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
 {{ end }}
 {{ $cssfonts := resources.Get "css/fonts.css" }}
+{{ $cssprism := resources.Get "css/prism.css" }}
 {{ $cssmain := resources.Get "css/main.css" }}
-{{ $allcss := slice $cssfonts $cssmain | resources.Concat "/css/main.css" | minify | fingerprint "sha512" }}
+{{ $allcss := slice $cssfonts $cssmain $cssprism | resources.Concat "/css/main.css" | minify | fingerprint "sha512" }}
 <link rel="stylesheet" href="{{ $allcss.RelPermalink }}" integrity="{{ $allcss.Data.Integrity }}" media="all">
 
 <!--<link rel="stylesheet" href="{{ "css/prism.css" | relURL }}" media="all">-->

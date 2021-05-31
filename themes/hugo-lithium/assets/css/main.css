@@ -340,3 +340,14 @@ li code {
     box-shadow: none;
   }
 }
+
+/* gist async tag */
+.gist.loading p::after {
+  content: " (loading)";
+  color: #0086b3;
+}
+
+.gist.loading-failed p::after {
+  content: " (loading failed)";
+  color: #cc0000;
+}
