@@ -98,6 +98,32 @@ async function handleEvent(event) {
             return response;
         }
 
+        // 字体文件超长时间缓存
+        if (path.endsWith('.woff') || path.endsWith('.woff2')) {
+            const response = await getAssetFromKV(event, {
+                cacheControl: {
+                    edgeTtl: 30 * 24 * 60 * 60,
+                    browserTtl: 30 * 24 * 60 * 60,
+                    cacheEverything: true,
+                },
+            });
+            response.headers.set('cache-control', `public, max-age=${30 * 24 * 60 * 60}, immutable`);
+            return response;
+        }
+
+        // 图片文件超长时间缓存
+        if (path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.ico')) {
+            const response = await getAssetFromKV(event, {
+                cacheControl: {
+                    edgeTtl: 30 * 24 * 60 * 60,
+                    browserTtl: 30 * 24 * 60 * 60,
+                    cacheEverything: true,
+                },
+            });
+            response.headers.set('cache-control', `public, max-age=${30 * 24 * 60 * 60}, immutable`);
+            return response;
+        }
+
         // 其余默认 4 小时 CDN 缓存、1 小时浏览器缓存
         const response = await getAssetFromKV(event, {
             cacheControl: {
