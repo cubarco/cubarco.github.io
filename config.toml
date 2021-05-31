@@ -2,7 +2,7 @@ baseurl = "/"
 languageCode = "zh-cn"
 title = "/home/cubl"
 theme = "hugo-lithium"
-googleAnalytics = ""
+googleAnalytics = "UA-54867602-1"
 disqusShortname = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
 pygmentsUseClasses = true
@@ -32,6 +32,8 @@ enableRobotsTXT = false
 [params]
     ghmirror = "https://cdn.jsdelivr.net/gh/cubarco/cubarco.github.io@gh-pages"
     description = "Pwning for fun."
+    umamiWebsiteId = "e9fdcc32-0bfa-4de5-beb0-3bbf1e4638ab"
+    umamiSrcUrl = "https://umami.pwn.ooo/umami.js"
 
     # options for highlight.js (version, additional languages, and theme)
     #highlightjsVersion = "9.12.0"
