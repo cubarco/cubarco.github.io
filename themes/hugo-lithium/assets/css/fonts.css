@@ -5,6 +5,7 @@
   src: local('Merriweather'), local('Merriweather-Regular'),
        url('../fonts/merriweather-v13-latin-regular.woff2') format('woff2'),
        url('../fonts/merriweather-v13-latin-regular.woff') format('woff');
+  font-display: swap;
 }
 @font-face {
   font-family: 'Lato';
@@ -13,6 +14,7 @@
   src: local('Lato Regular'), local('Lato-Regular'),
        url('../fonts/lato-v11-latin-regular.woff2') format('woff2'),
        url('../fonts/lato-v11-latin-regular.woff') format('woff');
+  font-display: swap;
 }
 body {
   font-family: 'Merriweather', serif;
