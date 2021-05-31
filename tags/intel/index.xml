@@ -4,4 +4,4 @@
 播放视频时屏幕撕裂 若使用 SNA，将下列内容添加到 /etc/X11/xorg.conf.d/20-intel.conf 的 Device 段可杜绝屏幕撕裂问题。
 Option &amp;ldquo;TearFree&amp;rdquo; &amp;ldquo;true&amp;rdquo;
 如果20-intel.conf不存在可以创建一个。最简单的示例如下：
-1 2 3 4 5 Section &amp;#34;Device&amp;#34; Identifier &amp;#34;Intel Graphics&amp;#34; Driver &amp;#34;intel&amp;#34; Option &amp;#34;TearFree&amp;#34; &amp;#34;true&amp;#34; EndSection 参考 1: Intel Graphics(Archwiki)</description></item></channel></rss>
+Section &amp;#34;Device&amp;#34; Identifier &amp;#34;Intel Graphics&amp;#34; Driver &amp;#34;intel&amp;#34; Option &amp;#34;TearFree&amp;#34; &amp;#34;true&amp;#34; EndSection 参考 1: Intel Graphics(Archwiki)</description></item></channel></rss>

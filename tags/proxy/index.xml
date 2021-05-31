@@ -4,4 +4,4 @@ Gist: cubarco/08e99fbf316a435b7935727810e40458
 Cloudflare duck.domain.com 可以用 Cloudflare 做 CDN，然后 crypto 策略选 Full(非strict) 的话在服务器上可以随便给 duck.domain.com 创建个证书用，具体参照1。但是像 images.duck.domain.com 这种三级域名的话，Cloudflare 是没有给 SSL 证书的，所以只好自己在服务器上配，推荐用 Let&amp;rsquo;s encrypt 签证书，方便快捷。
 Let&amp;rsquo;s encrypt Let&amp;rsquo;s encrypt 的使用细节我就不赘述了，可以看官方给的 Guide2.
 这里需要的三个证书可以用如下命令生成：
-1 2 3 ./letsencrypt-auto certonly --manual -d images.duck.domain.com \ -d icons.</description></item></channel></rss>
+./letsencrypt-auto certonly --manual -d images.duck.domain.com \ -d icons.duck.domain.com \ -d ac.</description></item></channel></rss>

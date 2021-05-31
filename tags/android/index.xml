@@ -3,8 +3,8 @@
 &lt;/blockquote>
 &lt;p>比如说：华某科校园网(无线端), Chinanet, CMCC, China-Unicom&lt;/p>
 &lt;p>（华某科校园网升级后，DNS隧道被一定程度限用，处于半残状态。基本无法使用。）&lt;/p>
-&lt;p>portal认证不同于pppoe，它已经通过DHCP对Client分发IP，但是在完成认证前会强制重定向url到protal认证界面，只有登录后才能顺利的访问网络。不过portal认证&lt;span style="text-decoration: underline;">&lt;em>并没有阻止DNS查询&lt;/em>&lt;/span>的请求，通过一定手段可以绕过portal认证，直接访问internet。我们需要的软件就是iodine&lt;/p>
+&lt;p>portal认证不同于pppoe，它已经通过DHCP对Client分发IP，但是在完成认证前会强制重定向url到protal认证界面，只有登录后才能顺利的访问网络。不过portal认证&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->并没有阻止DNS查询&lt;!-- raw HTML omitted -->&lt;!-- raw HTML omitted -->的请求，通过一定手段可以绕过portal认证，直接访问internet。我们需要的软件就是iodine&lt;/p>
 &lt;blockquote>
 &lt;p>iodine lets you tunnel IPv4 data through a DNS server. This can be usable in different situations where internet access is firewalled, but DNS queries are allowed.&lt;/p>
-&lt;p style="text-align: right;">
+&lt;!-- raw HTML omitted -->
 &lt;/blockquote></description></item></channel></rss>

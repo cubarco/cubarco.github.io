@@ -1,18 +1,18 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup: CTFZone 2018 Quals - /home/cubl</title><meta property="og:title" content="Writeup: CTFZone 2018 Quals - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/main.min.9ae39f94818f4da457a6d1bcb86758258559067c36817f968ab59ae3c5c39b4bb6b793e3de3d4cc608ab8e1e4d178f67f70ad266ed0fadfae98939fab0d30b92.css integrity="sha512-muOflIGPTaRXptG8uGdYJYVZBnw2gX+WirWa48XDm0u2t5Pj3j1Mxgirjh5NF49n9wrSZu0PrfrpiTn6sNMLkg==" media=all></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup: CTFZone 2018 Quals</h1><span class=article-date>2018-07-23</span>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup: CTFZone 2018 Quals - /home/cubl</title><meta property="og:title" content="Writeup: CTFZone 2018 Quals - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/main.min.9861353c7baacf2268a74fe7ea9d3bd8211eada1554a630c4d29fb448bfae5fb8f43ea02baa52d2ca079d0027f37aa8f058ab0362f4301e9a9b77538d71b549b.css integrity="sha512-mGE1PHuqzyJop0/n6p072CEeraFVSmMMTSn7RIv65fuPQ+oCuqUtLKB50AJ/N6qPBYqwNi9DAempt3U41xtUmw==" media=all></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup: CTFZone 2018 Quals</h1><span class=article-date>2018-07-23</span>
 <a class=article-tag href=/tags/hack>Hack</a>
 <a class=article-tag href=/tags/ctf>CTF</a>
 <a class=article-tag href=/tags/writeup>Writeup</a>
 <a class=article-tag href=/tags/exploitation>Exploitation</a>
-<a class=article-tag href=/tags/pwn>PWN</a><div class=article-content><p>两道PWN题, 一个easypwn_strings, 一个Mobile Bank.</p><h2 id=easypwn_strings>easypwn_strings</h2><h3 id=问题>问题</h3><blockquote><p>You can try to use very interesting and strange string functions ;) Good luck. <code>nc pwn-03.v7frkwrfyhsjtbpfcppnu.ctfz.one 1234</code> And yes, there is no binary here</p></blockquote><p>这是一道<strong>盲pwn</strong>类型的题，没有提供二进制<del>(名义上的)</del>。</p><p>nc连上之后回显：</p><pre><code>Let's choose string operation!
+<a class=article-tag href=/tags/pwn>PWN</a><div class=article-content><p>两道PWN题, 一个easypwn_strings, 一个Mobile Bank.</p><h2 id=easypwn_strings>easypwn_strings</h2><h3 id=问题>问题</h3><blockquote><p>You can try to use very interesting and strange string functions ;) Good luck. <code>nc pwn-03.v7frkwrfyhsjtbpfcppnu.ctfz.one 1234</code> And yes, there is no binary here</p></blockquote><p>这是一道<strong>盲pwn</strong>类型的题，没有提供二进制~~(名义上的)~~。</p><p>nc连上之后回显：</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>Let&#39;s choose string operation!
 	1. StrLen
 	2. SubStrRemove
 	3. StrRemoveLastSymbols
-</code></pre><p>第一个选项：输入一个字符串，回显字符串长度。</p><pre><code>You choise - 1
+</code></pre></div><p>第一个选项：输入一个字符串，回显字符串长度。</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>You choise - 1
 	Use str
 	good choise
 123
 	Result: 3
-</code></pre><p>第二个选项显示未实现。</p><p>第三个选项：输入一个字符串，和一个数字，服务端移除末尾指定长度的字符串后打印出来。</p><pre><code>You choise - 3
+</code></pre></div><p>第二个选项显示未实现。</p><p>第三个选项：输入一个字符串，和一个数字，服务端移除末尾指定长度的字符串后打印出来。</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>You choise - 3
 	Use str int
 	good choise
 	Set string:
@@ -22,7 +22,7 @@
 	Delete 3 ending symbols
 	Result:
 1234
-</code></pre><h3 id=思路>思路</h3><p>既然是无ELF文件的盲pwn，那只能摸着石头过河。做题时有以下几个尝试：</p><ol><li><del>三个选项的输入是否有溢出；</del></li><li><del>未实现的选项2是否有隐藏功能；</del></li><li><del>选项3输入的数字是否可以为负数，可能造成字符串拷贝时的溢出或者泄密问题；</del></li><li>&mldr;</li></ol><p>很多尝试以失败告终。最终找到的漏洞是功能3的<strong>格式化字符串漏洞</strong>：</p><pre><code>You choise - 3
+</code></pre></div><h3 id=思路>思路</h3><p>既然是无ELF文件的盲pwn，那只能摸着石头过河。做题时有以下几个尝试：</p><ol><li><del>三个选项的输入是否有溢出；</del></li><li><del>未实现的选项2是否有隐藏功能；</del></li><li><del>选项3输入的数字是否可以为负数，可能造成字符串拷贝时的溢出或者泄密问题；</del></li><li>&mldr;</li></ol><p>很多尝试以失败告终。最终找到的漏洞是功能3的<strong>格式化字符串漏洞</strong>：</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>You choise - 3
 	Use str int
 	good choise
 	Set string:
@@ -32,18 +32,7 @@
 	Delete 3 ending symbols
 	Result:
 0xffe96350 0x8 0xf75fc1a4
-</code></pre><p>我们可以利用这个格式化字符串漏洞构造一个任意地址读，然后把内存中的ELF dump下来。</p><p>怎么dump？可以参考YouTube上一个视频：<a href="https://www.youtube.com/watch?v=XuzuFUGuQv0">Format String to dump binary and gain RCE - 33c3ctf ESPR (pwn 150)</a>.</p><p>这道题和ESPR有两点区别：</p><ol><li>ESPR的输入只限制了<code>\n</code>字符，但是这题的输入不能包含<code>\n</code>和<code>\x00</code>，猜测是用了<code>fgets</code>和<code>strcpy</code>。所以在dump下来的二进制中会有一些遗漏位，不过对这道题来说无伤大雅；</li><li>ESPR一个进程循环不断调用<code>printf</code>，但是这题进程只有一个流程，没有循环，所以需要不断与服务器创建连接，十分耗时。好在需要dump的是ELF，内容是固定的。</li></ol><p>dump脚本：</p><div class=gist data-gist=cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa data-gist-file=strings-dump.py><p>Gist: <a href=https://gist.github.com/cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa>cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa</a></p></div><h3 id=漏洞gets溢出>漏洞（gets溢出）</h3><p>把ELF dump下来之后跑一下<code>strings dump.raw</code>，看到一些有意思的字符串：</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>$ strings dump.raw
+</code></pre></div><p>我们可以利用这个格式化字符串漏洞构造一个任意地址读，然后把内存中的ELF dump下来。</p><p>怎么dump？可以参考YouTube上一个视频：<a href="https://www.youtube.com/watch?v=XuzuFUGuQv0">Format String to dump binary and gain RCE - 33c3ctf ESPR (pwn 150)</a>.</p><p>这道题和ESPR有两点区别：</p><ol><li>ESPR的输入只限制了<code>\n</code>字符，但是这题的输入不能包含<code>\n</code>和<code>\x00</code>，猜测是用了<code>fgets</code>和<code>strcpy</code>。所以在dump下来的二进制中会有一些遗漏位，不过对这道题来说无伤大雅；</li><li>ESPR一个进程循环不断调用<code>printf</code>，但是这题进程只有一个流程，没有循环，所以需要不断与服务器创建连接，十分耗时。好在需要dump的是ELF，内容是固定的。</li></ol><p>dump脚本：</p><div class=gist data-gist=cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa data-gist-file=strings-dump.py><p>Gist: <a href=https://gist.github.com/cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa>cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa</a></p></div><h3 id=漏洞gets溢出>漏洞（gets溢出）</h3><p>把ELF dump下来之后跑一下<code>strings dump.raw</code>，看到一些有意思的字符串：</p><div class=highlight><pre class=chroma><code class=language-shell data-lang=shell>$ strings dump.raw
 ...
 	Delete %i ending symbols
 	Result:
@@ -51,74 +40,59 @@ https://ctf.bi.zone/files/babypwn
 https://ctf.bi.zone/files/babylibc
 main.c
 Have a nice day!
-ctfzone<span style=color:#000;font-weight:700>{</span>1t_1s_<span style=color:teal>$uP6r_F4k6_4H4H</span><span style=color:#000;font-weight:700>}</span>
-ctfzone<span style=color:#000;font-weight:700>{</span><span style=color:teal>$uP6r_F4k6_4H4H4H_t00</span><span style=color:#000;font-weight:700>}</span>
+ctfzone<span class=o>{</span>1t_1s_<span class=nv>$uP6r_F4k6_4H4H</span><span class=o>}</span>
+ctfzone<span class=o>{</span><span class=nv>$uP6r_F4k6_4H4H4H_t00</span><span class=o>}</span>
 ...
-</code></pre></td></tr></table></div></div><p><del>除了有两行假装是flag的信息，还</del>有两行URL，看来是提供了二进制和libc的：</p><ol><li><a href=https://ctf.bi.zone/files/babypwn>https://ctf.bi.zone/files/babypwn</a></li><li><a href=https://ctf.bi.zone/files/babylibc>https://ctf.bi.zone/files/babylibc</a></li></ol><p>IDA打开babypwn，发现main函数还藏了两个菜单选项：</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>v3 <span style=color:#000;font-weight:700>=</span> _IO_getc(stdin);
-_IO_getc(stdin);
-<span style=color:#000;font-weight:700>if</span> ( v3 <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#39;1&#39;</span> <span style=color:#000;font-weight:700>||</span> v3 <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#39;2&#39;</span> <span style=color:#000;font-weight:700>||</span> v3 <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#39;3&#39;</span> <span style=color:#000;font-weight:700>||</span> v3 <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#39;X&#39;</span> <span style=color:#000;font-weight:700>||</span> v3 <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#39;T&#39;</span> <span style=color:#000;font-weight:700>||</span> v3 <span style=color:#000;font-weight:700>==</span> <span style=color:#d14>&#39;S&#39;</span> )
-{
-  printf(<span style=color:#d14>&#34;You choise - %c</span><span style=color:#d14>\r\n</span><span style=color:#d14>&#34;</span>, v3);
-  ...
-	<span style=color:#000;font-weight:700>if</span> ( v3 <span style=color:#000;font-weight:700>!=</span> <span style=color:#d14>&#39;X&#39;</span> <span style=color:#000;font-weight:700>&amp;&amp;</span> v3 <span style=color:#000;font-weight:700>!=</span> <span style=color:#d14>&#39;T&#39;</span> )
-  ...
-  <span style=color:#000;font-weight:700>else</span>
-  {
-    puts(<span style=color:#d14>&#34;</span><span style=color:#d14>\t</span><span style=color:#d14>Are you surprised?? (y or n)</span><span style=color:#d14>\r</span><span style=color:#d14>&#34;</span>);
-    gets(gets_buf);
-    v1 <span style=color:#000;font-weight:700>=</span> strchr(gets_buf, <span style=color:#d14>&#39;y&#39;</span>);
-    <span style=color:#000;font-weight:700>if</span> ( v1 )
-      func_ptr(v1, <span style=color:#099>0</span>, v2);
-</code></pre></td></tr></table></div></div><p><code>gets</code>是明显的危险函数，<code>gets_buf</code>上存在溢出，再看溢出到哪：</p><pre><code>.bss:080492E0 ; char gets_buf[256]
+</code></pre></div><p><del>除了有两行假装是flag的信息，还</del>有两行URL，看来是提供了二进制和libc的：</p><ol><li><a href=https://ctf.bi.zone/files/babypwn>https://ctf.bi.zone/files/babypwn</a></li><li><a href=https://ctf.bi.zone/files/babylibc>https://ctf.bi.zone/files/babylibc</a></li></ol><p>IDA打开babypwn，发现main函数还藏了两个菜单选项：</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=n>v3</span> <span class=o>=</span> <span class=n>_IO_getc</span><span class=p>(</span><span class=n>stdin</span><span class=p>);</span>
+<span class=n>_IO_getc</span><span class=p>(</span><span class=n>stdin</span><span class=p>);</span>
+<span class=k>if</span> <span class=p>(</span> <span class=n>v3</span> <span class=o>==</span> <span class=sc>&#39;1&#39;</span> <span class=o>||</span> <span class=n>v3</span> <span class=o>==</span> <span class=sc>&#39;2&#39;</span> <span class=o>||</span> <span class=n>v3</span> <span class=o>==</span> <span class=sc>&#39;3&#39;</span> <span class=o>||</span> <span class=n>v3</span> <span class=o>==</span> <span class=sc>&#39;X&#39;</span> <span class=o>||</span> <span class=n>v3</span> <span class=o>==</span> <span class=sc>&#39;T&#39;</span> <span class=o>||</span> <span class=n>v3</span> <span class=o>==</span> <span class=sc>&#39;S&#39;</span> <span class=p>)</span>
+<span class=p>{</span>
+  <span class=n>printf</span><span class=p>(</span><span class=s>&#34;You choise - %c</span><span class=se>\r\n</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>v3</span><span class=p>);</span>
+  <span class=p>...</span>
+	<span class=k>if</span> <span class=p>(</span> <span class=n>v3</span> <span class=o>!=</span> <span class=sc>&#39;X&#39;</span> <span class=o>&amp;&amp;</span> <span class=n>v3</span> <span class=o>!=</span> <span class=sc>&#39;T&#39;</span> <span class=p>)</span>
+  <span class=p>...</span>
+  <span class=k>else</span>
+  <span class=p>{</span>
+    <span class=n>puts</span><span class=p>(</span><span class=s>&#34;</span><span class=se>\t</span><span class=s>Are you surprised?? (y or n)</span><span class=se>\r</span><span class=s>&#34;</span><span class=p>);</span>
+    <span class=n>gets</span><span class=p>(</span><span class=n>gets_buf</span><span class=p>);</span>
+    <span class=n>v1</span> <span class=o>=</span> <span class=n>strchr</span><span class=p>(</span><span class=n>gets_buf</span><span class=p>,</span> <span class=sc>&#39;y&#39;</span><span class=p>);</span>
+    <span class=k>if</span> <span class=p>(</span> <span class=n>v1</span> <span class=p>)</span>
+      <span class=n>func_ptr</span><span class=p>(</span><span class=n>v1</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>v2</span><span class=p>);</span>
+</code></pre></div><p><code>gets</code>是明显的危险函数，<code>gets_buf</code>上存在溢出，再看溢出到哪：</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>.bss:080492E0 ; char gets_buf[256]
 .bss:080492E0 gets_buf        db 100h dup(0)          ; DATA XREF: main+62↑o
 .bss:080492E0                                         ; main+245↑o ...
 .bss:080493E0 ; int (__cdecl *func_ptr)(_DWORD, _DWORD, _DWORD)
 .bss:080493E0 func_ptr        dd 0                    ; DATA XREF: main+18F↑w
 .bss:080493E0                                         ; main+1AE↑w ...
-</code></pre><p>可以盖到<code>func_ptr</code>这个函数指针，所以这个溢出已经可以用来<strong>劫持控制流</strong>了。</p><h3 id=exp>EXP</h3><p>checksec一下babypwn文件:</p><pre><code>[*] '/tmp/babypwn'
+</code></pre></div><p>可以盖到<code>func_ptr</code>这个函数指针，所以这个溢出已经可以用来<strong>劫持控制流</strong>了。</p><h3 id=exp>EXP</h3><p>checksec一下babypwn文件:</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>[*] &#39;/tmp/babypwn&#39;
     Arch:     i386-32-little
     RELRO:    No RELRO
     Stack:    No canary found
     NX:       NX enabled
     PIE:      No PIE (0x8048000)
     RWX:      Has RWX segments
-</code></pre><p>有RWX的段，用GDB挂上ELF看一下map:</p><pre><code>gef&gt; vmmap
+</code></pre></div><p>有RWX的段，用GDB挂上ELF看一下map:</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>gef&gt; vmmap
 Start      End        Offset     Perm Path
 0x08048000 0x0804c000 0x00000000 rwx /tmp/babypwn
 0x0804c000 0x0804d000 0x00000000 rw- [heap]
 0xf7dbf000 0xf7f93000 0x00000000 r-x /usr/lib32/libc-2.27.so
 0xf7f93000 0xf7f94000 0x001d4000 --- /usr/lib32/libc-2.27.so
 ...
-</code></pre><p>整个ELF都是RWX的<del>(这题有毒&mldr;)</del>，那很简单了，之前溢出的<code>gets_buf</code>就在bss段上，可写可执行，还知道地址。只要把shellcode写到<code>gets_buf</code>上，然后溢出到<code>func_ptr</code>，指向<code>gets_buf</code>，就执行shellcode了。</p><p>利用脚本：</p><div class=gist data-gist=cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa data-gist-file=strings-exp.py><p>Gist: <a href=https://gist.github.com/cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa>cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa</a></p></div><h2 id=mobile-bank>Mobile Bank</h2><h3 id=问题-1>问题</h3><blockquote><p>We bring your attention to a new, unique product: &ldquo;Mobile Bank&rdquo;! It&rsquo;s a completely secure banking server running on mobile platforms. Now the Bank is in your pocket! <code>nc pwn-04.v7frkwrfyhsjtbpfcppnu.ctfz.one 1337</code></p><p><a href=https://ctf.bi.zone/files/mobile_bank.45115ff5f655d94fc26cb5244928b3fc>mobile_bank</a></p></blockquote><p>下载二进制，checksec一下：</p><pre><code>[*] '/pwn/bank/mobile_bank'
+</code></pre></div><p>整个ELF都是RWX的~~(这题有毒&mldr;)~~，那很简单了，之前溢出的<code>gets_buf</code>就在bss段上，可写可执行，还知道地址。只要把shellcode写到<code>gets_buf</code>上，然后溢出到<code>func_ptr</code>，指向<code>gets_buf</code>，就执行shellcode了。</p><p>利用脚本：</p><div class=gist data-gist=cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa data-gist-file=strings-exp.py><p>Gist: <a href=https://gist.github.com/cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa>cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa</a></p></div><h2 id=mobile-bank>Mobile Bank</h2><h3 id=问题-1>问题</h3><blockquote><p>We bring your attention to a new, unique product: &ldquo;Mobile Bank&rdquo;! It&rsquo;s a completely secure banking server running on mobile platforms. Now the Bank is in your pocket! <code>nc pwn-04.v7frkwrfyhsjtbpfcppnu.ctfz.one 1337</code></p><p><a href=https://ctf.bi.zone/files/mobile_bank.45115ff5f655d94fc26cb5244928b3fc>mobile_bank</a></p></blockquote><p>下载二进制，checksec一下：</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>[*] &#39;/pwn/bank/mobile_bank&#39;
     Arch:     arm-32-little
     RELRO:    Partial RELRO
     Stack:    Canary found
     NX:       NX enabled
     PIE:      No PIE (0x10000)
-</code></pre><p>是一个arm32的二进制。nc连上去看是什么内容：</p><pre><code>         _._._                       _._._
+</code></pre></div><p>是一个arm32的二进制。nc连上去看是什么内容：</p><div class=highlight><pre class=chroma><code class=language-fallback data-lang=fallback>         _._._                       _._._
         _|   |_                     _|   |_
         | ... |_._._._._._._._._._._| ... |
         | ||| |  o NATIONAL BANK o  | ||| |
-        | &quot;&quot;&quot; |  &quot;&quot;&quot;    &quot;&quot;&quot;    &quot;&quot;&quot;  | &quot;&quot;&quot; |
+        | &#34;&#34;&#34; |  &#34;&#34;&#34;    &#34;&#34;&#34;    &#34;&#34;&#34;  | &#34;&#34;&#34; |
    ())  |[-|-]| [-|-]  [-|-]  [-|-] |[-|-]|  ())
   (())) |     |---------------------|     | (()))
- (())())| &quot;&quot;&quot; |  &quot;&quot;&quot;    &quot;&quot;&quot;    &quot;&quot;&quot;  | &quot;&quot;&quot; |(())())
- (()))()|[-|-]|  :::   .-&quot;-.   :::  |[-|-]|(()))()
+ (())())| &#34;&#34;&#34; |  &#34;&#34;&#34;    &#34;&#34;&#34;    &#34;&#34;&#34;  | &#34;&#34;&#34; |(())())
+ (()))()|[-|-]|  :::   .-&#34;-.   :::  |[-|-]|(()))()
  ()))(()|     | |~|~|  |_|_|  |~|~| |     |()))(()
     ||  |_____|_|_|_|__|_|_|__|_|_|_|_____|  ||
  ~ ~^^ @@@@@@@@@@@@@@/=======\@@@@@@@@@@@@@@ ^^~ ~
@@ -133,134 +107,69 @@ Start      End        Offset     Perm Path
 * 0 - exit                                     *
 ************************************************
 Your choice:
-</code></pre><p>还是一道菜单题。大概意思是这是一个bank，选项1打印当前的账户id和debug是否开启；选项2设置当前操作的账户id；选项3设置这个账户的note；选项4给当前账户加上指定数额的金钱数；选项5打印当前账户的id、账户余额、账户note；选项6打开debug功能。</p><p>用IDA打开，看到有一个选项7，<code>debug_info</code>：</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>      <span style=color:#000;font-weight:700>case</span> <span style=color:#099>7</span><span style=color:#000;font-weight:700>:</span>
-        <span style=color:#000;font-weight:700>if</span> ( debug_enabled )
-          debug_info();
-        <span style=color:#000;font-weight:700>else</span>
-          <span style=color:#900;font-weight:700>puts</span>(<span style=color:#d14>&#34;Invalid command!&#34;</span>);
-        <span style=color:#000;font-weight:700>break</span>;
-</code></pre></td></tr></table></div></div><p>这个debug_info的功能是，打印出所有16个账户的id、余额和note 。</p><h3 id=漏洞>漏洞</h3><h4 id=1-account_id越界>1. account_id越界</h4><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#458;font-weight:700>int</span> <span style=color:#900;font-weight:700>set_id</span>()
-{
-  <span style=color:#458;font-weight:700>int</span> result; <span style=color:#998;font-style:italic>// r0@1
-</span><span style=color:#998;font-style:italic></span>
-  printf(<span style=color:#d14>&#34;Enter account id: &#34;</span>);
-  result <span style=color:#000;font-weight:700>=</span> readint();
-  <span style=color:#000;font-weight:700>if</span> ( result <span style=color:#000;font-weight:700>&lt;=</span> <span style=color:#099>15</span> )
-    account_id <span style=color:#000;font-weight:700>=</span> result;
-  <span style=color:#000;font-weight:700>else</span>
-    result <span style=color:#000;font-weight:700>=</span> puts(<span style=color:#d14>&#34;Wrong account id!&#34;</span>);
-  <span style=color:#000;font-weight:700>return</span> result;
-}
-</code></pre></td></tr></table></div></div><p>这是选项2的实现，通过<code>readint</code>读入<code>int</code>型数据，若小于15便赋值给全局变量<code>account_id</code>. 漏洞在于这里是<strong>可以输入负值</strong>的，而这个<code>account_id</code>在多个选项中被当作数组下标来使用，所以会有下越界的问题。</p><p>这个漏洞可以实现什么？有四点：</p><ol><li><strong>受限的任意地址读</strong>（选项5）；</li><li><strong>受限的任意地址写</strong>（选项4）；</li><li>受限的任意地址读指针内容（选项5）；</li><li>受限的任意地址赋值为堆上的指针（选项3）。</li></ol><p>3、4两点这里用处不大，所以不讲。这里讲下1、2两点。虽然通过负值的<code>account_id</code>实现了一定程度的任意地址读写，但是毕竟还是受限的。</p><p>以下是选项5的实现：</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#458;font-weight:700>int</span> <span style=color:#900;font-weight:700>account_info</span>()
-{
-  <span style=color:#458;font-weight:700>void</span> <span style=color:#000;font-weight:700>*</span>v0; <span style=color:#998;font-style:italic>// r3@2
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>int</span> result; <span style=color:#998;font-style:italic>// r0@4
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>char</span> s; <span style=color:#998;font-style:italic>// [sp+Ch] [bp-158h]@4
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>int</span> v3; <span style=color:#998;font-style:italic>// [sp+15Ch] [bp-8h]@1
-</span><span style=color:#998;font-style:italic></span>
-  v3 <span style=color:#000;font-weight:700>=</span> _stack_chk_guard;
-  <span style=color:#000;font-weight:700>if</span> ( notes_arr[<span style=color:#099>2</span> <span style=color:#000;font-weight:700>*</span> account_id <span style=color:#000;font-weight:700>+</span> <span style=color:#099>1</span>] )
-    v0 <span style=color:#000;font-weight:700>=</span> notes_arr[<span style=color:#099>2</span> <span style=color:#000;font-weight:700>*</span> account_id <span style=color:#000;font-weight:700>+</span> <span style=color:#099>1</span>];
-  <span style=color:#000;font-weight:700>else</span>
-    v0 <span style=color:#000;font-weight:700>=</span> <span style=color:#000;font-weight:700>&amp;</span>unk_1196C;
-  snprintf(<span style=color:#000;font-weight:700>&amp;</span>s, <span style=color:#099>0x150u</span>, <span style=color:#d14>&#34;id: %u, value: %d$, note:</span><span style=color:#d14>\&#34;</span><span style=color:#d14>%s</span><span style=color:#d14>\&#34;</span><span style=color:#d14>&#34;</span>, account_id, notes_arr[<span style=color:#099>2</span> <span style=color:#000;font-weight:700>*</span> account_id], v0);
-  result <span style=color:#000;font-weight:700>=</span> puts(<span style=color:#000;font-weight:700>&amp;</span>s);
-  <span style=color:#000;font-weight:700>if</span> ( v3 <span style=color:#000;font-weight:700>!=</span> _stack_chk_guard )
-    _stack_chk_fail(result);
-  <span style=color:#000;font-weight:700>return</span> result;
-}
-</code></pre></td></tr></table></div></div><p><code>notes_arr</code>是bss段上的数组，基址是0x22088，而输入的<code>account_id</code>必须要小于等于15，所以这里对需要读写的地址addr有3点限制：</p><ol><li>addr到0x22088的offset必须是<strong>8的倍数</strong>；</li><li>addr+4的位置<strong>必须为0</strong>或是一个<strong>合理的指针</strong>；</li><li>除非addr<strong>小于<code>notes_arr</code>的地址</strong>（比如GOT、.text、.data段），不然addr的值不能太小，<code>addr - notes_arr</code>的值在<strong>无符号int32上必须表现为负数</strong>。</li></ol><h4 id=2-debug_info越界写>2. debug_info越界写</h4><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#458;font-weight:700>int</span> <span style=color:#900;font-weight:700>debug_info</span>()
-{
-  size_t n; <span style=color:#998;font-style:italic>// ST14_4@4
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>char</span> <span style=color:#000;font-weight:700>*</span>v1; <span style=color:#998;font-style:italic>// r3@5
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>int</span> result; <span style=color:#998;font-style:italic>// r0@6
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>char</span> <span style=color:#000;font-weight:700>*</span>v3; <span style=color:#998;font-style:italic>// [sp+Ch] [bp-218h]@1
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>char</span> <span style=color:#000;font-weight:700>*</span>v4; <span style=color:#998;font-style:italic>// [sp+Ch] [bp-218h]@3
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>signed</span> <span style=color:#458;font-weight:700>int</span> i; <span style=color:#998;font-style:italic>// [sp+10h] [bp-214h]@1
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>char</span> <span style=color:#000;font-weight:700>*</span>v6; <span style=color:#998;font-style:italic>// [sp+18h] [bp-20Ch]@3
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>char</span> s; <span style=color:#998;font-style:italic>// [sp+1Ch] [bp-208h]@1
-</span><span style=color:#998;font-style:italic></span>  <span style=color:#458;font-weight:700>int</span> v8; <span style=color:#998;font-style:italic>// [sp+21Ch] [bp-8h]@1
-</span><span style=color:#998;font-style:italic></span>
-  v8 <span style=color:#000;font-weight:700>=</span> _stack_chk_guard;
-  memset(<span style=color:#000;font-weight:700>&amp;</span>s, <span style=color:#099>0</span>, <span style=color:#099>0x200u</span>);
-  v3 <span style=color:#000;font-weight:700>=</span> <span style=color:#000;font-weight:700>&amp;</span>s;
-  <span style=color:#000;font-weight:700>for</span> ( i <span style=color:#000;font-weight:700>=</span> <span style=color:#099>0</span>; i <span style=color:#000;font-weight:700>&lt;=</span> <span style=color:#099>15</span>; <span style=color:#000;font-weight:700>++</span>i )
-  {
-    v4 <span style=color:#000;font-weight:700>=</span> <span style=color:#000;font-weight:700>&amp;</span>v3[snprintf(v3, (<span style=color:#458;font-weight:700>char</span> <span style=color:#000;font-weight:700>*</span>)<span style=color:#000;font-weight:700>&amp;</span>v8 <span style=color:#000;font-weight:700>-</span> v3, <span style=color:#d14>&#34;%u</span><span style=color:#d14>\t</span><span style=color:#d14>%d$</span><span style=color:#d14>\t</span><span style=color:#d14>&#34;</span>, i, notes_arr[<span style=color:#099>2</span> <span style=color:#000;font-weight:700>*</span> i])];
-    v6 <span style=color:#000;font-weight:700>=</span> (<span style=color:#458;font-weight:700>char</span> <span style=color:#000;font-weight:700>*</span>)notes_arr[<span style=color:#099>2</span> <span style=color:#000;font-weight:700>*</span> i <span style=color:#000;font-weight:700>+</span> <span style=color:#099>1</span>];
-    <span style=color:#000;font-weight:700>if</span> ( v6 )
-    {
-      n <span style=color:#000;font-weight:700>=</span> strlen(v6);
-      memcpy(v4, v6, n);
-      v4 <span style=color:#000;font-weight:700>+=</span> n;
-    }
-    v1 <span style=color:#000;font-weight:700>=</span> v4;
-    v3 <span style=color:#000;font-weight:700>=</span> v4 <span style=color:#000;font-weight:700>+</span> <span style=color:#099>1</span>;
-    <span style=color:#000;font-weight:700>*</span>v1 <span style=color:#000;font-weight:700>=</span> <span style=color:#d14>&#39;\n&#39;</span>;
-  }
-</code></pre></td></tr></table></div></div><p><code>debug_info</code>直接拿<code>snprintf</code>返回值做数组下标，移动v3指针。这是对<code>snprintf</code>返回值的一个典型误用。</p><blockquote><p>RETURN VALUE</p><p>The functions snprintf() and vsnprintf() do not write more than size bytes (including the terminating null byte ('\0')). If the output was truncated due to this limit, then the return value is the number of characters (excluding the terminating null byte) which <strong>would have been</strong> written to the final string if enough space had been available. Thus, a return value of size or more means that the output was truncated. (See also below under NOTES.)</p></blockquote><p>看man文档其实就可以发现，snprintf返回的不是实际往目标buf里写了多少字节，而是<strong>本应写多少字节</strong>。这个漏洞利用后其实可以<strong>越过stack cookie</strong>写值，<strong>绕过canary保护</strong>，实现<strong>ROP</strong>攻击。但是<strong>buf中不能出现null byte</strong>，而且我对ARM下的ROP不熟，所以这个思路在赛间只是个备选项。</p><p><strong>P.S.</strong> 这个debug选项可以通过上文的「受限的任意地址赋值为堆上的指针」来打开，这里不再赘述。</p><p><strong>P.S.S.</strong> 其实我用qemu调这个二进制的时候，发现stack是rwx（可写可执行）的<del>（这个比赛真的有毒。。。）</del>。但是如果想要leak栈地址，其实还是需要一个任意地址读。可是回过头来，如果有了任意地址读，还需要做ROP这么复杂的利用吗？</p><h3 id=exp-1>EXP</h3><p>我的利用思路个人感觉比较清奇，需要绕个小弯，是在洗澡的时候想出来的<del>（又一次）</del>。</p><p>这个利用只用到了<code>account_id</code>越界这个漏洞，具体步骤是：</p><ol><li>通过受限的任意地址读，读<code>memcmp_got</code>的值（不管是不是已经被<code>dl-resolve</code>了，只是需要这个值来计算差值）；</li><li>通过受限的任意地址写，把<code>printf_plt</code>的值写到<code>memcmp_got</code>上去（这一步需要计算<code>memcmp_got</code>到<code>printf_plt</code>的差值），<strong>此时memcmp已经变成了printf</strong>；</li><li>选项6的<code>enable_debug</code>函数用到了memcmp，而且第一个参数就是用户输入的字符串，所以这里<del>强行</del>构造了一个FSB漏洞，可以精心构造Format String来实现任意地址读：</li><li>利用pwntools的DynELF工具，结合在<code>enable_debug</code>构造的任意地址读（即leak），泄密libc上的<code>system</code>函数地址；</li><li>通过受限的任意地址写，将<code>system</code>函数地址写到<code>memcmp_got</code>上，调用<code>enable_debug</code>，传入<code>/bin/sh</code>，getshell.</li></ol><p>exp.py:</p><div class=gist data-gist=cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa data-gist-file=bank-exp.py><p>Gist: <a href=https://gist.github.com/cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa>cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa</a></p></div></div></article><script src=https://utteranc.es/client.js repo=cubarco/cubarco.github.io issue-term=pathname theme=boxy-light crossorigin=anonymous async></script></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos target=_blank>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li><li><a>© 2014 - 2018</a></li></ul></footer></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js async></script><script src=/js/main.min.c0265b880e16484a6541ce80355a1ae627d6edcece7e9f5e5a47848c6776dae31c76328b55a8531b625aaf4315dcec7fdf695e3d044d3c19b918e21490e323e5.js integrity="sha512-wCZbiA4WSEplQc6ANVoa5ifW7c7Ofp9eWkeEjGd22uMcdjKLVahTG2Jar0MV3Ox/32lePQRNPBm5GOIUkOMj5Q==" async></script></body></html>
+</code></pre></div><p>还是一道菜单题。大概意思是这是一个bank，选项1打印当前的账户id和debug是否开启；选项2设置当前操作的账户id；选项3设置这个账户的note；选项4给当前账户加上指定数额的金钱数；选项5打印当前账户的id、账户余额、账户note；选项6打开debug功能。</p><p>用IDA打开，看到有一个选项7，<code>debug_info</code>：</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c>      <span class=k>case</span> <span class=mi>7</span><span class=o>:</span>
+        <span class=k>if</span> <span class=p>(</span> <span class=n>debug_enabled</span> <span class=p>)</span>
+          <span class=n>debug_info</span><span class=p>();</span>
+        <span class=k>else</span>
+          <span class=nf>puts</span><span class=p>(</span><span class=s>&#34;Invalid command!&#34;</span><span class=p>);</span>
+        <span class=k>break</span><span class=p>;</span>
+</code></pre></div><p>这个debug_info的功能是，打印出所有16个账户的id、余额和note 。</p><h3 id=漏洞>漏洞</h3><h4 id=1-account_id越界>1. account_id越界</h4><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=kt>int</span> <span class=nf>set_id</span><span class=p>()</span>
+<span class=p>{</span>
+  <span class=kt>int</span> <span class=n>result</span><span class=p>;</span> <span class=c1>// r0@1
+</span><span class=c1></span>
+  <span class=n>printf</span><span class=p>(</span><span class=s>&#34;Enter account id: &#34;</span><span class=p>);</span>
+  <span class=n>result</span> <span class=o>=</span> <span class=n>readint</span><span class=p>();</span>
+  <span class=k>if</span> <span class=p>(</span> <span class=n>result</span> <span class=o>&lt;=</span> <span class=mi>15</span> <span class=p>)</span>
+    <span class=n>account_id</span> <span class=o>=</span> <span class=n>result</span><span class=p>;</span>
+  <span class=k>else</span>
+    <span class=n>result</span> <span class=o>=</span> <span class=n>puts</span><span class=p>(</span><span class=s>&#34;Wrong account id!&#34;</span><span class=p>);</span>
+  <span class=k>return</span> <span class=n>result</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p>这是选项2的实现，通过<code>readint</code>读入<code>int</code>型数据，若小于15便赋值给全局变量<code>account_id</code>. 漏洞在于这里是<strong>可以输入负值</strong>的，而这个<code>account_id</code>在多个选项中被当作数组下标来使用，所以会有下越界的问题。</p><p>这个漏洞可以实现什么？有四点：</p><ol><li><strong>受限的任意地址读</strong>（选项5）；</li><li><strong>受限的任意地址写</strong>（选项4）；</li><li>受限的任意地址读指针内容（选项5）；</li><li>受限的任意地址赋值为堆上的指针（选项3）。</li></ol><p>3、4两点这里用处不大，所以不讲。这里讲下1、2两点。虽然通过负值的<code>account_id</code>实现了一定程度的任意地址读写，但是毕竟还是受限的。</p><p>以下是选项5的实现：</p><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=kt>int</span> <span class=nf>account_info</span><span class=p>()</span>
+<span class=p>{</span>
+  <span class=kt>void</span> <span class=o>*</span><span class=n>v0</span><span class=p>;</span> <span class=c1>// r3@2
+</span><span class=c1></span>  <span class=kt>int</span> <span class=n>result</span><span class=p>;</span> <span class=c1>// r0@4
+</span><span class=c1></span>  <span class=kt>char</span> <span class=n>s</span><span class=p>;</span> <span class=c1>// [sp+Ch] [bp-158h]@4
+</span><span class=c1></span>  <span class=kt>int</span> <span class=n>v3</span><span class=p>;</span> <span class=c1>// [sp+15Ch] [bp-8h]@1
+</span><span class=c1></span>
+  <span class=n>v3</span> <span class=o>=</span> <span class=n>_stack_chk_guard</span><span class=p>;</span>
+  <span class=k>if</span> <span class=p>(</span> <span class=n>notes_arr</span><span class=p>[</span><span class=mi>2</span> <span class=o>*</span> <span class=n>account_id</span> <span class=o>+</span> <span class=mi>1</span><span class=p>]</span> <span class=p>)</span>
+    <span class=n>v0</span> <span class=o>=</span> <span class=n>notes_arr</span><span class=p>[</span><span class=mi>2</span> <span class=o>*</span> <span class=n>account_id</span> <span class=o>+</span> <span class=mi>1</span><span class=p>];</span>
+  <span class=k>else</span>
+    <span class=n>v0</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>unk_1196C</span><span class=p>;</span>
+  <span class=n>snprintf</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s</span><span class=p>,</span> <span class=mh>0x150u</span><span class=p>,</span> <span class=s>&#34;id: %u, value: %d$, note:</span><span class=se>\&#34;</span><span class=s>%s</span><span class=se>\&#34;</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>account_id</span><span class=p>,</span> <span class=n>notes_arr</span><span class=p>[</span><span class=mi>2</span> <span class=o>*</span> <span class=n>account_id</span><span class=p>],</span> <span class=n>v0</span><span class=p>);</span>
+  <span class=n>result</span> <span class=o>=</span> <span class=n>puts</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s</span><span class=p>);</span>
+  <span class=k>if</span> <span class=p>(</span> <span class=n>v3</span> <span class=o>!=</span> <span class=n>_stack_chk_guard</span> <span class=p>)</span>
+    <span class=n>_stack_chk_fail</span><span class=p>(</span><span class=n>result</span><span class=p>);</span>
+  <span class=k>return</span> <span class=n>result</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div><p><code>notes_arr</code>是bss段上的数组，基址是0x22088，而输入的<code>account_id</code>必须要小于等于15，所以这里对需要读写的地址addr有3点限制：</p><ol><li>addr到0x22088的offset必须是<strong>8的倍数</strong>；</li><li>addr+4的位置<strong>必须为0</strong>或是一个<strong>合理的指针</strong>；</li><li>除非addr<strong>小于<code>notes_arr</code>的地址</strong>（比如GOT、.text、.data段），不然addr的值不能太小，<code>addr - notes_arr</code>的值在<strong>无符号int32上必须表现为负数</strong>。</li></ol><h4 id=2-debug_info越界写>2. debug_info越界写</h4><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=kt>int</span> <span class=nf>debug_info</span><span class=p>()</span>
+<span class=p>{</span>
+  <span class=n>size_t</span> <span class=n>n</span><span class=p>;</span> <span class=c1>// ST14_4@4
+</span><span class=c1></span>  <span class=kt>char</span> <span class=o>*</span><span class=n>v1</span><span class=p>;</span> <span class=c1>// r3@5
+</span><span class=c1></span>  <span class=kt>int</span> <span class=n>result</span><span class=p>;</span> <span class=c1>// r0@6
+</span><span class=c1></span>  <span class=kt>char</span> <span class=o>*</span><span class=n>v3</span><span class=p>;</span> <span class=c1>// [sp+Ch] [bp-218h]@1
+</span><span class=c1></span>  <span class=kt>char</span> <span class=o>*</span><span class=n>v4</span><span class=p>;</span> <span class=c1>// [sp+Ch] [bp-218h]@3
+</span><span class=c1></span>  <span class=kt>signed</span> <span class=kt>int</span> <span class=n>i</span><span class=p>;</span> <span class=c1>// [sp+10h] [bp-214h]@1
+</span><span class=c1></span>  <span class=kt>char</span> <span class=o>*</span><span class=n>v6</span><span class=p>;</span> <span class=c1>// [sp+18h] [bp-20Ch]@3
+</span><span class=c1></span>  <span class=kt>char</span> <span class=n>s</span><span class=p>;</span> <span class=c1>// [sp+1Ch] [bp-208h]@1
+</span><span class=c1></span>  <span class=kt>int</span> <span class=n>v8</span><span class=p>;</span> <span class=c1>// [sp+21Ch] [bp-8h]@1
+</span><span class=c1></span>
+  <span class=n>v8</span> <span class=o>=</span> <span class=n>_stack_chk_guard</span><span class=p>;</span>
+  <span class=n>memset</span><span class=p>(</span><span class=o>&amp;</span><span class=n>s</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=mh>0x200u</span><span class=p>);</span>
+  <span class=n>v3</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>s</span><span class=p>;</span>
+  <span class=k>for</span> <span class=p>(</span> <span class=n>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;=</span> <span class=mi>15</span><span class=p>;</span> <span class=o>++</span><span class=n>i</span> <span class=p>)</span>
+  <span class=p>{</span>
+    <span class=n>v4</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>v3</span><span class=p>[</span><span class=n>snprintf</span><span class=p>(</span><span class=n>v3</span><span class=p>,</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=o>&amp;</span><span class=n>v8</span> <span class=o>-</span> <span class=n>v3</span><span class=p>,</span> <span class=s>&#34;%u</span><span class=se>\t</span><span class=s>%d$</span><span class=se>\t</span><span class=s>&#34;</span><span class=p>,</span> <span class=n>i</span><span class=p>,</span> <span class=n>notes_arr</span><span class=p>[</span><span class=mi>2</span> <span class=o>*</span> <span class=n>i</span><span class=p>])];</span>
+    <span class=n>v6</span> <span class=o>=</span> <span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=p>)</span><span class=n>notes_arr</span><span class=p>[</span><span class=mi>2</span> <span class=o>*</span> <span class=n>i</span> <span class=o>+</span> <span class=mi>1</span><span class=p>];</span>
+    <span class=k>if</span> <span class=p>(</span> <span class=n>v6</span> <span class=p>)</span>
+    <span class=p>{</span>
+      <span class=n>n</span> <span class=o>=</span> <span class=n>strlen</span><span class=p>(</span><span class=n>v6</span><span class=p>);</span>
+      <span class=n>memcpy</span><span class=p>(</span><span class=n>v4</span><span class=p>,</span> <span class=n>v6</span><span class=p>,</span> <span class=n>n</span><span class=p>);</span>
+      <span class=n>v4</span> <span class=o>+=</span> <span class=n>n</span><span class=p>;</span>
+    <span class=p>}</span>
+    <span class=n>v1</span> <span class=o>=</span> <span class=n>v4</span><span class=p>;</span>
+    <span class=n>v3</span> <span class=o>=</span> <span class=n>v4</span> <span class=o>+</span> <span class=mi>1</span><span class=p>;</span>
+    <span class=o>*</span><span class=n>v1</span> <span class=o>=</span> <span class=sc>&#39;\n&#39;</span><span class=p>;</span>
+  <span class=p>}</span>
+</code></pre></div><p><code>debug_info</code>直接拿<code>snprintf</code>返回值做数组下标，移动v3指针。这是对<code>snprintf</code>返回值的一个典型误用。</p><blockquote><p>RETURN VALUE</p><p>The functions snprintf() and vsnprintf() do not write more than size bytes (including the terminating null byte ('\0')). If the output was truncated due to this limit, then the return value is the number of characters (excluding the terminating null byte) which <strong>would have been</strong> written to the final string if enough space had been available. Thus, a return value of size or more means that the output was truncated. (See also below under NOTES.)</p></blockquote><p>看man文档其实就可以发现，snprintf返回的不是实际往目标buf里写了多少字节，而是<strong>本应写多少字节</strong>。这个漏洞利用后其实可以<strong>越过stack cookie</strong>写值，<strong>绕过canary保护</strong>，实现<strong>ROP</strong>攻击。但是<strong>buf中不能出现null byte</strong>，而且我对ARM下的ROP不熟，所以这个思路在赛间只是个备选项。</p><p><strong>P.S.</strong> 这个debug选项可以通过上文的「受限的任意地址赋值为堆上的指针」来打开，这里不再赘述。</p><p><strong>P.S.S.</strong> 其实我用qemu调这个二进制的时候，发现stack是rwx（可写可执行）的~~（这个比赛真的有毒。。。）~~。但是如果想要leak栈地址，其实还是需要一个任意地址读。可是回过头来，如果有了任意地址读，还需要做ROP这么复杂的利用吗？</p><h3 id=exp-1>EXP</h3><p>我的利用思路个人感觉比较清奇，需要绕个小弯，是在洗澡的时候想出来的~~（又一次）~~。</p><p>这个利用只用到了<code>account_id</code>越界这个漏洞，具体步骤是：</p><ol><li>通过受限的任意地址读，读<code>memcmp_got</code>的值（不管是不是已经被<code>dl-resolve</code>了，只是需要这个值来计算差值）；</li><li>通过受限的任意地址写，把<code>printf_plt</code>的值写到<code>memcmp_got</code>上去（这一步需要计算<code>memcmp_got</code>到<code>printf_plt</code>的差值），<strong>此时memcmp已经变成了printf</strong>；</li><li>选项6的<code>enable_debug</code>函数用到了memcmp，而且第一个参数就是用户输入的字符串，所以这里<del>强行</del>构造了一个FSB漏洞，可以精心构造Format String来实现任意地址读：</li><li>利用pwntools的DynELF工具，结合在<code>enable_debug</code>构造的任意地址读（即leak），泄密libc上的<code>system</code>函数地址；</li><li>通过受限的任意地址写，将<code>system</code>函数地址写到<code>memcmp_got</code>上，调用<code>enable_debug</code>，传入<code>/bin/sh</code>，getshell.</li></ol><p>exp.py:</p><div class=gist data-gist=cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa data-gist-file=bank-exp.py><p>Gist: <a href=https://gist.github.com/cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa>cubarco/9bfafbc77dd2c0330e3c0ef87013c6fa</a></p></div></div></article><script src=https://utteranc.es/client.js repo=cubarco/cubarco.github.io issue-term=pathname theme=boxy-light crossorigin=anonymous async></script></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos target=_blank>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li><li><a>© 2014 - 2018</a></li></ul></footer></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js async></script><script src=/js/main.min.80cd05416430ecc6e8a3e4d9463e3a083df57cac0f27d6f9ebf3cb45c729cab418fd5219153ced425c33b68cd59b9b47a4b010b4182d846189072e64e067bf47.js integrity="sha512-gM0FQWQw7Mboo+TZRj46CD31fKwPJ9b56/PLRccpyrQY/VIZFTztQlwztozVm5tHpLAQtBgthGGJBy5k4Ge/Rw==" async></script></body></html>

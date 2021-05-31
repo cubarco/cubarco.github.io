@@ -2,5 +2,5 @@
 很久以前我是用这篇 blog1提供的方法，就是用 iptables drop 掉 GFW 的假 DNS 解析包。但是 2015 年 GFW 开始采用随机 IP 污染的方式，这种黑名单的解决方案已经不可用了。后来换了 dnscrypt-proxy，还算是比较好用的。但是最近不明原因，dnscrypt-proxy 在使用一段时间之后老是卡住。尝试解决无果，就想办法找替代的方案。
 前几天发现 GFW 没有劫持非标准端口的 DNS 服务器，于是想到了下面两种方法避免劫持。
 iptables 将外网网卡(我这是 enp8s0)发出的 dport 是 53 的包 DNAT 给 OpenDNS 443 端口。
-1 2 iptables -t nat -A OUTPUT -o enp8s0 -p udp --dport 53 \ -j DNAT --to 208.67.222.222:443 dnsmasq 以下是采用 OpenDNS 443 端口的示例配置。
-port=53 no-resolv # For IPv6 # server=2620:0:ccc::2#443 server=208.</description></item></channel></rss>
+iptables -t nat -A OUTPUT -o enp8s0 -p udp --dport 53 \ -j DNAT --to 208.67.222.222:443 dnsmasq 以下是采用 OpenDNS 443 端口的示例配置。
+port=53 no-resolv # For IPv6 # server=2620:0:ccc::2#443 server=208.67.222.222#443 listen-address=127.0.0.1 Dnsmasq 的具体使用，可以看 ArchWiki2.</description></item></channel></rss>

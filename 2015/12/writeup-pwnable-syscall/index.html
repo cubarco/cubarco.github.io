@@ -1,102 +1,54 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup-Pwnable: syscall - /home/cubl</title><meta property="og:title" content="Writeup-Pwnable: syscall - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/main.min.9ae39f94818f4da457a6d1bcb86758258559067c36817f968ab59ae3c5c39b4bb6b793e3de3d4cc608ab8e1e4d178f67f70ad266ed0fadfae98939fab0d30b92.css integrity="sha512-muOflIGPTaRXptG8uGdYJYVZBnw2gX+WirWa48XDm0u2t5Pj3j1Mxgirjh5NF49n9wrSZu0PrfrpiTn6sNMLkg==" media=all></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup-Pwnable: syscall</h1><span class=article-date>2015-12-16</span>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.83.1"><title>Writeup-Pwnable: syscall - /home/cubl</title><meta property="og:title" content="Writeup-Pwnable: syscall - /home/cubl"><link href=/favicon.ico rel=icon type=image/x-icon><link rel=stylesheet href=/css/main.min.9861353c7baacf2268a74fe7ea9d3bd8211eada1554a630c4d29fb448bfae5fb8f43ea02baa52d2ca079d0027f37aa8f058ab0362f4301e9a9b77538d71b549b.css integrity="sha512-mGE1PHuqzyJop0/n6p072CEeraFVSmMMTSn7RIv65fuPQ+oCuqUtLKB50AJ/N6qPBYqwNi9DAempt3U41xtUmw==" media=all></head><body><div class=wrapper><header class=header><nav class=nav><a href=/ class=nav-logo><img src=/images/logo-min.png width=50 height=50 alt=Logo></a><ul class=nav-links><li><a href=/tags/>Tags</a></li><li><a href=/about/>About</a></li><li><a href=https://github.com/cubarco/cubarco.github.io>GitHub</a></li></ul></nav></header><main class=content role=main><article class=article><h1 class=article-title>Writeup-Pwnable: syscall</h1><span class=article-date>2015-12-16</span>
 <a class=article-tag href=/tags/hack>Hack</a>
 <a class=article-tag href=/tags/ctf>CTF</a>
 <a class=article-tag href=/tags/writeup>Writeup</a>
 <a class=article-tag href=/tags/exploitation>Exploitation</a>
-<a class=article-tag href=/tags/arm>ARM</a><div class=article-content><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#998;font-style:italic>// adding a new system call : sys_upper
-</span><span style=color:#998;font-style:italic></span>
-<span style=color:#999;font-weight:700;font-style:italic>#include</span> <span style=color:#999;font-weight:700;font-style:italic>&lt;linux/module.h&gt;</span><span style=color:#999;font-weight:700;font-style:italic>
-</span><span style=color:#999;font-weight:700;font-style:italic>#include</span> <span style=color:#999;font-weight:700;font-style:italic>&lt;linux/kernel.h&gt;</span><span style=color:#999;font-weight:700;font-style:italic>
-</span><span style=color:#999;font-weight:700;font-style:italic>#include</span> <span style=color:#999;font-weight:700;font-style:italic>&lt;linux/slab.h&gt;</span><span style=color:#999;font-weight:700;font-style:italic>
-</span><span style=color:#999;font-weight:700;font-style:italic>#include</span> <span style=color:#999;font-weight:700;font-style:italic>&lt;linux/vmalloc.h&gt;</span><span style=color:#999;font-weight:700;font-style:italic>
-</span><span style=color:#999;font-weight:700;font-style:italic>#include</span> <span style=color:#999;font-weight:700;font-style:italic>&lt;linux/mm.h&gt;</span><span style=color:#999;font-weight:700;font-style:italic>
-</span><span style=color:#999;font-weight:700;font-style:italic>#include</span> <span style=color:#999;font-weight:700;font-style:italic>&lt;asm/unistd.h&gt;</span><span style=color:#999;font-weight:700;font-style:italic>
-</span><span style=color:#999;font-weight:700;font-style:italic>#include</span> <span style=color:#999;font-weight:700;font-style:italic>&lt;asm/page.h&gt;</span><span style=color:#999;font-weight:700;font-style:italic>
-</span><span style=color:#999;font-weight:700;font-style:italic>#include</span> <span style=color:#999;font-weight:700;font-style:italic>&lt;linux/syscalls.h&gt;</span><span style=color:#999;font-weight:700;font-style:italic>
-</span><span style=color:#999;font-weight:700;font-style:italic></span>
-<span style=color:#999;font-weight:700;font-style:italic>#define SYS_CALL_TABLE		0x8000e348		</span><span style=color:#998;font-style:italic>// manually configure this address!!
-</span><span style=color:#998;font-style:italic></span><span style=color:#999;font-weight:700;font-style:italic>#define NR_SYS_UNUSED		223
-</span><span style=color:#999;font-weight:700;font-style:italic></span>
-<span style=color:#998;font-style:italic>//Pointers to re-mapped writable pages
-</span><span style=color:#998;font-style:italic></span><span style=color:#458;font-weight:700>unsigned</span> <span style=color:#458;font-weight:700>int</span><span style=color:#000;font-weight:700>**</span> sct;
+<a class=article-tag href=/tags/arm>ARM</a><div class=article-content><div class=highlight><pre class=chroma><code class=language-c data-lang=c><span class=c1>// adding a new system call : sys_upper
+</span><span class=c1></span>
+<span class=cp>#include</span> <span class=cpf>&lt;linux/module.h&gt;</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&lt;linux/kernel.h&gt;</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&lt;linux/slab.h&gt;</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&lt;linux/vmalloc.h&gt;</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&lt;linux/mm.h&gt;</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&lt;asm/unistd.h&gt;</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&lt;asm/page.h&gt;</span><span class=cp>
+</span><span class=cp>#include</span> <span class=cpf>&lt;linux/syscalls.h&gt;</span><span class=cp>
+</span><span class=cp></span>
+<span class=cp>#define SYS_CALL_TABLE		0x8000e348		</span><span class=c1>// manually configure this address!!
+</span><span class=c1></span><span class=cp>#define NR_SYS_UNUSED		223
+</span><span class=cp></span>
+<span class=c1>//Pointers to re-mapped writable pages
+</span><span class=c1></span><span class=kt>unsigned</span> <span class=kt>int</span><span class=o>**</span> <span class=n>sct</span><span class=p>;</span>
 
-asmlinkage <span style=color:#458;font-weight:700>long</span> <span style=color:#900;font-weight:700>sys_upper</span>(<span style=color:#458;font-weight:700>char</span> <span style=color:#000;font-weight:700>*</span>in, <span style=color:#458;font-weight:700>char</span><span style=color:#000;font-weight:700>*</span> out){
-	<span style=color:#458;font-weight:700>int</span> len <span style=color:#000;font-weight:700>=</span> strlen(in);
-	<span style=color:#458;font-weight:700>int</span> i;
-	<span style=color:#000;font-weight:700>for</span>(i<span style=color:#000;font-weight:700>=</span><span style=color:#099>0</span>; i<span style=color:#000;font-weight:700>&lt;</span>len; i<span style=color:#000;font-weight:700>++</span>){
-		<span style=color:#000;font-weight:700>if</span>(in[i]<span style=color:#000;font-weight:700>&gt;=</span><span style=color:#099>0x61</span> <span style=color:#000;font-weight:700>&amp;&amp;</span> in[i]<span style=color:#000;font-weight:700>&lt;=</span><span style=color:#099>0x7a</span>){
-			out[i] <span style=color:#000;font-weight:700>=</span> in[i] <span style=color:#000;font-weight:700>-</span> <span style=color:#099>0x20</span>;
-		}
-		<span style=color:#000;font-weight:700>else</span>{
-			out[i] <span style=color:#000;font-weight:700>=</span> in[i];
-		}
-	}
-	<span style=color:#000;font-weight:700>return</span> <span style=color:#099>0</span>;
-}
+<span class=n>asmlinkage</span> <span class=kt>long</span> <span class=nf>sys_upper</span><span class=p>(</span><span class=kt>char</span> <span class=o>*</span><span class=n>in</span><span class=p>,</span> <span class=kt>char</span><span class=o>*</span> <span class=n>out</span><span class=p>){</span>
+	<span class=kt>int</span> <span class=n>len</span> <span class=o>=</span> <span class=n>strlen</span><span class=p>(</span><span class=n>in</span><span class=p>);</span>
+	<span class=kt>int</span> <span class=n>i</span><span class=p>;</span>
+	<span class=k>for</span><span class=p>(</span><span class=n>i</span><span class=o>=</span><span class=mi>0</span><span class=p>;</span> <span class=n>i</span><span class=o>&lt;</span><span class=n>len</span><span class=p>;</span> <span class=n>i</span><span class=o>++</span><span class=p>){</span>
+		<span class=k>if</span><span class=p>(</span><span class=n>in</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>&gt;=</span><span class=mh>0x61</span> <span class=o>&amp;&amp;</span> <span class=n>in</span><span class=p>[</span><span class=n>i</span><span class=p>]</span><span class=o>&lt;=</span><span class=mh>0x7a</span><span class=p>){</span>
+			<span class=n>out</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>in</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>-</span> <span class=mh>0x20</span><span class=p>;</span>
+		<span class=p>}</span>
+		<span class=k>else</span><span class=p>{</span>
+			<span class=n>out</span><span class=p>[</span><span class=n>i</span><span class=p>]</span> <span class=o>=</span> <span class=n>in</span><span class=p>[</span><span class=n>i</span><span class=p>];</span>
+		<span class=p>}</span>
+	<span class=p>}</span>
+	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span>
 
-<span style=color:#000;font-weight:700>static</span> <span style=color:#458;font-weight:700>int</span> __init <span style=color:#900;font-weight:700>initmodule</span>(<span style=color:#458;font-weight:700>void</span> ){
-	sct <span style=color:#000;font-weight:700>=</span> (<span style=color:#458;font-weight:700>unsigned</span> <span style=color:#458;font-weight:700>int</span><span style=color:#000;font-weight:700>**</span>)SYS_CALL_TABLE;
-	sct[NR_SYS_UNUSED] <span style=color:#000;font-weight:700>=</span> sys_upper;
-	printk(<span style=color:#d14>&#34;sys_upper(number : 223) is added</span><span style=color:#d14>\n</span><span style=color:#d14>&#34;</span>);
-	<span style=color:#000;font-weight:700>return</span> <span style=color:#099>0</span>;
-}
+<span class=k>static</span> <span class=kt>int</span> <span class=n>__init</span> <span class=nf>initmodule</span><span class=p>(</span><span class=kt>void</span> <span class=p>){</span>
+	<span class=n>sct</span> <span class=o>=</span> <span class=p>(</span><span class=kt>unsigned</span> <span class=kt>int</span><span class=o>**</span><span class=p>)</span><span class=n>SYS_CALL_TABLE</span><span class=p>;</span>
+	<span class=n>sct</span><span class=p>[</span><span class=n>NR_SYS_UNUSED</span><span class=p>]</span> <span class=o>=</span> <span class=n>sys_upper</span><span class=p>;</span>
+	<span class=n>printk</span><span class=p>(</span><span class=s>&#34;sys_upper(number : 223) is added</span><span class=se>\n</span><span class=s>&#34;</span><span class=p>);</span>
+	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span>
 
-<span style=color:#000;font-weight:700>static</span> <span style=color:#458;font-weight:700>void</span> __exit <span style=color:#900;font-weight:700>exitmodule</span>(<span style=color:#458;font-weight:700>void</span> ){
-	<span style=color:#000;font-weight:700>return</span>;
-}
+<span class=k>static</span> <span class=kt>void</span> <span class=n>__exit</span> <span class=nf>exitmodule</span><span class=p>(</span><span class=kt>void</span> <span class=p>){</span>
+	<span class=k>return</span><span class=p>;</span>
+<span class=p>}</span>
 
-module_init( initmodule );
-module_exit( exitmodule );
-</code></pre></td></tr></table></div></div><p>这题就是提供了一个可以<code>write-anything-anywhere</code>的系统调用(也不算anything，有点限制)，系统调用的地址存在<code>0x8000e348+223 = 0x8000e6c4</code>, flag在<code>/root/flag</code>.</p><p>按理说应该不难，但是我做了很久。后来想了一下，主要是内联汇编不熟(没有写好 clobbers 导致各种崩)。再就是没有深入理解 Linux 的权限控制机制，一开始想当然的觉得 kernel space 就肯定有 root 权限，后来发现就算用了系统调用，跑到奇怪的地址上执行，uid 还是这个进程的 uid<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>. 所以尝试的 <code>open-read-write</code>, <code>chown()</code>各种都已失败告终，权限不够。直接在 kernel space <code>execve()</code>的我也是想多了。</p><p>其实思路还是挺简单的，首先修改 223 号系统调用的内容，然后调用这个修改过的 223 号系统调用，在 kernel space 把 uid 改掉，之后在 user space <code>execve()</code>就好了。</p><p>在现在版本的 Linux 内核修改 uid，需要通过<code>prepare_creds()</code>和<code>commit_creds()</code>两步<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>。这两个函数的地址存在<code>/proc/kallsyms</code>:</p><div class=highlight><div style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plain data-lang=plain>$ cat /proc/kallsyms | grep &#39;prepare_creds\|commit_creds&#39;
+<span class=n>module_init</span><span class=p>(</span> <span class=n>initmodule</span> <span class=p>);</span>
+<span class=n>module_exit</span><span class=p>(</span> <span class=n>exitmodule</span> <span class=p>);</span>
+</code></pre></div><p>这题就是提供了一个可以<code>write-anything-anywhere</code>的系统调用(也不算anything，有点限制)，系统调用的地址存在<code>0x8000e348+223 = 0x8000e6c4</code>, flag在<code>/root/flag</code>.</p><p>按理说应该不难，但是我做了很久。后来想了一下，主要是内联汇编不熟(没有写好 clobbers 导致各种崩)。再就是没有深入理解 Linux 的权限控制机制，一开始想当然的觉得 kernel space 就肯定有 root 权限，后来发现就算用了系统调用，跑到奇怪的地址上执行，uid 还是这个进程的 uid<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>. 所以尝试的 <code>open-read-write</code>, <code>chown()</code>各种都已失败告终，权限不够。直接在 kernel space <code>execve()</code>的我也是想多了。</p><p>其实思路还是挺简单的，首先修改 223 号系统调用的内容，然后调用这个修改过的 223 号系统调用，在 kernel space 把 uid 改掉，之后在 user space <code>execve()</code>就好了。</p><p>在现在版本的 Linux 内核修改 uid，需要通过<code>prepare_creds()</code>和<code>commit_creds()</code>两步<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>。这两个函数的地址存在<code>/proc/kallsyms</code>:</p><div class=highlight><pre class=chroma><code class=language-plain data-lang=plain>$ cat /proc/kallsyms | grep &#39;prepare_creds\|commit_creds&#39;
 8003f44c T prepare_creds
 8003f56c T commit_creds
 ...
-</code></pre></td></tr></table></div></div><p>我参考 @acama 的版本<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>写了一个( @acama 的版本<code>prepare_creds()</code>之后直接就<code>commit_creds()</code>, 这估计只在老版本可以).<code>prepare_creds()</code>返回的结构体定义可以看参考<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup>.</p><div class=gist data-gist=cubarco/f582d787f04eca93f8eb data-gist-file=cred.s><p>Gist: <a href=https://gist.github.com/cubarco/f582d787f04eca93f8eb>cubarco/f582d787f04eca93f8eb</a></p></div><p>这个生成的指令是不能用原先的 223 号系统调用直接写进内存的，所以我准备了一个真正的<code>write-anything-anywhere</code>的跳板:</p><div class=gist data-gist=cubarco/f582d787f04eca93f8eb data-gist-file=waa.s><p>Gist: <a href=https://gist.github.com/cubarco/f582d787f04eca93f8eb>cubarco/f582d787f04eca93f8eb</a></p></div><p>先把 waa 写进内存，然后把 cred 写进内存。至于写到哪里，我随手写了两个地址: 0x83f5cafe, 0x83f6beee.</p><h2 id=expc>exp.c</h2><div class=gist data-gist=cubarco/f582d787f04eca93f8eb data-gist-file=1-pwnable-rookiss-syscall.c><p>Gist: <a href=https://gist.github.com/cubarco/f582d787f04eca93f8eb>cubarco/f582d787f04eca93f8eb</a></p></div><section class=footnotes role=doc-endnotes><hr><ol><li id=fn:1 role=doc-endnote><p><a href=http://unix.stackexchange.com/questions/121715/what-is-the-relationship-between-root-and-kernel>What is the relationship between root and kernel?</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2 role=doc-endnote><p><a href=https://memset.wordpress.com/2010/12/28/syscall-hijacking-simple-rootkit-kernel-2-6-x/>Syscall Hijacking: Simple Rootkit (kernel 2.6.x)</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3 role=doc-endnote><p><a href=https://github.com/acama/arm-evt/blob/master/local_example/exploit/backdoor.asm>arm-evt/local_example/exploit/backdoor.asm</a>&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:4 role=doc-endnote><p><a href="http://lxr.free-electrons.com/source/include/linux/cred.h?v=3.11#L102">Linux/include/linux/cred.h</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></section></div></article><script src=https://utteranc.es/client.js repo=cubarco/cubarco.github.io issue-term=pathname theme=boxy-light crossorigin=anonymous async></script></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos target=_blank>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li><li><a>© 2014 - 2015</a></li></ul></footer></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js async></script><script src=/js/main.min.c0265b880e16484a6541ce80355a1ae627d6edcece7e9f5e5a47848c6776dae31c76328b55a8531b625aaf4315dcec7fdf695e3d044d3c19b918e21490e323e5.js integrity="sha512-wCZbiA4WSEplQc6ANVoa5ifW7c7Ofp9eWkeEjGd22uMcdjKLVahTG2Jar0MV3Ox/32lePQRNPBm5GOIUkOMj5Q==" async></script></body></html>
+</code></pre></div><p>我参考 @acama 的版本<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>写了一个( @acama 的版本<code>prepare_creds()</code>之后直接就<code>commit_creds()</code>, 这估计只在老版本可以).<code>prepare_creds()</code>返回的结构体定义可以看参考<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup>.</p><div class=gist data-gist=cubarco/f582d787f04eca93f8eb data-gist-file=cred.s><p>Gist: <a href=https://gist.github.com/cubarco/f582d787f04eca93f8eb>cubarco/f582d787f04eca93f8eb</a></p></div><p>这个生成的指令是不能用原先的 223 号系统调用直接写进内存的，所以我准备了一个真正的<code>write-anything-anywhere</code>的跳板:</p><div class=gist data-gist=cubarco/f582d787f04eca93f8eb data-gist-file=waa.s><p>Gist: <a href=https://gist.github.com/cubarco/f582d787f04eca93f8eb>cubarco/f582d787f04eca93f8eb</a></p></div><p>先把 waa 写进内存，然后把 cred 写进内存。至于写到哪里，我随手写了两个地址: 0x83f5cafe, 0x83f6beee.</p><h2 id=expc>exp.c</h2><div class=gist data-gist=cubarco/f582d787f04eca93f8eb data-gist-file=1-pwnable-rookiss-syscall.c><p>Gist: <a href=https://gist.github.com/cubarco/f582d787f04eca93f8eb>cubarco/f582d787f04eca93f8eb</a></p></div><section class=footnotes role=doc-endnotes><hr><ol><li id=fn:1 role=doc-endnote><p><a href=http://unix.stackexchange.com/questions/121715/what-is-the-relationship-between-root-and-kernel>What is the relationship between root and kernel?</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2 role=doc-endnote><p><a href=https://memset.wordpress.com/2010/12/28/syscall-hijacking-simple-rootkit-kernel-2-6-x/>Syscall Hijacking: Simple Rootkit (kernel 2.6.x)</a>&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3 role=doc-endnote><p><a href=https://github.com/acama/arm-evt/blob/master/local_example/exploit/backdoor.asm>arm-evt/local_example/exploit/backdoor.asm</a>&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:4 role=doc-endnote><p><a href="http://lxr.free-electrons.com/source/include/linux/cred.h?v=3.11#L102">Linux/include/linux/cred.h</a>&#160;<a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></section></div></article><script src=https://utteranc.es/client.js repo=cubarco/cubarco.github.io issue-term=pathname theme=boxy-light crossorigin=anonymous async></script></main><footer class=footer><ul class=footer-links><li><a href=/index.xml type=application/rss+xml target=_blank>RSS feed</a></li><li><a href=https://gohugo.io/ class=footer-links-kudos target=_blank>Made with <img src=/images/hugo-logo.png alt="Img link to Hugo website" width=22 height=22></a></li><li><a>© 2014 - 2015</a></li></ul></footer></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js async></script><script src=/js/main.min.80cd05416430ecc6e8a3e4d9463e3a083df57cac0f27d6f9ebf3cb45c729cab418fd5219153ced425c33b68cd59b9b47a4b010b4182d846189072e64e067bf47.js integrity="sha512-gM0FQWQw7Mboo+TZRj46CD31fKwPJ9b56/PLRccpyrQY/VIZFTztQlwztozVm5tHpLAQtBgthGGJBy5k4Ge/Rw==" async></script></body></html>
