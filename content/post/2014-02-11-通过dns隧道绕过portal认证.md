@@ -125,13 +125,13 @@ $ ndk-build NDK_PROJECT_PATH=. APP_BUILD_SCRIPT=Android.mk
 
 ## Client端（windows）
 
-<del><em>呵呵 </em></del>
+~~<em>呵呵 </em>~~
 
 ## 附件
 
 * tun.ko installer : <a href="https://play.google.com/store/apps/details?id=com.aed.tun.installer" target="_blank">Google Play</a>
 * iodine for android (20140211 ) ： <a href="https://drive.google.com/file/d/0B4Uhz2CREiHoTmd6NGxONmRfY1E/edit?usp=sharing" target="_blank">Google Docs</a>     <a href="http://pan.baidu.com/s/1qW0LNUO" target="_blank">百度网盘</a>
-* <del>如果不嫌弃，可以将这个VPS提供给各位测试使用。</del>(53端口移作他用，就不提供测试使用了。)
+* ~~如果不嫌弃，可以将这个VPS提供给各位测试使用。~~(53端口移作他用，就不提供测试使用了。)
 
 ## 参考
 

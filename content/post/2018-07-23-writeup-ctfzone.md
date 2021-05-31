@@ -13,7 +13,7 @@ slug: writeup-ctfzone
 
 > You can try to use very interesting and strange string functions ;) Good luck. `nc pwn-03.v7frkwrfyhsjtbpfcppnu.ctfz.one 1234` And yes, there is no binary here
 
-这是一道**盲pwn**类型的题，没有提供二进制<del>(名义上的)</del>。
+这是一道**盲pwn**类型的题，没有提供二进制~~(名义上的)~~。
 
 nc连上之后回显：
 
@@ -55,9 +55,9 @@ You choise - 3
 
 既然是无ELF文件的盲pwn，那只能摸着石头过河。做题时有以下几个尝试：
 
-1. <del>三个选项的输入是否有溢出；</del>
-1. <del>未实现的选项2是否有隐藏功能；</del>
-1. <del>选项3输入的数字是否可以为负数，可能造成字符串拷贝时的溢出或者泄密问题；</del>
+1. ~~三个选项的输入是否有溢出；~~
+1. ~~未实现的选项2是否有隐藏功能；~~
+1. ~~选项3输入的数字是否可以为负数，可能造成字符串拷贝时的溢出或者泄密问题；~~
 1. ...
 
 很多尝试以失败告终。最终找到的漏洞是功能3的**格式化字符串漏洞**：
@@ -107,7 +107,7 @@ ctfzone{$uP6r_F4k6_4H4H4H_t00}
 ...
 ```
 
-<del>除了有两行假装是flag的信息，还</del>有两行URL，看来是提供了二进制和libc的：
+~~除了有两行假装是flag的信息，还~~有两行URL，看来是提供了二进制和libc的：
 
 1. https://ctf.bi.zone/files/babypwn
 2. https://ctf.bi.zone/files/babylibc
@@ -171,7 +171,7 @@ Start      End        Offset     Perm Path
 ...
 ```
 
-整个ELF都是RWX的<del>(这题有毒...)</del>，那很简单了，之前溢出的`gets_buf`就在bss段上，可写可执行，还知道地址。只要把shellcode写到`gets_buf`上，然后溢出到`func_ptr`，指向`gets_buf`，就执行shellcode了。
+整个ELF都是RWX的~~(这题有毒...)~~，那很简单了，之前溢出的`gets_buf`就在bss段上，可写可执行，还知道地址。只要把shellcode写到`gets_buf`上，然后溢出到`func_ptr`，指向`gets_buf`，就执行shellcode了。
 
 利用脚本：
 
@@ -342,17 +342,17 @@ int debug_info()
 
 **P.S.** 这个debug选项可以通过上文的「受限的任意地址赋值为堆上的指针」来打开，这里不再赘述。
 
-**P.S.S.** 其实我用qemu调这个二进制的时候，发现stack是rwx（可写可执行）的<del>（这个比赛真的有毒。。。）</del>。但是如果想要leak栈地址，其实还是需要一个任意地址读。可是回过头来，如果有了任意地址读，还需要做ROP这么复杂的利用吗？
+**P.S.S.** 其实我用qemu调这个二进制的时候，发现stack是rwx（可写可执行）的~~（这个比赛真的有毒。。。）~~。但是如果想要leak栈地址，其实还是需要一个任意地址读。可是回过头来，如果有了任意地址读，还需要做ROP这么复杂的利用吗？
 
 ### EXP
 
-我的利用思路个人感觉比较清奇，需要绕个小弯，是在洗澡的时候想出来的<del>（又一次）</del>。
+我的利用思路个人感觉比较清奇，需要绕个小弯，是在洗澡的时候想出来的~~（又一次）~~。
 
 这个利用只用到了`account_id`越界这个漏洞，具体步骤是：
 
 1. 通过受限的任意地址读，读`memcmp_got`的值（不管是不是已经被`dl-resolve`了，只是需要这个值来计算差值）；
 2. 通过受限的任意地址写，把`printf_plt`的值写到`memcmp_got`上去（这一步需要计算`memcmp_got`到`printf_plt`的差值），**此时memcmp已经变成了printf**；
-3. 选项6的`enable_debug`函数用到了memcmp，而且第一个参数就是用户输入的字符串，所以这里<del>强行</del>构造了一个FSB漏洞，可以精心构造Format String来实现任意地址读：
+3. 选项6的`enable_debug`函数用到了memcmp，而且第一个参数就是用户输入的字符串，所以这里~~强行~~构造了一个FSB漏洞，可以精心构造Format String来实现任意地址读：
 4. 利用pwntools的DynELF工具，结合在`enable_debug`构造的任意地址读（即leak），泄密libc上的`system`函数地址；
 5. 通过受限的任意地址写，将`system`函数地址写到`memcmp_got`上，调用`enable_debug`，传入`/bin/sh`，getshell.
 

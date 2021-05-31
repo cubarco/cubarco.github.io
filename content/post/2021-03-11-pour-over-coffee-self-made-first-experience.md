@@ -11,7 +11,7 @@ slug: pour-over-coffee-self-made-first-experience
 ## 感动现场
 ![](https://images.pwn.icu/1615537495017-upload_c02e52135903416493f262e1b592e936.png)
 
-## <del>技术总结</del>
+## ~~技术总结~~
 ### 豆子
 云南阿拉比卡，水洗，中深烘焙
 
@@ -31,4 +31,4 @@ slug: pour-over-coffee-self-made-first-experience
 
 难怪这么多人喜欢自己做手冲，滤杯和手冲壶都不贵，做起来方便，喝起来舒服，完事儿又好清洗，确实是不错的体验。
 
-<del>写完博客时已经过了一个多小时了，哇，还是回味无穷。</del>
+~~写完博客时已经过了一个多小时了，哇，还是回味无穷。~~

@@ -137,7 +137,7 @@ struct s0* construct_tree(signed char* rdi) {
 
 ## The end?
 
-其实 FSB 最严重的问题是用类似`%N$n`的 format string 能够实现将任意值写入指定 offset 的栈中。但是 Glibc 的 FORTIFY_SOURCE 解决(?)了这个问题。但是[这篇文章][1]好像还是有办法绕过<del>虽然我还没成功</del>。
+其实 FSB 最严重的问题是用类似`%N$n`的 format string 能够实现将任意值写入指定 offset 的栈中。但是 Glibc 的 FORTIFY_SOURCE 解决(?)了这个问题。但是[这篇文章][1]好像还是有办法绕过~~虽然我还没成功~~。
 
 ## Update 2015-12-13
 
