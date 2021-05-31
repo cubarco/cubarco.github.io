@@ -33,7 +33,7 @@
 {{ $cssprism := resources.Get "css/prism.css" }}
 {{ $cssmain := resources.Get "css/main.css" }}
 {{ $allcss := slice $cssfonts $cssmain $cssprism | resources.Concat "/css/main.css" | minify | fingerprint "sha512" }}
-<link rel="stylesheet" href="{{ .Site.Params.ghmirror }}{{ $allcss.RelPermalink }}" integrity="{{ $allcss.Data.Integrity }}" media="all">
+<link rel="stylesheet" href="{{ .Site.Params.ghmirror }}{{ $allcss.RelPermalink }}" media="all">
 
 <!--<link rel="stylesheet" href="{{ "css/prism.css" | relURL }}" media="all">-->
 {{ range .Site.Params.customCSS }}
