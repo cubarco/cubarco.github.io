@@ -1,3 +1,3 @@
-window.addEventListener('load', (event) => {
-    window.gistAsync()
-});
+//window.addEventListener('load', (event) => {
+//    window.gistAsync()
+//});
