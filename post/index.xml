@@ -6,7 +6,7 @@
 难怪这么多人喜欢自己做手冲，滤杯和手冲壶都不贵，做起来方便，喝起来舒服，完事儿又好清洗，确实是不错的体验。
 写完博客时已经过了一个多小时了，哇，还是回味无穷。</description></item><item><title>Writeup: CTFZone 2018 Quals</title><link>/2018/07/writeup-ctfzone/</link><pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate><guid>/2018/07/writeup-ctfzone/</guid><description>两道PWN题, 一个easypwn_strings, 一个Mobile Bank.
 easypwn_strings 问题 You can try to use very interesting and strange string functions ;) Good luck. nc pwn-03.v7frkwrfyhsjtbpfcppnu.ctfz.one 1234 And yes, there is no binary here
-这是一道盲pwn类型的题，没有提供二进制~~(名义上的)~~。
+这是一道盲pwn类型的题，名义上没有提供二进制。
 nc连上之后回显：
 Let&amp;#39;s choose string operation! 1. StrLen 2. SubStrRemove 3. StrRemoveLastSymbols 第一个选项：输入一个字符串，回显字符串长度。
 You choise - 1 Use str good choise 123 Result: 3 第二个选项显示未实现。
