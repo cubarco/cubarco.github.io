@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "https://cubl.in/"
 languageCode = "zh-cn"
 title = "/home/cubl"
 theme = "hugo-lithium"
