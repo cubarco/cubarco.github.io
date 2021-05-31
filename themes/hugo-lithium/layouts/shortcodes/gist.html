@@ -1,1 +1,1 @@
-<div class="gist" data-gist="{{ index .Params 0 }}"{{if len .Params | eq 2 }} data-gist-file="{{ index .Params 1}}"{{end}}><p>Gist: <a href="https://gist.github.com/{{ index .Params 0 }}">{{ index .Params 0 }}</a></p></div>
+<code class="gist" data-gist-id="{{ index .Params 0 }}"{{if len .Params | eq 2 }} data-gist-file="{{ index .Params 1}}"{{end}}><p>Gist: <a href="https://gist.github.com/{{ index .Params 0 }}">{{ index .Params 0 }}</a></p></code>
