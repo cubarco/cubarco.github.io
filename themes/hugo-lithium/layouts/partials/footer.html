@@ -21,7 +21,7 @@
     {{ $jsprism := resources.Get "js/prism.js" }}
     {{ $jsmain := resources.Get "js/main.js" }}
     {{ $fullscript := slice $jsgistasync $jsprism $jsmain | resources.Concat "/js/main.js" | minify | fingerprint "sha512" }}
-    <script src="{{ $fullscript.RelPermalink }}" integrity="{{ $fullscript.Data.Integrity }}" async></script>
+    <script src="{{ .Site.Params.ghmirror }}{{ $fullscript.RelPermalink }}" integrity="{{ $fullscript.Data.Integrity }}" async></script>
 
     {{ template "_internal/google_analytics.html" . }}
   </body>

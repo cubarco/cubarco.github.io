@@ -25,7 +25,8 @@ pygmentsCodefencesGuessSyntax = true
     weight = 3
 
 [params]
-    description = "A website built through Hugo and blogdown."
+    ghmirror = "https://cdn.jsdelivr.net/gh/cubarco/cubarco.github.io@gh-pages"
+    description = "Pwning for fun."
 
     # options for highlight.js (version, additional languages, and theme)
     #highlightjsVersion = "9.12.0"
