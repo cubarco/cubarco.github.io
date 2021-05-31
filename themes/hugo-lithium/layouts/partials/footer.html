@@ -16,11 +16,10 @@
     </div>
     {{ partial "footer_mathjax" . }}
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" async></script>
-    {{ $jsgistasync := resources.Get "js/gist-async.min.js" }}
+    {{ $jsgistembed := resources.Get "js/gist-embed.min.js" }}
     {{ $jsprism := resources.Get "js/prism.js" }}
     {{ $jsmain := resources.Get "js/main.js" }}
-    {{ $fullscript := slice $jsgistasync $jsprism $jsmain | resources.Concat "/js/main.js" | minify | fingerprint "sha512" }}
+    {{ $fullscript := slice $jsgistembed $jsprism $jsmain | resources.Concat "/js/main.js" | minify | fingerprint "sha512" }}
     <script src="{{ .Site.Params.ghmirror }}{{ $fullscript.RelPermalink }}" async></script>
 
     {{ partial "footer_ga" . }}
