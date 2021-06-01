@@ -19,6 +19,8 @@
 {{ else }}
   {{ if .Description }}
   <meta name="description" content="{{ .Description }}">
+  {{ else if gt .Params.tags 0}}
+  <meta name="description" content="{{ delimit .Params.tags ", " }}">
   {{ else }}
   <meta name="description" content="{{ .Site.Params.description }}">
   {{ end }}
