@@ -1,3 +1,3 @@
 {{ if and (not (eq .Site.Params.umamiWebsiteId "")) (not (eq .Site.Params.umamiSrcUrl ""))}}
-<script defer data-website-id="{{ .Site.Params.umamiWebsiteId }}" src="{{ .Site.Params.umamiSrcUrl }}"></script>
+<script async defer data-website-id="{{ .Site.Params.umamiWebsiteId }}" src="{{ .Site.Params.umamiSrcUrl }}"></script>
 {{ end }}
