@@ -249,7 +249,7 @@ async function handleEvent(event) {
 
         // Server Push 样式文件
         if (response.headers.get("Content-Type").includes('text/html')) {
-            response.headers.append('Link', '</css/main.min.39d87073ffff84c35a9b5d21e8b94ef0643a51af7a909c6f3d506433db4442a1.css>; rel=preload; as=style');
+            response.headers.append('Link', '</css/main.min.3bcbe33ae5c46485bcebc6352fc91232f950eb735ccac53f81bd19d79251ba9c.css>; rel=preload; as=style');
         }
 
         return response;

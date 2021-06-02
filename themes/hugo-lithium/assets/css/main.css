@@ -1,3 +1,10 @@
+/* Font size different on Safari: https://stackoverflow.com/questions/3226001/some-font-sizes-rendered-larger-on-safari-iphone */
+@media screen and (max-device-width: 480px){
+  body{
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
 html,
 body {
   margin: 0;
