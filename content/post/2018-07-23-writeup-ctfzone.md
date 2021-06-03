@@ -77,7 +77,9 @@ You choise - 3
 
 我们可以利用这个格式化字符串漏洞构造一个任意地址读，然后把内存中的ELF dump下来。
 
-怎么dump？可以参考YouTube上一个视频：[Format String to dump binary and gain RCE - 33c3ctf ESPR (pwn 150)](https://www.youtube.com/watch?v=XuzuFUGuQv0).
+怎么dump？可以参考YouTube上一个视频：
+
+{{< youtube XuzuFUGuQv0 >}}
 
 这道题和ESPR有两点区别：
 
