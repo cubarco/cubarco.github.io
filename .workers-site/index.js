@@ -171,7 +171,7 @@ async function handleEvent(event) {
     let options = {};
 
     try {
-        if (path.startsWith('/disqus') || path.startsWith('/gist')) {
+        if (path.startsWith('/disqus') || path.startsWith('/gist') || path.startsWith('/ytb')) {
             return proxyApi(event)
         }
 
