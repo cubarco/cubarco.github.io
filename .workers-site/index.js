@@ -129,6 +129,10 @@ async function proxyApi(event) {
     host = 'gist.github.com';
     url.hostname = host;
     url.pathname = url.pathname.slice(5);
+  } else if (url.pathname.startsWith('/ytb')) {
+    host = 'img.youtube.com';
+    url.hostname = host;
+    url.pathname = url.pathname.slice(4);
   }
 
   let parameter = {
