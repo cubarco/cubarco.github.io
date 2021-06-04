@@ -4,7 +4,7 @@
 其实冲完第一壶，磨好的粉还剩8克，所以又冲了110克，这第二壶的口感就酸多了，不知道为什么，以后慢慢玩。
 体验 列举一下喝到咖啡时，脑子蹦出的词：顺滑，醇厚，甜感&amp;hellip; 比之前喝到的咖啡都要舒服得多。至少比今天下午开的中药好喝不少： 手冲装备没到之前，都用家里的意式玩具机做咖啡。玩具机出品的意式，直接喝顶不住，很酸、很苦（听说还有口萃咖啡豆的，虽然感觉是梗，但还是有点厉害&amp;hellip;)。做了各种奶咖，好喝是好喝，却又感觉咖啡味淡了点。
 难怪这么多人喜欢自己做手冲，滤杯和手冲壶都不贵，做起来方便，喝起来舒服，完事儿又好清洗，确实是不错的体验。
-写完博客时已经过了一个多小时了，哇，还是回味无穷。</description></item><item><title>About</title><link>https://cubl.in/about/</link><pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate><guid>https://cubl.in/about/</guid><description>Hi,
+写完博客时已经过了一个多小时了，哇，还是回味无穷。</description></item><item><title>About me</title><link>https://cubl.in/about/</link><pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate><guid>https://cubl.in/about/</guid><description>Hi,
 我是cubl, 我是：
 Dota 2 玩家 安全研究员@快手 // 前安全研究员@华为ICSL INFP-T型人格(?) 54.26%南方汉族、44.27%北方汉族、见光打喷嚏&amp;hellip;(?) &amp;hellip;</description></item><item><title>Writeup: CTFZone 2018 Quals</title><link>https://cubl.in/2018/07/writeup-ctfzone/</link><pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate><guid>https://cubl.in/2018/07/writeup-ctfzone/</guid><description>两道PWN题, 一个easypwn_strings, 一个Mobile Bank.
 easypwn_strings 问题 You can try to use very interesting and strange string functions ;) Good luck. nc pwn-03.v7frkwrfyhsjtbpfcppnu.ctfz.one 1234 And yes, there is no binary here
