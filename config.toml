@@ -25,9 +25,13 @@ enableRobotsTXT = false
     url = "/about/"
     weight = 2
 [[menu.main]]
+    name = "Links"
+    url = "/links/"
+    weight = 3
+[[menu.main]]
     name = "GitHub"
     url = "https://github.com/cubarco/cubarco.github.io"
-    weight = 3
+    weight = 4
 
 [params]
     ghmirror = "https://cdn.jsdelivr.net/gh/cubarco/cubarco.github.io@gh-pages"
