@@ -1,3 +1,4 @@
+{{ if eq ($.Param "enableUtterances") true }}
 <script src="https://utteranc.es/client.js"
         repo="cubarco/cubarco.github.io"
         issue-term="pathname"
@@ -6,3 +7,4 @@
         crossorigin="anonymous"
         async defer>
 </script>
+{{ end }}

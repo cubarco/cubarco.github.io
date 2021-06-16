@@ -34,6 +34,7 @@ enableRobotsTXT = false
     description = "Pwning for fun."
     umamiWebsiteId = "e9fdcc32-0bfa-4de5-beb0-3bbf1e4638ab"
     umamiSrcUrl = "https://umami.pwn.ooo/umami.js"
+    enableUtterances = true
 
     # options for highlight.js (version, additional languages, and theme)
     #highlightjsVersion = "9.12.0"
