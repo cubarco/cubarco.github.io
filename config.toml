@@ -1,6 +1,6 @@
 baseurl = "https://cubl.in/"
 languageCode = "zh-cn"
-title = "/home/cubl"
+title = "/home/cubarco"
 theme = "hugo-lithium"
 googleAnalytics = "UA-54867602-1"
 disqusShortname = ""

@@ -19,7 +19,7 @@ enableUtterances: false
 
 Hi,
 
-我是cubl, 我是：
+我是cube, 我是：
 
 - Dota 2 玩家
 - 安全研究员@快手 // 前安全研究员@华为ICSL
