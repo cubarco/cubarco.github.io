@@ -40,12 +40,6 @@ enableRobotsTXT = false
     umamiSrcUrl = "https://umami.pwn.ooo/umami.js"
     enableUtterances = true
 
-    # options for highlight.js (version, additional languages, and theme)
-    #highlightjsVersion = "9.12.0"
-    #highlightjsCDN = "//cdnjs.cloudflare.com/ajax/libs"
-    #highlightjsLang = ["r", "yaml"]
-    #highlightjsTheme = "github"
-
     disable_mathjax = true
     #MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
     #MathJaxVersion = "2.7.5"
