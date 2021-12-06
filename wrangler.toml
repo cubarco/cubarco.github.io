@@ -9,4 +9,4 @@ entry-point = ".workers-site"
 
 [env.production]
 zone_id = "268adf7e532bae85f741a8e4c69331d9"
-route = "cubl.in/*"
+route = "cubarco.org/*"
