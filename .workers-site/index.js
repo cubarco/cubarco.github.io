@@ -171,7 +171,7 @@ async function handleEvent(event) {
     let options = {};
 
     try {
-        if (event.request.headers.has("reverse-proxied")) {
+        if (!event.request.headers.has("reverse-proxied")) {
             return new Response(null, {
                 status: 301,
                 headers: {
