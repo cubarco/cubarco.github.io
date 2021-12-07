@@ -171,6 +171,15 @@ async function handleEvent(event) {
     let options = {};
 
     try {
+        if (event.request.headers.has("reverse-proxied")) {
+            return new Response(null, {
+                status: 301,
+                headers: {
+                    Location: `https://cubar.co${path}${search}`
+                },
+            });
+        }
+
         if (path.startsWith('/disqus') || path.startsWith('/gist') || path.startsWith('/ytb')) {
             return proxyApi(event)
         }
