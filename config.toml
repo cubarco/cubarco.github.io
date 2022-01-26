@@ -37,7 +37,7 @@ enableRobotsTXT = false
     ghmirror = "https://cdn.jsdelivr.net/gh/cubarco/cubarco.github.io@gh-pages"
     description = "Pwning for fun."
     umamiWebsiteId = "e9fdcc32-0bfa-4de5-beb0-3bbf1e4638ab"
-    umamiSrcUrl = "https://umami.2oo.in/umami.js"
+    umamiSrcUrl = "https://umami.2oo.in/u.js"
     enableUtterances = true
 
     disable_mathjax = true
