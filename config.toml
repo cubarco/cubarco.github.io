@@ -34,7 +34,8 @@ enableRobotsTXT = false
     weight = 4
 
 [params]
-    ghmirror = "https://cdn.jsdelivr.net/gh/cubarco/cubarco.github.io@gh-pages"
+    #ghmirror = "https://cdn.jsdelivr.net/gh/cubarco/cubarco.github.io@gh-pages"
+    ghmirror = "https://cdn.yecvip.cn/gh/cubarco/cubarco.github.io@gh-pages"
     description = "Pwning for fun."
     umamiWebsiteId = "e9fdcc32-0bfa-4de5-beb0-3bbf1e4638ab"
     umamiSrcUrl = "https://umami.2oo.in/u.js"
