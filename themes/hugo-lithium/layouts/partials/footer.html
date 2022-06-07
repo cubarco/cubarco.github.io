@@ -20,7 +20,7 @@
     {{ $jsprism := resources.Get "js/prism.js" }}
     {{ $fullscript := slice $jsgistembed $jsprism | resources.Concat "/js/async.js" | minify | fingerprint "sha512" }}
     <script async src="{{ .Site.Params.ghmirror }}{{ $fullscript.RelPermalink }}" onload="window.GistEmbed.init();"></script>
-    <script async defer src="https://cdn.yecvip.cn/npm/instant.page@5.1.0/instantpage.min.js"></script>
+    <script async defer src="https://cdn.jsdelivr.net/npm/instant.page@5.1.0/instantpage.min.js"></script>
 
     {{ partial "footer_ga" . }}
     {{ partial "footer_umami" . }}
