@@ -165,6 +165,24 @@ async function proxyApi(event) {
   return response;
 }
 
+
+async function proxyCDN(event) {
+  const getReqHeader = (key) => event.request.headers.get(key);
+  let url = new URL(event.request.url);
+  url.protocol = 'http:';
+  url.hostname = CDN_DOMAIN;
+  url.pathname = url.pathname.slice(4);
+
+  let response = await fetch(new Request(url, event.request));
+
+  response = new Response(response.body, response);
+  response.headers.set("Access-Control-Allow-Origin", "*");
+  response.headers.set("Access-Control-Allow-Methods", "GET, HEAD, POST, OPTIONS");
+  response.headers.set("Access-Control-Allow-Headers", "*");
+
+  return response;
+}
+
 async function handleEvent(event) {
     const url = new URL(event.request.url);
     const { origin, pathname: path, search } = new URL(event.request.url);
