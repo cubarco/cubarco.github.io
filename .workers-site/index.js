@@ -202,6 +202,10 @@ async function handleEvent(event) {
             return proxyApi(event)
         }
 
+        if (path.startsWith('/cdn')) {
+            return proxyCDN(event)
+        }
+
         if (path.startsWith('/ga-proxy')) {
             return proxyGa(event)
         }
