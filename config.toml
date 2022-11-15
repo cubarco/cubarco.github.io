@@ -1,4 +1,4 @@
-baseurl = "https://cubar.co/"
+baseurl = "https://cubarco.org/"
 languageCode = "zh-cn"
 title = "/home/cubarco"
 theme = "hugo-lithium"
