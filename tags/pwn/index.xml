@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PWN on /home/cubarco</title><link>https://cubar.co/tags/pwn/</link><description>Recent content in PWN on /home/cubarco</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 23 Jul 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://cubar.co/tags/pwn/index.xml" rel="self" type="application/rss+xml"/><item><title>Writeup: CTFZone 2018 Quals</title><link>https://cubar.co/2018/07/writeup-ctfzone/</link><pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate><guid>https://cubar.co/2018/07/writeup-ctfzone/</guid><description>两道PWN题, 一个easypwn_strings, 一个Mobile Bank.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PWN on /home/cubarco</title><link>https://cubarco.org/tags/pwn/</link><description>Recent content in PWN on /home/cubarco</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 23 Jul 2018 00:00:00 +0000</lastBuildDate><atom:link href="https://cubarco.org/tags/pwn/index.xml" rel="self" type="application/rss+xml"/><item><title>Writeup: CTFZone 2018 Quals</title><link>https://cubarco.org/2018/07/writeup-ctfzone/</link><pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate><guid>https://cubarco.org/2018/07/writeup-ctfzone/</guid><description>两道PWN题, 一个easypwn_strings, 一个Mobile Bank.
 easypwn_strings 问题 You can try to use very interesting and strange string functions ;) Good luck. nc pwn-03.v7frkwrfyhsjtbpfcppnu.ctfz.one 1234 And yes, there is no binary here
 这是一道盲pwn类型的题，名义上没有提供二进制。
 nc连上之后回显：
 Let&amp;#39;s choose string operation! 1. StrLen 2. SubStrRemove 3. StrRemoveLastSymbols 第一个选项：输入一个字符串，回显字符串长度。
 You choise - 1 Use str good choise 123 Result: 3 第二个选项显示未实现。
 第三个选项：输入一个字符串，和一个数字，服务端移除末尾指定长度的字符串后打印出来。
-You choise - 3 Use str int good choise Set string: 1234567 Set number: 3 Delete 3 ending symbols Result: 1234 思路 既然是无ELF文件的盲pwn，那只能摸着石头过河。做题时有以下几个尝试：</description></item><item><title>Writeup: ZCTF</title><link>https://cubar.co/2016/01/writeup-zctf/</link><pubDate>Sun, 24 Jan 2016 00:00:00 +0000</pubDate><guid>https://cubar.co/2016/01/writeup-zctf/</guid><description>2016 年第一篇 blog!
+You choise - 3 Use str int good choise Set string: 1234567 Set number: 3 Delete 3 ending symbols Result: 1234 思路 既然是无ELF文件的盲pwn，那只能摸着石头过河。做题时有以下几个尝试：</description></item><item><title>Writeup: ZCTF</title><link>https://cubarco.org/2016/01/writeup-zctf/</link><pubDate>Sun, 24 Jan 2016 00:00:00 +0000</pubDate><guid>https://cubarco.org/2016/01/writeup-zctf/</guid><description>2016 年第一篇 blog!
 这次只做出两道 pwn, 好忧伤&amp;hellip;
 guess 在最近的 32c3ctf 中出现过一道类似的 readme1. 就是把argv[1]改成目的字符串位置，可以在 libc 打出错误信息的时候，被当作文件名打印出来。
 Gist: cubarco/cbbd4ab5462c2f0f287b
@@ -13,7 +13,7 @@ note1 这题的 note 是以链表形式储存的，堆溢出（edit 存在溢出
 Gist: cubarco/30a44a61252f448964c4
 note2 这题在赛时没找到漏洞，赛后看了 FlappyPig 的 Writeup2, 只是简单的 fastbin, 感觉好可惜&amp;hellip; 360 安全播报给的代码没缩进根本不能看，自己重新写了个。
 Gist: cubarco/9752fbbe78a071b04b37
-note3 这题同样是没有在赛时做出来，但是与 note2 相反，这题我是找到了两个可以利用的漏洞的(一个是 integer overflow, 另一个是可以增加第八个 note), 但是不知道如何利用。我在比赛的时候一直想着怎么 fastbin, 因为我觉得 unlink 这么古老的 exp 肯定已经不能用了&amp;hellip; 没想到这题的环境刚好适合 unlink, 有点可惜。赛后看了 FlappyPig 的 Writeup2, 自己重新写了个 exp, 也算是复习一下 unlink.</description></item><item><title>Writeup: 32c3ctf</title><link>https://cubar.co/2015/12/writeup-32c3ctf/</link><pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate><guid>https://cubar.co/2015/12/writeup-32c3ctf/</guid><description>forth forth 直接能跑system1。
+note3 这题同样是没有在赛时做出来，但是与 note2 相反，这题我是找到了两个可以利用的漏洞的(一个是 integer overflow, 另一个是可以增加第八个 note), 但是不知道如何利用。我在比赛的时候一直想着怎么 fastbin, 因为我觉得 unlink 这么古老的 exp 肯定已经不能用了&amp;hellip; 没想到这题的环境刚好适合 unlink, 有点可惜。赛后看了 FlappyPig 的 Writeup2, 自己重新写了个 exp, 也算是复习一下 unlink.</description></item><item><title>Writeup: 32c3ctf</title><link>https://cubarco.org/2015/12/writeup-32c3ctf/</link><pubDate>Wed, 30 Dec 2015 00:00:00 +0000</pubDate><guid>https://cubarco.org/2015/12/writeup-32c3ctf/</guid><description>forth forth 直接能跑system1。
 S&amp;#34; sh&amp;#34; system gurke pickle 在 unpickle 的时候会执行对象的 __reduce__ 方法2。用 eval 把 __main__.flag.flag 打进 stderr 就行了。
 Gist: cubarco/e46eb03e1cd06046d130
 teufel 这题的 bin 不大，里面的 gadgets 很少，但是给了 libc. 思路就是先 leak 出保存在栈中的 rbp, 然后 offset 到 system。
