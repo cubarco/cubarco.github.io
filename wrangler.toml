@@ -1,12 +1,11 @@
 name = "cubl-blog"
-type = "webpack"
 account_id = "a2059eb38b7c3197606f8534aedbcf56"
+compatibility_date = "2023-12-21"
+main = ".workers-site/index.js"
 #workers_dev = true
 
 [site]
 bucket = "./public"
-entry-point = ".workers-site"
 
 [env.production]
-zone_id = "268adf7e532bae85f741a8e4c69331d9"
 route = "cubar.co/*"
