@@ -2,11 +2,11 @@ name = "cubl-blog"
 account_id = "a2059eb38b7c3197606f8534aedbcf56"
 compatibility_date = "2023-12-21"
 main = ".workers-site/index.js"
-#workers_dev = true
+workers_dev = false
+route = { pattern = "cubar.co/*", zone_name = "cubar.co" }
+kv_namespaces = [
+  { binding = "__cubl-blog-production-workers_sites_assets", id = "d28741675e2948fc8a7e45df5397947f" }
+]
 
 [site]
 bucket = "./public"
-
-[env.production]
-zone_id = "268adf7e532bae85f741a8e4c69331d9"
-route = "cubar.co/*"
