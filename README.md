@@ -6,4 +6,4 @@
 
 Theme modified from: [yihui/hugo-lithium](https://github.com/yihui/hugo-lithium)
 
-Site URL: https://cubarco.org
+Site URL: https://cubar.co

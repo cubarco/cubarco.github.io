@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://cubarco.org/sitemap.xml
+Sitemap: https://cubar.co/sitemap.xml
