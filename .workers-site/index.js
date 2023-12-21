@@ -286,6 +286,7 @@ async function handleEvent(event) {
         if (response.headers.get("Content-Type").includes('text/html')) {
             response.headers.append('Link', '</css/main.min.3bcbe33ae5c46485bcebc6352fc91232f950eb735ccac53f81bd19d79251ba9c.css>; rel=preload; as=style');
             response.headers.append('Link', '<https://utteranc.es>; rel=preconnect');
+            response.headers.append('Link', '<https://i.2oo.in>; rel=preconnect');
             response.headers.append('Link', '<https://api.utteranc.es>; rel=preconnect');
             response.headers.append('Link', '<https://fastly.jsdelivr.net>; rel=preconnect');
             response.headers.append('Link', '<https://api.github.com>; rel=preconnect');
