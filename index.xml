@@ -6,7 +6,7 @@
 难怪这么多人喜欢自己做手冲，滤杯和手冲壶都不贵，做起来方便，喝起来舒服，完事儿又好清洗，确实是不错的体验。
 写完博客时已经过了一个多小时了，哇，还是回味无穷。</description></item><item><title>About me</title><link>https://cubar.co/about/</link><pubDate>Fri, 05 Mar 2021 00:00:00 +0000</pubDate><guid>https://cubar.co/about/</guid><description>Hi,
 我是cube, 我是：
-Dota 2 玩家 安全研究员@快手 // 前安全研究员@华为ICSL INFP-T型人格(?) 54.26%南方汉族、44.27%北方汉族、见光打喷嚏&amp;hellip;(?) &amp;hellip;</description></item><item><title>Writeup: CTFZone 2018 Quals</title><link>https://cubar.co/2018/07/writeup-ctfzone/</link><pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate><guid>https://cubar.co/2018/07/writeup-ctfzone/</guid><description>两道PWN题, 一个easypwn_strings, 一个Mobile Bank.
+Dota 2 玩家 前安全研究员@快手 // 前安全研究员@华为ICSL INTP型人格(?) 54.26%南方汉族、44.27%北方汉族、见光打喷嚏&amp;hellip;(?) &amp;hellip;</description></item><item><title>Writeup: CTFZone 2018 Quals</title><link>https://cubar.co/2018/07/writeup-ctfzone/</link><pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate><guid>https://cubar.co/2018/07/writeup-ctfzone/</guid><description>两道PWN题, 一个easypwn_strings, 一个Mobile Bank.
 easypwn_strings 问题 You can try to use very interesting and strange string functions ;) Good luck. nc pwn-03.v7frkwrfyhsjtbpfcppnu.ctfz.one 1234 And yes, there is no binary here
 这是一道盲pwn类型的题，名义上没有提供二进制。
 nc连上之后回显：
